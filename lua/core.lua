@@ -42,7 +42,7 @@ o.foldmethod = 'expr' -- for most filetype fold by syntax
 o.foldnestmax = 5 -- max fold nest
 
 -- Clipboard
-o.clipboard = "unnamedplus"
+o.clipboard = 'unnamedplus'
 
 o.completeopt = {'menu','menuone','noselect'}
 o.colorcolumn = '99999' -- FIXED: for https://github.com/lukas-reineke/indent-blankline.nvim/issues/59
