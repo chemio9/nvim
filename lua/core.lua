@@ -57,10 +57,6 @@ g.loaded_node_provider = 0
 g.loaded_perl_provider = 0
 g.loaded_ruby_provider = 0
 
--- Use new filetype.lua instead of old filtype.vim because it's slow
-g.do_filetype_lua = 1 
-g.did_load_filetypes = 0 
-
 -- Disable some built-in plugins we don't want
 local disabled_built_ins = {
   'gzip',
@@ -72,7 +68,7 @@ local disabled_built_ins = {
   'tar',
   'zipPlugin',
   'zip',
-  --  'netrwPlugin',
+  'netrwPlugin',
 }
 
 for i = 1, #disabled_built_ins do
