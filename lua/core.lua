@@ -44,8 +44,7 @@ o.foldnestmax = 5 -- max fold nest
 -- Clipboard
 o.clipboard = "unnamedplus"
 
-o.completeopt = 'menu,menuone,noselect'
-o.t_ut = ' ' -- disable Backgroud color Erase（BCE）
+o.completeopt = {'menu','menuone','noselect'}
 o.colorcolumn = '99999' -- FIXED: for https://github.com/lukas-reineke/indent-blankline.nvim/issues/59
 
 -- Leader/local leader
