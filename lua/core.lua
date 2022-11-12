@@ -1,8 +1,8 @@
-local o = vim.o
+local o = vim.opt
 local g = vim.g
 
 vim.scriptencoding = 'utf-8'
-o.fileencodings = 'utf-8,ucs-bom,gb18030,gbk,gb2312,cp936,latin1'
+o.fileencodings = {'utf-8','ucs-bom','gb18030','gbk','gb2312','cp936','latin1'}
 o.encoding = 'utf-8'
 
 o.number = true
@@ -25,7 +25,7 @@ o.mouse = 'a'
 o.hidden = true
 o.termguicolors = true
 
-o.path = o.path .. ',./**'
+o.path:append './**'
 
 o.tabstop = 2 -- replace tab as white space
 o.expandtab = true
