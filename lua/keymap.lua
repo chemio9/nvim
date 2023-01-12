@@ -149,7 +149,7 @@ end
 
 -- write files with sudo permission
 -- this is useful when you forget to use `sudo nvim foo`
-map.n['<leader>S'] = { '<cmd>w !sudo tee %<CR>',
+map.n['<leader>S'] = { '<cmd>w !sudo tee % >/dev/null<CR>',
   desc = 'write current file with sudo permission' }
 
 -- }}}
