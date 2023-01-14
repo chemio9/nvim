@@ -37,7 +37,8 @@ if packer_avail then
     run_me()
   else
     -- if there is no compiled file, ask user to sync packer
-    require 'plugins'
+    vim.cmd.packadd 'packer.nvim'
+    require 'core.plugins'
     vim.api.nvim_create_autocmd('User', {
       once = true,
       pattern = 'PackerComplete',

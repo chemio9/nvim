@@ -8,7 +8,7 @@ local plugin = {
 
 function plugin.config()
   local on_attach = function(client, bufnr)
-    require 'keymap'.attach_lsp(client, bufnr)
+    require 'core.keymap'.attach_lsp(client, bufnr)
   end
   require 'neodev'.setup {}
   local capabilities = require 'cmp_nvim_lsp'.default_capabilities()

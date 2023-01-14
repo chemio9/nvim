@@ -204,7 +204,7 @@ lmap.n[']E'] = {
 }
 
 -- Outline
-lmap.n['<leader>o'] = { '<cmd>LSoutlineToggle<CR>' }
+lmap.n['<leader>o'] = { '<cmd>Lspsaga outline<CR>' }
 
 -- Mappings.
 -- See `:help vim.lsp.*` for documentation on any of the below functions

@@ -1,3 +1,4 @@
+-- vim: fdm=marker
 -- TODO: maybe we can use more tables like editing_plugins,
 --    lsp_plugins, complete_plugins ,etc.? That will be much
 --    better than all the plugin in only ONE table
@@ -17,11 +18,12 @@ local plugins = {
       'PackerLoad',
     },
     config = function()
-      require 'plugins'
+      require 'core.plugins'
     end,
   },
   ['lewis6991/impatient.nvim'] = {},
 
+  -- eye candy {{{
   ['rcarriga/nvim-notify'] = {
     event = 'UIEnter',
     config = function()
@@ -47,7 +49,8 @@ local plugins = {
       }
     end,
   },
-
+  -- }}}
+  --tree-sitter related {{{
   ['nvim-treesitter/nvim-treesitter'] = {
     module = 'nvim-treesitter',
     cmd = {
@@ -81,6 +84,21 @@ local plugins = {
   },
   ['p00f/nvim-ts-rainbow'] = { after = 'nvim-treesitter' },
   ['JoosepAlviste/nvim-ts-context-commentstring'] = { after = 'nvim-treesitter' },
+
+  ['lukas-reineke/indent-blankline.nvim'] = {
+    event = 'UIEnter',
+    config = function()
+      require 'indent_blankline'.setup {
+        -- space_char_blankline = " ",
+        -- show_current_context = true,
+      }
+    end,
+  },
+
+  ['nvim-tree/nvim-web-devicons'] = {
+    module = 'nvim-web-devicons',
+  },
+  -- }}}
 
   ['glepnir/galaxyline.nvim'] = {
     branch = 'main',
@@ -116,21 +134,7 @@ local plugins = {
       require 'nvim-surround'.setup {}
     end,
   },
-
-  ['lukas-reineke/indent-blankline.nvim'] = {
-    event = 'UIEnter',
-    config = function()
-      require 'indent_blankline'.setup {
-        -- space_char_blankline = " ",
-        -- show_current_context = true,
-      }
-    end,
-  },
-
-  ['nvim-tree/nvim-web-devicons'] = {
-    module = 'nvim-web-devicons',
-  },
-
+  -- window managing
   ['mrjones2014/smart-splits.nvim'] = {
     module = 'smart-splits',
     config = function()
@@ -177,6 +181,7 @@ local plugins = {
       require 'lsp_signature'.setup()
     end,
   },
+
   ['goolord/alpha-nvim'] = {
     config = function()
       require 'module.alpha'
@@ -192,6 +197,8 @@ local plugins = {
       require 'module.tree'
     end,
   },
+
+  ['jghauser/mkdir.nvim'] = {},
 }
 
 local status_ok, packer = pcall(require, 'packer')
@@ -219,6 +226,7 @@ if status_ok then
         enable = true,
         -- threshold = 0.0001,
       },
+      preview_updates = true,
       git = {
         clone_timeout = 300,
         subcommands = {

@@ -4,7 +4,7 @@
 local ok, impatient = pcall(require, 'impatient')
 if ok then impatient.enable_profile() end
 
-require 'core'
+require 'core.options'
 
-require 'bootstrap'
-require 'keymap'.setup()
+require 'core.bootstrap'
+require 'core.keymap'.setup()
