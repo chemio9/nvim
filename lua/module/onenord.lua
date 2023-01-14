@@ -3,7 +3,7 @@ require 'onenord'.setup {
     background = true,
   },
   custom_highlights = {
-    -- NotifyBackground = { bg = '#333333' },
-    -- NormalFloat = { bg = 'NONE' },
+    NotifyBackground = { guibg = '#333333' },
+    NormalFloat = { guibg = '#d1d4cf' },
   },
 }
