@@ -1,129 +1,97 @@
-local module = {}
-table.insert(module, require 'module.cmp.pairs')
-table.insert(module, require 'module.cmp.luasnip')
-table.insert(module, require 'module.cmp.comment')
+-- Set up nvim-cmp.
+local cmp = require 'cmp'
 
-table.insert(module,
-             { 'onsails/lspkind.nvim', module = 'lspkind' })
-local plugin = {
-  'hrsh7th/nvim-cmp',
-  event = { 'InsertEnter', 'CmdlineEnter' },
-  requires = {
-    -- Completion sources
-    {
-      'hrsh7th/cmp-nvim-lsp',
-      after = 'nvim-cmp',
-      module = 'cmp_nvim_lsp',
-    },
-    { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
-    { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
-    { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
-    { 'hrsh7th/cmp-calc', after = 'nvim-cmp' },
+-- General configurations
+local cmp_conf = {}
 
-    { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' },
+local kind = require 'module.cmp.kind'
+kind.update(cmp_conf)
 
-  },
+local luasnip = require 'luasnip'
+cmp_conf.snippet = {
+  expand = function(args)
+    luasnip.lsp_expand(args.body)
+  end,
 }
 
-function plugin.config()
-  -- Set up nvim-cmp.
-  local cmp = require 'cmp'
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and
+      vim.api.nvim_buf_get_lines(0, line - 1, line, true)
+      [1]:sub(col, col):match '%s' == nil
+end
+cmp_conf.mapping = cmp.mapping.preset.insert {
+  ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+  ['<C-f>'] = cmp.mapping.scroll_docs(4),
+  ['<C-Space>'] = cmp.mapping.complete(),
+  ['<C-e>'] = cmp.mapping.abort(),
+  ['<CR>'] = cmp.mapping.confirm { select = true },
+  ['<Tab>'] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_next_item()
+    elseif luasnip.expand_or_jumpable() then
+      luasnip.expand_or_jump()
+    elseif has_words_before() then
+      cmp.complete()
+    else
+      fallback()
+    end
+  end, { 'i', 's' }),
 
-  -- General configurations
-  local cmp_conf = {}
+  ['<S-Tab>'] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_prev_item()
+    elseif luasnip.jumpable(-1) then
+      luasnip.jump(-1)
+    else
+      fallback()
+    end
+  end, { 'i', 's' }),
+}
 
-  local kind = require 'module.cmp.kind'
-  kind.update(cmp_conf)
+cmp_conf.sources = cmp.config.sources({
+  { name = 'nvim_lsp' },
+  { name = 'luasnip' },
+}, {
+  { name = 'buffer' },
+  { name = 'path' },
+})
 
-  local luasnip = require 'luasnip'
-  cmp_conf.snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  }
+-- cmp_conf.view = {
+--   entries = { name = 'custom', selection_order = 'near_cursor' },
+-- }
 
-  local has_words_before = function()
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and
-        vim.api.nvim_buf_get_lines(0, line - 1, line, true)
-        [1]:sub(col, col):match '%s' == nil
-  end
-  cmp_conf.mapping = cmp.mapping.preset.insert {
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm { select = true },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      elseif has_words_before() then
-        cmp.complete()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
+cmp.setup(cmp_conf)
 
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-  }
+-- Set configuration for specific filetype.
+cmp.setup.filetype('text', {
+  sources = {
+    { name = 'calc' },
+  },
+})
 
-  cmp_conf.sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
+cmp.setup.filetype('gitcommit', {
+  sources = cmp.config.sources({
+    { name = 'cmp_git' }, -- TODO: You can specify the `cmp_git` source if you were installed it.
   }, {
     { name = 'buffer' },
+  }),
+})
+
+-- Use buffer source for `/` and `?`
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' },
+  },
+})
+
+-- Use cmdline & path source for ':'
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
     { name = 'path' },
-  })
-
-  -- cmp_conf.view = {
-  --   entries = { name = 'custom', selection_order = 'near_cursor' },
-  -- }
-
-  cmp.setup(cmp_conf)
-
-  -- Set configuration for specific filetype.
-  cmp.setup.filetype('text', {
-    sources = {
-      { name = 'calc' },
-    },
-  })
-
-  cmp.setup.filetype('gitcommit', {
-    sources = cmp.config.sources({
-      { name = 'cmp_git' }, -- TODO: You can specify the `cmp_git` source if you were installed it.
-    }, {
-      { name = 'buffer' },
-    }),
-  })
-
-  -- Use buffer source for `/` and `?`
-  cmp.setup.cmdline({ '/', '?' }, {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-      { name = 'buffer' },
-    },
-  })
-
-  -- Use cmdline & path source for ':'
-  cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-      { name = 'path' },
-    }, {
-      { name = 'cmdline' },
-    }),
-  })
-end
-
-table.insert(module, plugin)
-return module
+  }, {
+    { name = 'cmdline' },
+  }),
+})

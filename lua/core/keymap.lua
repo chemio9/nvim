@@ -23,8 +23,7 @@ local function setup_mapping(map_table, base)
 end
 
 local function is_available(plugin)
-  return packer_plugins ~= nil and
-      packer_plugins[plugin] ~= nil
+  return true -- TODO: find a way to know a plugin that is installed or not
 end
 
 -- }}}

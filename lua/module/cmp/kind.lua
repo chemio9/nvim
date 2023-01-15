@@ -1,5 +1,4 @@
-local M = {}
-function M.update(cmp_conf)
+local function update(cmp_conf)
   local cmp = require 'cmp'
   cmp_conf.window = {
     -- completion = cmp.config.window.bordered(),
@@ -16,6 +15,7 @@ function M.update(cmp_conf)
 
       -- The function below will be called before any actual modifications from lspkind
       -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+      ---@diagnostic disable-next-line: unused-local
       before = function(entry, vim_item)
         return vim_item
       end,
@@ -23,4 +23,6 @@ function M.update(cmp_conf)
   }
 end
 
-return M
+return {
+  update = update,
+}

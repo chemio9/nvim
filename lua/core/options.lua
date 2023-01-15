@@ -1,12 +1,17 @@
----@diagnostic disable: assign-type-mismatch
+---@diagnostic disable: assign-type-mismatch, undefined-field
 -- to ignore assigning a value to vim.opt
 local o = vim.opt
 local g = vim.g
 
 vim.scriptencoding = 'utf-8'
 o.fileencodings = {
-  'utf-8', 'ucs-bom', 'gb18030', 'gbk',
-  'gb2312', 'cp936', 'latin1',
+  'utf-8',
+  'ucs-bom',
+  'gb18030',
+  'gbk',
+  'gb2312',
+  'cp936',
+  'latin1',
 }
 o.encoding = 'utf-8'
 
@@ -54,7 +59,7 @@ o.foldmethod = 'expr' -- for most filetype fold by syntax
 o.foldnestmax = 5 -- max fold nest
 
 -- Clipboard
-o.clipboard = 'unnamedplus'
+o.clipboard.append 'unnamedplus'
 
 o.completeopt = { 'menu', 'menuone', 'noselect', 'preview' }
 
