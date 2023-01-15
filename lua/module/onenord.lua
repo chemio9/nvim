@@ -5,5 +5,6 @@ require 'onenord'.setup {
   custom_highlights = {
     NotifyBackground = { guibg = '#333333' },
     NormalFloat = { guibg = '#d1d4cf' },
+    Winbar = { guibg = 'NONE' },
   },
 }

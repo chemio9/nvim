@@ -150,7 +150,7 @@ end
 -- write files with sudo permission
 -- this is useful when you forget to use `sudo nvim foo`
 map.n['<leader>S'] = { '<cmd>w !sudo tee % >/dev/null<CR>',
-  desc = 'write current file with sudo permission' }
+  desc = 'write current file with sudo permission', }
 
 -- }}}
 
@@ -230,12 +230,10 @@ end
 
 ---@diagnostic disable-next-line: unused-local
 function M.attach_lsp(client, bufnr)
-  local bufopts = { noremap = true, silent = true,
-    buffer = bufnr, }
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
   setup_mapping(lmap, bufopts)
   -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc',
-                              'v:lua.vim.lsp.omnifunc')
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 end
 
 return M
