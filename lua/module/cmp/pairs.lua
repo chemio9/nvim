@@ -7,6 +7,8 @@ require 'nvim-autopairs'.setup {
     map = '<M-e>',
     chars = { '{', '[', '(', '"', "'" },
     end_key = '$',
+    offset = 0,
+    pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], '%s+', ''),
     keys = 'qwertyuiopzxcvbnmasdfghjkl',
     check_comma = true,
     highlight = 'Search',

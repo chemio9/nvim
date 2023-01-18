@@ -36,10 +36,6 @@ local plugin = {
     end,
   },
 }
-function merge_array(tb)
-  for _,v in ipairs(tb) do
-    table.insert(plugin,v)
-  end
-end
-merge_array(require 'plugins.lsp.saga')
+---@diagnostic disable: missing-parameter
+vim.list_extend(plugin, require 'plugins.lsp.saga')
 return plugin

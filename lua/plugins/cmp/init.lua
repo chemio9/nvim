@@ -18,12 +18,8 @@ local plugin = {
     end,
   },
 }
-local function merge_array(tb)
-  for _,v in ipairs(tb) do
-    table.insert(plugin,v)
-  end
-end
-merge_array(require 'plugins.cmp.comment')
-merge_array(require 'plugins.cmp.luasnip')
-merge_array(require 'plugins.cmp.pairs')
+---@diagnostic disable: missing-parameter
+vim.list_extend(plugin, require 'plugins.cmp.comment')
+vim.list_extend(plugin, require 'plugins.cmp.luasnip')
+vim.list_extend(plugin, require 'plugins.cmp.pairs')
 return plugin
