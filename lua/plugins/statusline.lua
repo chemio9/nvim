@@ -5,5 +5,6 @@ return {
     config = function()
       require 'module.statusline'
     end,
+    lazy = false,
   },
 }

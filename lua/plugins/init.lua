@@ -28,10 +28,8 @@ return {
 
   {
     'nvim-treesitter/nvim-treesitter-context',
-    event = 'UIEnter',
-    config = function()
-      require 'treesitter-context'.setup {}
-    end,
+    event = 'VeryLazy',
+    config = true,
     dependencies = {
       'p00f/nvim-ts-rainbow',
       'JoosepAlviste/nvim-ts-context-commentstring',
@@ -49,18 +47,14 @@ return {
       'ToggleTermSendVisualLines',
       'ToggleTermSendVisualSelection',
     },
-    config = function()
-      require 'toggleterm'.setup {}
-    end,
+    config = true,
   },
 
   {
     'kylechui/nvim-surround',
     keys = { 'ys', 'ds', 'cs' },
     -- tag = '*', -- Use for stability; omit to use `main` branch for the latest features
-    config = function()
-      require 'nvim-surround'.setup {}
-    end,
+    config = true,
   },
   -- window managing
   {
@@ -73,29 +67,37 @@ return {
   {
     'max397574/better-escape.nvim',
     event = 'InsertCharPre',
-    config = function()
-      require 'better_escape'.setup {}
-    end,
+    config = true,
   },
 
   {
     'folke/zen-mode.nvim',
-    config = function()
-      require 'zen-mode'.setup {
-        window = {
-          backdrop = 1,
-        },
-      }
-    end,
+    cmd = {
+      'ZenMode',
+    },
+    opts = {
+      window = {
+        backdrop = 1,
+      },
+    },
   },
 
-  { 'nvim-lua/plenary.nvim', lazy = true },
+  'nvim-lua/plenary.nvim',
+
+  { 'famiu/bufdelete.nvim', cmd = { 'Bdelete', 'Bwipeout' } },
 
   {
     'sindrets/diffview.nvim',
-    config = function()
-      require 'diffview'.setup {}
-    end,
+    cmd = {
+      'DiffviewOpen',
+      'DiffviewLog',
+      'DiffviewClose',
+      'DiffviewRefresh',
+      'DiffviewFocusFiles',
+      'DiffviewToggleFiles',
+      'DiffviewFileHistory',
+    },
+    config = true,
   },
 
   {
@@ -106,13 +108,28 @@ return {
   {
     'ray-x/lsp_signature.nvim',
     event = 'LspAttach',
-    config = function()
-      require 'lsp_signature'.setup()
-    end,
+    config = true,
   },
 
   {
     'goolord/alpha-nvim',
+    cond = function ()
+      local should_load = true
+      ---@diagnostic disable-next-line: param-type-mismatch
+      if vim.fn.argc() > 0 or vim.fn.line2byte "$" ~= -1 or not vim.o.modifiable then
+        should_load = false
+      else
+        for _, arg in pairs(vim.v.argv) do
+          if arg == "-b" or arg == "-c" or vim.startswith(arg, "+") or arg == "-S" then
+            should_load = false
+            break
+          end
+        end
+      end
+      return should_load
+    end,
+    lazy = false,
+    cmd = "Alpha",
     config = function()
       require 'module.alpha'
     end,
@@ -130,5 +147,16 @@ return {
 
   'jghauser/mkdir.nvim',
 
+  {
+    's1n7ax/nvim-window-picker',
+    opts = function()
+      local colors = require 'onenord.colors'.load()
+      return {
+        use_winbar = 'smart',
+        other_win_hl_color = colors.bg,
+      }
+    end,
+    config = function(_, opts) require 'window-picker'.setup(opts) end,
+  },
 }
 -- vim: fdm=marker

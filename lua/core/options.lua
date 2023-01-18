@@ -88,20 +88,3 @@ g.loaded_node_provider = 0
 g.loaded_perl_provider = 0
 g.loaded_ruby_provider = 0
 
--- Disable some built-in plugins we don't want
-local disabled_built_ins = {
-  'gzip',
-  'man',
-  'matchit',
-  'matchparen',
-  'shada_plugin',
-  'tarPlugin',
-  'tar',
-  'zipPlugin',
-  'zip',
-  'netrwPlugin',
-}
-
-for i = 1, #disabled_built_ins do
-  g['loaded_' .. disabled_built_ins[i]] = 1
-end
