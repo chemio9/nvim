@@ -151,6 +151,11 @@ end
 map.n['<leader>S'] = { '<cmd>w !sudo tee % >/dev/null<CR>',
   desc = 'write current file with sudo permission', }
 
+-- use screen line by default
+map.n['gj'] = { 'j' }
+map.n['gk'] = { 'k' }
+map.n['j'] = { 'gj' }
+map.n['k'] = { 'gk' }
 -- }}}
 
 -- lsp map

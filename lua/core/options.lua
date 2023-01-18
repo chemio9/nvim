@@ -20,12 +20,16 @@ o.relativenumber = true
 
 o.ignorecase = true
 o.smartcase = true
+o.copyindent = true -- Copy the previous indentation on autoindenting
+
+o.splitbelow = true
+o.splitright = true
 
 o.undofile = false
 o.swapfile = false
 
-o.scrolloff = 5
-o.sidescrolloff = 5
+o.scrolloff = 10
+o.sidescrolloff = 10
 
 o.signcolumn = 'number'
 
@@ -49,6 +53,8 @@ o.expandtab = true
 o.shiftwidth = 2
 o.softtabstop = 2
 
+o.cursorline = true
+
 o.conceallevel = 2
 o.concealcursor = 'nc' -- if set to nc char will always fold except in insert mode
 
@@ -62,6 +68,15 @@ o.foldnestmax = 5 -- max fold nest
 o.clipboard.append 'unnamedplus'
 
 o.completeopt = { 'menu', 'menuone', 'noselect', 'preview' }
+
+o.updatetime = 300
+
+o.shortmess:append { s = true, I = true }
+o.backspace:append { 'nostop' }
+-- o.diffopt:append 'linematch:60'
+
+o.fillchars = { eob = ' ' } -- Disable `~` on nonexistent lines
+o.history = 100 -- Number of commands to remember in a history table
 
 -- Leader/local leader
 g.mapleader = [[ ]]
