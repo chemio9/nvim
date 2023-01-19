@@ -1,6 +1,7 @@
 local plugin = {
   {
     'neovim/nvim-lspconfig',
+    ft = { 'lua', 'cpp', 'c', 'objc', 'json' },
     config = function()
       local on_attach = function(client, bufnr)
         require 'core.keymap'.attach_lsp(client, bufnr)
