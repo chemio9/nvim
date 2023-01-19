@@ -31,7 +31,7 @@ return {
     event = 'VeryLazy',
     config = true,
     dependencies = {
-      'p00f/nvim-ts-rainbow',
+      { 'p00f/nvim-ts-rainbow', enabled = false },
       'JoosepAlviste/nvim-ts-context-commentstring',
     },
   },
@@ -113,14 +113,15 @@ return {
 
   {
     'goolord/alpha-nvim',
-    cond = function ()
+    cond = function()
       local should_load = true
       ---@diagnostic disable-next-line: param-type-mismatch
-      if vim.fn.argc() > 0 or vim.fn.line2byte "$" ~= -1 or not vim.o.modifiable then
+      if vim.fn.argc() > 0 or vim.fn.line2byte '$' ~= -1 or not vim.o.modifiable then
         should_load = false
       else
         for _, arg in pairs(vim.v.argv) do
-          if arg == "-b" or arg == "-c" or vim.startswith(arg, "+") or arg == "-S" then
+          if arg == '-b' or arg == '-c' or vim.startswith(arg, '+') or
+              arg == '-S' then
             should_load = false
             break
           end
@@ -129,7 +130,7 @@ return {
       return should_load
     end,
     lazy = false,
-    cmd = "Alpha",
+    cmd = 'Alpha',
     config = function()
       require 'module.alpha'
     end,
@@ -140,6 +141,12 @@ return {
     tag = 'nightly', -- updated every week. (issue #1193)
     config = function()
       require 'module.tree'
+    end,
+    init = function()
+      local stats = vim.loop.fs_stat(vim.api.nvim_buf_get_name(0))
+      if stats and stats.type == 'directory' then
+        require 'nvim-tree'
+      end
     end,
   },
 
