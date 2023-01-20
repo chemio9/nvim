@@ -6,20 +6,33 @@ local function update(cmp_conf)
   }
 
   local lspkind = require 'lspkind'
+  local icons = require 'nvim-web-devicons'
   cmp_conf.formatting = {
-    fields = { 'kind', 'abbr', 'menu' },
-    format = lspkind.cmp_format {
-      mode = 'symbol', -- show only symbol annotations
-      maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-      ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-
-      -- The function below will be called before any actual modifications from lspkind
-      -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-      ---@diagnostic disable-next-line: unused-local
-      before = function(entry, vim_item)
-        return vim_item
-      end,
-    },
+    format = function(entry, vim_item)
+      if vim.tbl_contains({ 'path' }, entry.source.name) then
+        local icon, hl_group = icons.get_icon(entry:get_completion_item().label)
+        if icon then
+          vim_item.kind = icon
+          vim_item.kind_hl_group = hl_group
+          vim_item.menu = '[File]'
+          return vim_item
+        end
+      end
+      return lspkind.cmp_format {
+        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+        preset = 'codicons',
+        mode = 'symbol',
+        menu = {
+          buffer = '[Buffer]',
+          nvim_lsp = '[LSP]',
+          luasnip = '[LuaSnip]',
+          nvim_lua = '[Lua]',
+          latex_symbols = '[Latex]',
+          path = '[Folder]',
+        },
+      } (entry, vim_item)
+    end,
   }
 end
 
