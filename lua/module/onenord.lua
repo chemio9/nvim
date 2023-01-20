@@ -6,5 +6,6 @@ require 'onenord'.setup {
     NotifyBackground = { guibg = '#333333' },
     NormalFloat = { guibg = '#d1d4cf' },
     Winbar = { bg = 'NONE' },
+    FloatBorder = { bg = 'NONE' },
   },
 }

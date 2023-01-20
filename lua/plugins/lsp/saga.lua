@@ -13,8 +13,9 @@ return {
           virtual_text = false,
         },
         ui = {
+          border = 'rounded',
           colors = {
-            normal_bg = '#d1d4cf',
+            normal_bg = 'NONE',
             title_bg = 'NONE',
           },
         },
