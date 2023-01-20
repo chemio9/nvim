@@ -13,6 +13,7 @@ require 'lazy'.setup('plugins', {
     },
     reset_packpath = true,
     rtp = {
+      reset = true,
       ---@type string[]
       paths = {}, -- add any custom paths here that you want to indluce in the rtp
       ---@type string[] list any plugins you want to disable here
