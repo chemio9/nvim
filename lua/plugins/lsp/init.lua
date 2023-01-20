@@ -4,9 +4,14 @@ local plugin = {
     ft = { 'lua', 'cpp', 'c', 'objc', 'json' },
     config = function()
       local on_attach = function(client, bufnr)
+        require 'lsp_signature'.on_attach({
+          bind = true, -- This is mandatory, otherwise border config won't get registered.
+          handler_opts = {
+            border = 'rounded',
+          },
+        }, bufnr)
         require 'core.keymap'.attach_lsp(client, bufnr)
       end
-      require 'neodev'.setup {}
       local capabilities = require 'cmp_nvim_lsp'.default_capabilities()
       local configs = {
         'clangd',
@@ -36,6 +41,11 @@ local plugin = {
       }
     end,
   },
+
+  { 'folke/neodev.nvim' },
+
+  { 'ray-x/lsp_signature.nvim' },
+
 }
 ---@diagnostic disable: missing-parameter
 vim.list_extend(plugin, require 'plugins.lsp.saga')

@@ -101,17 +101,6 @@ return {
   },
 
   {
-    'folke/neodev.nvim',
-    ft = 'lua',
-  },
-
-  {
-    'ray-x/lsp_signature.nvim',
-    event = 'LspAttach',
-    config = true,
-  },
-
-  {
     'goolord/alpha-nvim',
     cond = function()
       local should_load = true
@@ -139,6 +128,19 @@ return {
   {
     'nvim-tree/nvim-tree.lua',
     tag = 'nightly', -- updated every week. (issue #1193)
+    cmd = {
+      'NvimTreeOpen',
+      'NvimTreeClose',
+      'NvimTreeFocus',
+      'NvimTreeResize',
+      'NvimTreeToggle',
+      'NvimTreeRefresh',
+      'NvimTreeCollapse',
+      'NvimTreeFindFile',
+      'NvimTreeClipboard',
+      'NvimTreeFindFileToggle',
+      'NvimTreeCollapseKeepBuffers',
+    },
     config = function()
       require 'module.tree'
     end,
@@ -148,11 +150,22 @@ return {
         require 'nvim-tree'
       end
     end,
+    lazy = false,
   },
 
   { 'nvim-tree/nvim-web-devicons', lazy = true }, -- for file icons
 
-  'jghauser/mkdir.nvim',
+  {
+    'jghauser/mkdir.nvim',
+    init = function()
+      vim.cmd [[
+        augroup MkdirRun
+        autocmd!
+        autocmd BufWritePre * lua require('mkdir').run()
+        augroup END
+      ]]
+    end,
+  },
 
   {
     's1n7ax/nvim-window-picker',

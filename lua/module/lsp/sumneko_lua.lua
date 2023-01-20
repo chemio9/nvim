@@ -2,6 +2,7 @@ local lspconfig = require 'lspconfig'
 local M = {}
 
 function M.setup(settings)
+  require 'neodev'.setup {}
   lspconfig.sumneko_lua.setup {
     capabilities = settings.capabilities,
     on_attach = settings.on_attach,
