@@ -1,13 +1,13 @@
-local function update(cmp_conf)
+local function update(config)
   local cmp = require 'cmp'
-  cmp_conf.window = {
+  config.window = {
     -- completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
   }
 
   local lspkind = require 'lspkind'
   local icons = require 'nvim-web-devicons'
-  cmp_conf.formatting = {
+  config.formatting = {
     format = function(entry, vim_item)
       if vim.tbl_contains({ 'path' }, entry.source.name) then
         local icon, hl_group = icons.get_icon(entry:get_completion_item().label)

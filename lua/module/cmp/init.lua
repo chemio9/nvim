@@ -2,13 +2,13 @@
 local cmp = require 'cmp'
 
 -- General configurations
-local cmp_conf = {}
+local config = {}
 
 local kind = require 'module.cmp.kind'
-kind.update(cmp_conf)
+kind.update(config)
 
 local luasnip = require 'luasnip'
-cmp_conf.snippet = {
+config.snippet = {
   expand = function(args)
     luasnip.lsp_expand(args.body)
   end,
@@ -20,7 +20,7 @@ local has_words_before = function()
       vim.api.nvim_buf_get_lines(0, line - 1, line, true)
       [1]:sub(col, col):match '%s' == nil
 end
-cmp_conf.mapping = {
+config.mapping = {
   ['<Up>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
   ['<Down>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
   ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
@@ -55,7 +55,7 @@ cmp_conf.mapping = {
   end, { 'i', 's' }),
 }
 
-cmp_conf.sources = cmp.config.sources({
+config.sources = cmp.config.sources({
   { name = 'nvim_lsp', priority = 1000 },
   { name = 'luasnip', priority = 750 },
 }, {
@@ -67,10 +67,10 @@ cmp_conf.sources = cmp.config.sources({
 --   entries = { name = 'custom', selection_order = 'near_cursor' },
 -- }
 
-cmp_conf.preselect = cmp.PreselectMode.None
+config.preselect = cmp.PreselectMode.None
 
 
-cmp.setup(cmp_conf)
+cmp.setup(config)
 
 -- Set configuration for specific filetype.
 cmp.setup.filetype('text', {

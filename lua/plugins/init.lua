@@ -23,7 +23,6 @@ return {
     config = function()
       require 'module.tree-sitter'
     end,
-    commit = '3cb75be',
   },
 
   {
@@ -150,7 +149,6 @@ return {
         require 'nvim-tree'
       end
     end,
-    lazy = false,
   },
 
   { 'nvim-tree/nvim-web-devicons', lazy = true }, -- for file icons
