@@ -90,6 +90,13 @@ map.n['gj'] = { 'j' }
 map.n['gk'] = { 'k' }
 map.n['j'] = { 'gj' }
 map.n['k'] = { 'gk' }
+
+
+if is_available 'window-picker' then
+  map.n['<C-w>w'] = { function() require 'window-picker'.pick_window() end, desc = 'Pick a window' }
+  map.n['<C-w><C-w>'] = map.n['<C-w>w']
+
+end
 -- }}}
 
 -- lsp map
