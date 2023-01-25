@@ -21,6 +21,7 @@ local function setup_mapping(map_table, base)
   end
 end
 
+---@diagnostic disable-next-line: unused-local
 local function is_available(plugin)
   return true -- TODO: find a way to know a plugin that is installed or not
 end
@@ -91,6 +92,33 @@ map.n['gk'] = { 'k' }
 map.n['j'] = { 'gj' }
 map.n['k'] = { 'gk' }
 
+if is_available 'nvim-dap' then
+  -- modified function keys found with `showkey -a` in the terminal to get key code
+  -- run `nvim -V3log +quit` and search through the "Terminal info" in the `log` file for the correct keyname
+  map.n['<F5>'] = { function() require 'dap'.continue() end, desc = 'Debugger: Start' }
+  map.n['<F17>'] = { function() require 'dap'.terminate() end, desc = 'Debugger: Stop' } -- Shift+F5
+  map.n['<F29>'] = { function() require 'dap'.restart_frame() end, desc = 'Debugger: Restart' } -- Control+F5
+  map.n['<F6>'] = { function() require 'dap'.pause() end, desc = 'Debugger: Pause' }
+  map.n['<F9>'] = { function() require 'dap'.toggle_breakpoint() end, desc = 'Debugger: Toggle Breakpoint' }
+  map.n['<F10>'] = { function() require 'dap'.step_over() end, desc = 'Debugger: Step Over' }
+  map.n['<F11>'] = { function() require 'dap'.step_into() end, desc = 'Debugger: Step Into' }
+  map.n['<F23>'] = { function() require 'dap'.step_out() end, desc = 'Debugger: Step Out' } -- Shift+F11
+  map.n['<leader>db'] = { function() require 'dap'.toggle_breakpoint() end, desc = 'Toggle Breakpoint (F9)' }
+  map.n['<leader>dB'] = { function() require 'dap'.clear_breakpoints() end, desc = 'Clear Breakpoints' }
+  map.n['<leader>dc'] = { function() require 'dap'.continue() end, desc = 'Start/Continue (F5)' }
+  map.n['<leader>di'] = { function() require 'dap'.step_into() end, desc = 'Step Into (F11)' }
+  map.n['<leader>do'] = { function() require 'dap'.step_over() end, desc = 'Step Over (F10)' }
+  map.n['<leader>dO'] = { function() require 'dap'.step_out() end, desc = 'Step Out (S-F11)' }
+  map.n['<leader>dq'] = { function() require 'dap'.close() end, desc = 'Close Session' }
+  map.n['<leader>dQ'] = { function() require 'dap'.terminate() end, desc = 'Terminate Session (S-F5)' }
+  map.n['<leader>dp'] = { function() require 'dap'.pause() end, desc = 'Pause (F6)' }
+  map.n['<leader>dr'] = { function() require 'dap'.restart_frame() end, desc = 'Restart (C-F5)' }
+  map.n['<leader>dR'] = { function() require 'dap'.repl.toggle() end, desc = 'Toggle REPL' }
+  if is_available 'nvim-dap-ui' then
+    map.n['<leader>du'] = { function() require 'dapui'.toggle() end, desc = 'Toggle Debugger UI' }
+    map.n['<leader>dh'] = { function() require 'dap.ui.widgets'.hover() end, desc = 'Debugger Hover' }
+  end
+end
 
 if is_available 'window-picker' then
   map.n['<C-w>w'] = { function() require 'window-picker'.pick_window() end, desc = 'Pick a window' }
