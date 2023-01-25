@@ -1,10 +1,15 @@
 return {
   {
-    'rmehri01/onenord.nvim',
-    config = function()
-      require 'module.onenord'
-    end,
+    'folke/tokyonight.nvim',
     priority = 100, -- load theme first
+    opts = {
+      style = 'dark',
+      sidebars = { 'qf', 'help', 'NvimTree' },
+    },
+    config = function(_, opts)
+      require 'tokyonight'.setup(opts)
+      vim.cmd.colorscheme 'tokyonight'
+    end,
     lazy = false,
   },
 }

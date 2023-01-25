@@ -114,7 +114,7 @@ return {
     end,
   },
 
-  { 'nvim-tree/nvim-web-devicons', lazy = true }, -- for file icons
+  'nvim-tree/nvim-web-devicons',
 
   {
     'jghauser/mkdir.nvim',
@@ -130,14 +130,11 @@ return {
 
   {
     's1n7ax/nvim-window-picker',
-    opts = function()
-      local colors = require 'onenord.colors'.load()
-      return {
-        use_winbar = 'smart',
-        other_win_hl_color = colors.bg,
-      }
-    end,
+    opts = {
+      use_winbar = 'smart',
+    },
     config = function(_, opts) require 'window-picker'.setup(opts) end,
   },
+
 }
 -- vim: fdm=marker
