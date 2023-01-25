@@ -80,4 +80,10 @@ return {
     end,
   },
 
+  {
+    'quocnho/nvim-pqf',
+    -- doesn't need to lazy-load because it's tiny (single file)
+    lazy = false,
+    config = true,
+  },
 }
