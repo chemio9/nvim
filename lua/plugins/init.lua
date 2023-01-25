@@ -18,6 +18,7 @@ return {
     -- tag = '*', -- Use for stability; omit to use `main` branch for the latest features
     config = true,
   },
+
   -- window managing
   {
     'mrjones2014/smart-splits.nvim',
@@ -134,6 +135,24 @@ return {
       use_winbar = 'smart',
     },
     config = function(_, opts) require 'window-picker'.setup(opts) end,
+  },
+
+  {
+    'rainbowhxch/accelerated-jk.nvim',
+    event = 'VimEnter',
+    config = function()
+      vim.api.nvim_set_keymap('n', 'j', '<Plug>(accelerated_jk_gj)', {})
+      vim.api.nvim_set_keymap('n', 'k', '<Plug>(accelerated_jk_gk)', {})
+    end,
+  },
+
+  {
+    'saifulapm/chartoggle.nvim',
+    event = 'InsertCharPre',
+    opts = {
+      leader = '<localleader>', -- you can use any key as Leader
+      keys = { ',', ';' }, -- Which keys will be toggle end of the line
+    },
   },
 
 }
