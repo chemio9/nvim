@@ -123,7 +123,16 @@ end
 if is_available 'window-picker' then
   map.n['<C-w>w'] = { function() require 'window-picker'.pick_window() end, desc = 'Pick a window' }
   map.n['<C-w><C-w>'] = map.n['<C-w>w']
+end
 
+if is_available 'hop.nvim' then
+  -- due to my habit
+  vim.keymap.set('', 'f', function()
+    require 'hop'.hint_words()
+  end, { remap = true })
+  vim.keymap.set('', 'F', function()
+    require 'hop'.hint_patterns()
+  end, { remap = true })
 end
 -- }}}
 

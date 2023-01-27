@@ -58,10 +58,11 @@ o.cursorline = true
 o.conceallevel = 2
 o.concealcursor = 'nc' -- if set to nc char will always fold except in insert mode
 
-o.foldenable = true -- enable fold
+o.foldenable = false -- enable fold
 o.foldlevel = 99 -- disable fold for opened file
 o.foldminlines = 2 -- 0 means even the child is only one line fold always works
 o.foldmethod = 'expr' -- for most filetype fold by syntax
+o.foldexpr = 'nvim_treesitter#foldexpr()'
 o.foldnestmax = 5 -- max fold nest
 
 -- Clipboard
@@ -73,7 +74,9 @@ o.updatetime = 300
 
 o.shortmess:append { s = true, I = true }
 o.backspace:append { 'nostop' }
--- o.diffopt:append 'linematch:60'
+if vim.fn.has 'nvim-0.9' then
+  o.diffopt:append 'linematch:60'
+end
 
 o.fillchars = { eob = ' ' } -- Disable `~` on nonexistent lines
 o.history = 100 -- Number of commands to remember in a history table
@@ -88,10 +91,3 @@ g.loaded_node_provider = 0
 g.loaded_perl_provider = 0
 g.loaded_ruby_provider = 0
 
-vim.api.nvim_create_autocmd('TextYankPost', {
-  group = vim.api.nvim_create_augroup("yank_highlight",{}),
-  pattern = '*',
-  callback = function()
-    vim.highlight.on_yank { higroup = 'IncSearch', timeout = 800 }
-  end,
-})

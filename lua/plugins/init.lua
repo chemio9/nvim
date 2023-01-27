@@ -107,18 +107,6 @@ return {
     config = function()
       require 'module.tree'
     end,
-    init = function()
-      vim.api.nvim_create_autocmd('BufEnter', {
-        group = vim.api.nvim_create_augroup('nvim-tree', {}),
-        pattern = '*',
-        callback = function()
-          local stats = vim.loop.fs_stat(vim.api.nvim_buf_get_name(0))
-          if stats and stats.type == 'directory' then
-            require 'nvim-tree'
-          end
-        end,
-      })
-    end,
   },
 
   'nvim-tree/nvim-web-devicons',
@@ -161,5 +149,12 @@ return {
     },
   },
 
+  {
+    'phaazon/hop.nvim',
+    config = function()
+      -- you can configure Hop the way you like here; see :h hop-config
+      require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+    end,
+  },
 }
 -- vim: fdm=marker
