@@ -1,4 +1,4 @@
-local lazypath = '/home/arch/pro/dotfiles/lazy/lazy.nvim'
+local lazypath = vim.fn.stdpath 'config' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
     'git',

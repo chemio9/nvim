@@ -1,15 +1,14 @@
-_G.lazy_path = '/home/arch/pro/dotfiles'
 require 'core.options'
 
 require 'core.bootstrap'
 
 require 'lazy'.setup('plugins', {
-  root = lazy_path .. '/lazy', -- directory where plugins will be installed
-  lockfile = lazy_path .. '/lazy-lock.json',
+  root = vim.fn.stdpath 'config' .. '/lazy', -- directory where plugins will be installed
+  lockfile = vim.fn.stdpath 'config' .. '/lazy/lazy-lock.json',
   defaults = { lazy = true },
   performance = {
     cache = {
-      path = lazy_path .. '/lazy/cache',
+      path = vim.fn.stdpath 'config' .. '/lazy/cache',
     },
     reset_packpath = true,
     rtp = {
