@@ -132,11 +132,11 @@ local lmap = { i = {}, n = {}, v = {}, t = {}, [''] = {} }
 -- {{{
 
 -- Code action
-lmap.n['<leader>ca'] = { '<cmd>Lspsaga code_action<CR>', desc = 'run code action', }
+lmap.n['<leader>ca'] = { '<cmd>Lspsaga code_action<CR>', desc = 'run code action' }
 lmap.v['<leader>ca'] = lmap.n['<leader>ca']
 
 -- Rename
-lmap.n['<leader>rn'] = { '<cmd>Lspsaga rename<CR>', desc = 'rename symbols', }
+lmap.n['<leader>rn'] = { '<cmd>Lspsaga rename<CR>', desc = 'rename symbols' }
 
 lmap.n['gh'] = { '<cmd>Lspsaga lsp_finder<CR>' }
 lmap.n['gp'] = { '<cmd>Lspsaga peek_definition<CR>' }
