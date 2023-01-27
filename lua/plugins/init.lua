@@ -108,10 +108,16 @@ return {
       require 'module.tree'
     end,
     init = function()
-      local stats = vim.loop.fs_stat(vim.api.nvim_buf_get_name(0))
-      if stats and stats.type == 'directory' then
-        require 'nvim-tree'
-      end
+      vim.api.nvim_create_autocmd('BufEnter', {
+        group = vim.api.nvim_create_augroup('nvim-tree', {}),
+        pattern = '*',
+        callback = function()
+          local stats = vim.loop.fs_stat(vim.api.nvim_buf_get_name(0))
+          if stats and stats.type == 'directory' then
+            require 'nvim-tree'
+          end
+        end,
+      })
     end,
   },
 
