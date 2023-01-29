@@ -2,11 +2,14 @@ local lspconfig = require 'lspconfig'
 local M = {}
 
 function M.setup(settings)
-  require 'neodev'.setup {}
-  lspconfig.sumneko_lua.setup {
-    capabilities = settings.capabilities,
-    on_attach = settings.on_attach,
+  -- TODO: cannot complete plugins
+  require 'neodev'.setup {
     settings = {
+      Lua = {
+        workspace = {
+          library = {''}
+        }
+      },
       format = {
         enable = true,
         -- Put format options here
@@ -17,6 +20,10 @@ function M.setup(settings)
         },
       },
     },
+  }
+  lspconfig.sumneko_lua.setup {
+    capabilities = settings.capabilities,
+    on_attach = settings.on_attach,
   }
 end
 
