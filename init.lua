@@ -35,6 +35,13 @@ require 'lazy'.setup('plugins', {
   diff = {
     cmd = 'diffview.nvim',
   },
+  dev = {
+    -- directory where you store your local plugin projects
+    path = '~/pro/',
+    ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
+    patterns = {},
+    fallback = true, -- Fallback to git when local plugin doesn't exist
+  },
 })
 
 require 'core.autocmds'
