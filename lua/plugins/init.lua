@@ -65,7 +65,7 @@ return {
 
   {
     'goolord/alpha-nvim',
-    cond = function()
+    init = function()
       local should_load = true
       ---@diagnostic disable-next-line: param-type-mismatch
       if vim.fn.argc() > 0 or vim.fn.line2byte '$' ~= -1 or not vim.o.modifiable then
@@ -79,9 +79,12 @@ return {
           end
         end
       end
-      return should_load
+      if should_load then
+        -- force = true ==> sync load
+        require 'lazy.core.loader'.load('alpha-nvim', { cmd = 'Lazy load' }, { force = false })
+      end
     end,
-    lazy = false,
+    dev = true,  -- use local version of alpha
     cmd = 'Alpha',
     config = function()
       require 'module.alpha'
@@ -156,5 +159,6 @@ return {
       require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
     end,
   },
+
 }
 -- vim: fdm=marker
