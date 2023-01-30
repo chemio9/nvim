@@ -1,12 +1,11 @@
-vim.api.nvim_create_autocmd('BufEnter', {
-  group = vim.api.nvim_create_augroup('nvim-tree', { clear = true }),
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
+  group = vim.api.nvim_create_augroup('NvimTree', { clear = true }),
   pattern = '*',
   callback = function()
     local stats = vim.loop.fs_stat(vim.api.nvim_buf_get_name(0))
     if stats and stats.type == 'directory' then
       vim.cmd.NvimTreeOpen()
     end
-    vim.api.nvim_del_augroup_by_name 'nvim-tree'
   end,
 })
 
