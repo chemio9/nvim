@@ -1,3 +1,4 @@
+local loadPlugin = require('core.utils').loadPlugin
 return {
   {
     'akinsho/toggleterm.nvim',
@@ -80,11 +81,10 @@ return {
         end
       end
       if should_load then
-        -- force = true ==> sync load
-        require 'lazy.core.loader'.load('alpha-nvim', { cmd = 'Lazy load' }, { force = false })
+        loadPlugin 'alpha-nvim'
       end
     end,
-    dev = true,  -- use local version of alpha
+    dev = true, -- use local version of alpha
     cmd = 'Alpha',
     config = function()
       require 'module.alpha'
