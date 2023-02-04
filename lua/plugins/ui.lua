@@ -23,6 +23,7 @@ return {
       'ColorizerDetachFromBuffer',
       'ColorizerReloadAllBuffers',
     },
+    event = 'VeryLazy',
     config = function()
       require 'colorizer'.setup { user_default_options = { names = false } }
     end,
@@ -30,7 +31,7 @@ return {
 
   {
     'lukas-reineke/indent-blankline.nvim',
-    event = 'UIEnter',
+    event = 'VeryLazy',
     config = function()
       require 'indent_blankline'.setup {
         buftype_exclude = {
