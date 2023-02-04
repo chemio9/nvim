@@ -86,4 +86,18 @@ return {
     lazy = false,
     config = true,
   },
+
+  {
+    'folke/which-key.nvim',
+    event = 'VeryLazy',
+    config = function()
+      require 'which-key'.setup {
+        operators = { gc = 'Comments' },
+        key_labels = {
+          -- override the label used to display
+          ["<space>"] = "SPC",
+        },
+      }
+    end,
+  },
 }
