@@ -1,4 +1,4 @@
-local loadPlugin = require('core.utils').loadPlugin
+local loadPlugin = require 'core.utils'.loadPlugin
 return {
   {
     'akinsho/toggleterm.nvim',
@@ -15,8 +15,7 @@ return {
 
   {
     'kylechui/nvim-surround',
-    keys = { 'ys', 'ds', 'cs' },
-    -- tag = '*', -- Use for stability; omit to use `main` branch for the latest features
+    keys = { { 'ys' }, { 'ds' }, { 'cs' } },
     config = true,
   },
 
@@ -117,12 +116,13 @@ return {
   {
     'jghauser/mkdir.nvim',
     init = function()
-      vim.cmd [[
-        augroup MkdirRun
-        autocmd!
-        autocmd BufWritePre * lua require('mkdir').run()
-        augroup END
-      ]]
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        group = vim.api.nvim_create_augroup('MkdirRun', {}),
+        pattern = '*',
+        callback = function()
+          require 'mkdir'.run()
+        end,
+      })
     end,
   },
 
@@ -131,25 +131,15 @@ return {
     opts = {
       use_winbar = 'smart',
     },
-    config = function(_, opts) require 'window-picker'.setup(opts) end,
   },
 
   {
     'rainbowhxch/accelerated-jk.nvim',
-    event = 'VimEnter',
+    event = 'CursorMoved',
     config = function()
       vim.api.nvim_set_keymap('n', 'j', '<Plug>(accelerated_jk_gj)', {})
       vim.api.nvim_set_keymap('n', 'k', '<Plug>(accelerated_jk_gk)', {})
     end,
-  },
-
-  {
-    'saifulapm/chartoggle.nvim',
-    event = 'InsertCharPre',
-    opts = {
-      leader = '<localleader>', -- you can use any key as Leader
-      keys = { ',', ';' }, -- Which keys will be toggle end of the line
-    },
   },
 
   {
