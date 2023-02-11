@@ -85,7 +85,17 @@ return {
     'quocnho/nvim-pqf',
     -- doesn't need to lazy-load because it's tiny (single file)
     lazy = false,
-    config = true,
+    config = function()
+      local icons = require 'core.icons'
+      require 'pqf'.setup {
+        signs = {
+          error = icons.DiagnosticError,
+          warning = icons.DiagnosticWarn,
+          info = icons.DiagnosticInfo,
+          hint = icons.DiagnosticHint,
+        },
+      }
+    end,
   },
 
   {
@@ -96,7 +106,7 @@ return {
         operators = { gc = 'Comments' },
         key_labels = {
           -- override the label used to display
-          ["<space>"] = "SPC",
+          ['<space>'] = 'SPC',
         },
       }
     end,

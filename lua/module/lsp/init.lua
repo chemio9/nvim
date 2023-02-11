@@ -13,27 +13,17 @@ nvim_capabilities.textDocument.completion.completionItem.resolveSupport = {
 }
 
 local setup_diagnostics = function()
-
-  local DapBreakpoint = ""
-  local DapBreakpointCondition = ""
-  local DapBreakpointRejected = ""
-  local DapLogPoint = "->"
-  local DapStopped = ""
-  local DiagnosticError = ""
-  local DiagnosticHint = ""
-  local DiagnosticInfo = ""
-  local DiagnosticWarn = ""
-
+  local icons = require 'core.icons'
   local signs = {
-    { name = "DiagnosticSignError", text = DiagnosticError, texthl = "DiagnosticSignError" },
-    { name = "DiagnosticSignWarn", text = DiagnosticWarn, texthl = "DiagnosticSignWarn" },
-    { name = "DiagnosticSignHint", text = DiagnosticHint, texthl = "DiagnosticSignHint" },
-    { name = "DiagnosticSignInfo", text = DiagnosticInfo, texthl = "DiagnosticSignInfo" },
-    { name = "DapStopped", text = DapStopped, texthl = "DiagnosticWarn" },
-    { name = "DapBreakpoint", text = DapBreakpoint, texthl = "DiagnosticInfo" },
-    { name = "DapBreakpointRejected", text =DapBreakpointRejected, texthl = "DiagnosticError" },
-    { name = "DapBreakpointCondition", text = DapBreakpointCondition, texthl = "DiagnosticInfo" },
-    { name = "DapLogPoint", text = DapLogPoint, texthl = "DiagnosticInfo" },
+    { name = 'DiagnosticSignError', text = icons.DiagnosticError, texthl = 'DiagnosticSignError' },
+    { name = 'DiagnosticSignWarn', text = icons.DiagnosticWarn, texthl = 'DiagnosticSignWarn' },
+    { name = 'DiagnosticSignHint', text = icons.DiagnosticHint, texthl = 'DiagnosticSignHint' },
+    { name = 'DiagnosticSignInfo', text = icons.DiagnosticInfo, texthl = 'DiagnosticSignInfo' },
+    { name = 'DapStopped', text = icons.DapStopped, texthl = 'DiagnosticWarn' },
+    { name = 'DapBreakpoint', text = icons.DapBreakpoint, texthl = 'DiagnosticInfo' },
+    { name = 'DapBreakpointRejected', text = icons.DapBreakpointRejected, texthl = 'DiagnosticError' },
+    { name = 'DapBreakpointCondition', text = icons.DapBreakpointCondition, texthl = 'DiagnosticInfo' },
+    { name = 'DapLogPoint', text = icons.DapLogPoint, texthl = 'DiagnosticInfo' },
   }
 
   for _, sign in ipairs(signs) do
