@@ -1,8 +1,24 @@
 local plugin = {
   {
     'neovim/nvim-lspconfig',
-    ft = { 'lua', 'cpp', 'c', 'objc', 'json' },
+    ft = {
+      'lua',
+      'cpp',
+      'c',
+      'objc',
+      'json',
+      'jsonc',
+      'html',
+      'css',
+      'javascript',
+      'javascriptreact',
+      'javascript.jsx',
+      'typescript',
+      'typescriptreact',
+      'typescript.tsx',
+    },
     config = function()
+      require 'module.lsp'.setup_diagnostics()
       local on_attach = function(client, bufnr)
         require 'lsp_signature'.on_attach({
           bind = true, -- This is mandatory, otherwise border config won't get registered.
@@ -10,19 +26,22 @@ local plugin = {
             border = 'rounded',
           },
         }, bufnr)
-        require 'core.keymap'.attach_lsp(client, bufnr)
+        require 'module.lsp'.on_attach(client, bufnr)
       end
-      local capabilities = require 'cmp_nvim_lsp'.default_capabilities()
       local configs = {
         'clangd',
         'sumneko_lua',
         'vscode-json-language-server',
+        'cssls',
+        'html',
+        'tsserver',
+        'eslint',
         -- 'nimlsp',
         -- 'lemminx',
       }
       for _, config in ipairs(configs) do
         require('module.lsp.' .. config).setup {
-          capabilities = capabilities,
+          capabilities = require 'module.lsp'.capabilities,
           on_attach = on_attach,
         }
       end

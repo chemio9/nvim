@@ -31,7 +31,7 @@ o.swapfile = false
 o.scrolloff = 10
 o.sidescrolloff = 10
 
-o.signcolumn = 'number'
+o.signcolumn = 'auto:1-2'
 
 o.maxmempattern = 2000 -- max match pattern
 -- o.autochdir = true -- auto change directory to current file
@@ -56,9 +56,9 @@ o.softtabstop = 2
 o.cursorline = true
 
 o.conceallevel = 2
-o.concealcursor = 'nc' -- if set to nc char will always fold except in insert mode
+o.concealcursor = 'nc' -- char will always fold except in insert mode
 
-o.foldenable = false -- enable fold
+o.foldenable = false -- fold
 o.foldlevel = 99 -- disable fold for opened file
 o.foldminlines = 2 -- 0 means even the child is only one line fold always works
 o.foldmethod = 'expr' -- for most filetype fold by syntax
@@ -68,7 +68,7 @@ o.foldnestmax = 5 -- max fold nest
 -- Clipboard
 o.clipboard.append 'unnamedplus'
 
-o.completeopt = { 'menu', 'menuone', 'noselect', 'preview' }
+o.completeopt = { 'menu', 'menuone', 'noselect' }
 
 o.updatetime = 300
 

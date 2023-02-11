@@ -1,38 +1,3 @@
--- vim: fdm=marker
---- Table based API for setting keybindings {{{
--- @param map_table A nested table where the first key is the vim mode, the second key is the key to map, and the value is the function to set the mapping to
--- @param base A base set of options to set on every keybinding
-local function setup_mappings(map_table, base)
-  local wk_avail, wk = pcall(require, "which-key")
-  -- iterate over the first keys for each mode
-  for mode, maps in pairs(map_table) do
-    -- iterate over each keybinding set in the current mode
-    for keymap, options in pairs(maps) do
-      -- build the options for the command accordingly
-      if options then
-        local cmd = options
-        local keymap_opts = base or {}
-        if type(options) == "table" then
-          cmd = options[1]
-          keymap_opts = vim.tbl_deep_extend("force", options, keymap_opts)
-          keymap_opts[1] = nil
-        end
-        if type(options) == "table" and options.name then
-          if wk_avail then
-            -- if options have name, then use which-key register
-            keymap_opts.mode = mode
-            wk.register({ [keymap] = options }, keymap_opts)
-          end
-        else
-          -- extend the keybinding options with the base provided and set the mapping
-          vim.keymap.set(mode, keymap, cmd, keymap_opts)
-        end
-      end
-    end
-  end
-end
--- }}}
-
 local map = { i = {}, n = {}, v = {}, t = {}, [''] = {} }
 -- {{{
 -- Smart Splits
@@ -113,75 +78,15 @@ map.n['<leader>dR'] = { function() require 'dap'.repl.toggle() end, desc = 'Togg
 map.n['<leader>du'] = { function() require 'dapui'.toggle() end, desc = 'Toggle Debugger UI' }
 map.n['<leader>dh'] = { function() require 'dap.ui.widgets'.hover() end, desc = 'Debugger Hover' }
 
-map.n['<C-w>w'] = { function() require 'window-picker'.pick_window() end, desc = 'Pick a window' }
-map.n['<C-w><C-w>'] = map.n['<C-w>w']
-
 -- due to my habit
 map['']['<leader>j'] = { function() require 'hop'.hint_words() end, desc = 'jump by words' }
 map['']['<leader>J'] = { function() require 'hop'.hint_patterns() end, desc = 'jump by patterns' }
 -- }}}
 
--- lsp map
-local lmap = { i = {}, n = {}, v = {}, t = {}, [''] = {} }
--- {{{
-
-lmap.n['<leader>c'] = { name = 'Code' }
--- Code action
-lmap.n['<leader>ca'] = { '<cmd>Lspsaga code_action<CR>', desc = 'run code action' }
-lmap.v['<leader>ca'] = lmap.n['<leader>ca']
--- Rename
-lmap.n['<leader>cr'] = { '<cmd>Lspsaga rename<CR>', desc = 'rename symbols' }
-lmap.n['<leader>cf'] = {
-  function()
-    vim.lsp.buf.format { async = true }
-  end,
-  desc = 'format',
-}
--- Outline
-lmap.n['<leader>co'] = { '<cmd>Lspsaga outline<CR>', desc = 'symbols outline' }
-
-lmap.n['gh'] = { '<cmd>Lspsaga lsp_finder<CR>', desc = 'find references' }
-lmap.n['gp'] = { '<cmd>Lspsaga peek_definition<CR>', desc = 'peek definition' }
-lmap.n['gD'] = { vim.lsp.buf.declaration, desc = 'go to declaration' }
-lmap.n['gd'] = { vim.lsp.buf.definition, desc = 'go to definition' }
-lmap.n['gi'] = { vim.lsp.buf.implementation, desc = 'go to implementation' }
-lmap.n['gt'] = { vim.lsp.buf.type_definition, desc = 'go to type definition' }
-lmap.n['K'] = { vim.lsp.buf.signature_help, desc = 'signature help' }
-
--- Diagnsotics
-lmap.n['<leader>e'] = { name = 'diagnostic' }
-lmap.n['<leader>ef'] = { vim.diagnostic.open_float, desc = 'diagnostics in float' }
-lmap.n['<leader>eq'] = { vim.diagnostic.setloclist, desc = 'diagnostics in location list' }
--- Diagnsotic jump can use `<c-o>` to jump back
-lmap.n['[e'] = { '<cmd>Lspsaga diagnostic_jump_prev<CR>', desc = 'previous diagnostic' }
-lmap.n[']e'] = { '<cmd>Lspsaga diagnostic_jump_next<CR>', desc = 'next diagnostic' }
--- Only jump to error
-lmap.n['[E'] = { function() require 'lspsaga.diagnostic'.goto_prev { severity = vim.diagnostic.severity.ERROR } end,
-  desc = 'previous error', }
-lmap.n[']E'] = { function() require 'lspsaga.diagnostic'.goto_next { severity = vim.diagnostic.severity.ERROR } end,
-  desc = 'next error', }
-
--- Mappings.
--- See `:help vim.lsp.*` for documentation on any of the below functions
-lmap.n['<leader>w'] = { name = 'workspace' }
-lmap.n['<leader>wa'] = { vim.lsp.buf.add_workspace_folder, desc = 'add workspace folder' }
-lmap.n['<leader>wr'] = { vim.lsp.buf.remove_workspace_folder, desc = 'remove workspace folder' }
-lmap.n['<leader>wl'] = { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
-  desc = 'list workspace folders', }
---
--- }}}
-
 local M = {}
+local utils = require('core.utils')
 function M.setup()
-  setup_mappings(map)
-end
-
----@diagnostic disable-next-line: unused-local
-function M.attach_lsp(client, bufnr)
-  local bufopts = { noremap = true, silent = true, buffer = bufnr }
-  setup_mappings(lmap, bufopts)
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  utils.setup_mappings(map)
 end
 
 return M
