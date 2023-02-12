@@ -13,6 +13,12 @@ map.n['<C-Down>'] = { function() require 'smart-splits'.resize_down() end, desc 
 map.n['<C-Left>'] = { function() require 'smart-splits'.resize_left() end, desc = 'Resize split left' }
 map.n['<C-Right>'] = { function() require 'smart-splits'.resize_right() end, desc = 'Resize split right' }
 
+
+map.n['<C-N>'] = { '<cmd>bnext<CR>', desc = 'Next buf' }
+map.n['<C-M>'] = { '<cmd>bprevious<CR>', desc = 'Prev buf' }
+map.n['<C-M-N>'] = { '<cmd>tabnext<CR>', desc = 'Next tab' }
+map.n['<C-M-M>'] = { '<cmd>tabprevious<CR>', desc = 'Prev tab' }
+
 -- Terminal
 map.n['<leader>t'] = { name = 'Terminal' }
 -- local toggle_term_cmd = astronvim.toggle_term_cmd
@@ -84,7 +90,7 @@ map['']['<leader>J'] = { function() require 'hop'.hint_patterns() end, desc = 'j
 -- }}}
 
 local M = {}
-local utils = require('core.utils')
+local utils = require 'core.utils'
 function M.setup()
   utils.setup_mappings(map)
 end
