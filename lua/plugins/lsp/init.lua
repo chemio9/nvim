@@ -30,7 +30,7 @@ local plugin = {
       end
       local configs = {
         'clangd',
-        'sumneko_lua',
+        'lua_ls',
         'vscode-json-language-server',
         'cssls',
         'html',
