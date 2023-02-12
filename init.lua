@@ -18,17 +18,16 @@ require 'lazy'.setup('plugins', {
       ---@type string[] list any plugins you want to disable here
       disabled_plugins = {
         'tohtml',
-        'gzip',
-        'zip',
-        'tar',
+        -- 'gzip',
+        -- 'zip',
+        -- 'zipPlugin',
+        -- 'tar',
+        -- 'tarPlugin',
         'man',
         'matchit',
         'matchparen',
-        'zipPlugin',
         'netrwPlugin',
-        'tarPlugin',
         'shada_plugin',
-        'netrwPlugin',
       },
     },
   },
@@ -45,4 +44,4 @@ require 'lazy'.setup('plugins', {
 })
 
 require 'core.autocmds'
-require 'core.keymap'.setup()
+require('core.keymap').setup()
