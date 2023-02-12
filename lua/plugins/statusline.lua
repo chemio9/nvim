@@ -6,5 +6,6 @@ return {
       require 'module.statusline'
     end,
     lazy = false,
+    enabled = false,
   },
 }
