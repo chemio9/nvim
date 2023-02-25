@@ -19,6 +19,10 @@ return {
             title_bg = 'NONE',
           },
         },
+        symbol_in_winbar = {
+          enable = false,
+          color_mode = true,
+        },
       }
     end,
   },
