@@ -1,6 +1,6 @@
 local conditions = require 'heirline.conditions'
 local utils = require 'heirline.utils'
-local statusline = require 'plugins.heirline.statusline'
+local c = require('plugins.heirline.components')
 local WinBars = {
   fallthrough = false,
   { -- Hide the winbar for special buffers
@@ -18,10 +18,10 @@ local WinBars = {
     condition = function()
       return conditions.buffer_matches { buftype = { 'terminal' } }
     end,
-    utils.surround({ '', '' }, 'dark_red', {
-      statusline.components.FileType,
-      statusline.components.Space,
-      statusline.components.TerminalName,
+    utils.surround({ '', '' }, 'bg_dark', {
+      c.FileType,
+      c.Space,
+      c.TerminalName,
     }),
   },
   { -- An inactive winbar for regular files
@@ -29,10 +29,10 @@ local WinBars = {
       return not conditions.is_active()
     end,
     utils.surround({ '', '' }, 'bg_highlight',
-                   { hl = { fg = 'gray', force = true }, statusline.components.FileNameBlock }),
+                   { hl = { fg = 'gray', force = true }, c.FileNameBlock }),
   },
   -- A winbar for regular files
-  utils.surround({ '', '' }, 'bg_highlight', statusline.components.FileNameBlock),
+  utils.surround({ '', '' }, 'bg_highlight', c.FileNameBlock),
 }
 
 return WinBars

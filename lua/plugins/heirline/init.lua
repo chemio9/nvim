@@ -8,7 +8,7 @@ return {
     local colors = require 'tokyonight.colors'.setup()
     heirline.load_colors(colors)
     heirline.setup {
-      statusline = require 'plugins.heirline.statusline'.statusline,
+      statusline = require 'plugins.heirline.statusline',
       tabline = require 'plugins.heirline.tabline',
       winbar = require 'plugins.heirline.winbar',
     }
