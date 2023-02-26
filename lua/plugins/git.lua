@@ -11,8 +11,8 @@ return {
 
   {
     'lewis6991/gitsigns.nvim',
-    -- event = 'VeryLazy',
-    cmd = { 'Gitsigns' },
+    event = { 'CursorHold', 'CursorHoldI' },
+    cmd = 'Gitsigns',
     config = function()
       require 'gitsigns'.setup {
         trouble = true,
