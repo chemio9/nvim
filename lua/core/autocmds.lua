@@ -1,4 +1,3 @@
-local loadPlugin = require('core.utils').loadPlugin
 vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('yank_highlight', {}),
   pattern = '*',
@@ -13,7 +12,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
   callback = function()
     local stats = vim.loop.fs_stat(vim.api.nvim_buf_get_name(0))
     if stats and stats.type == 'directory' then
-      loadPlugin 'nvim-tree.lua'
+      vim.cmd.NvimTreeOpen(vim.api.nvim_buf_get_name(0))
     end
   end,
 })

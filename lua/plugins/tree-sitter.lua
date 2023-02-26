@@ -23,17 +23,9 @@ return {
     config = function()
       require 'module.tree-sitter'
     end,
-    dependencies = {
-      { 'haringsrob/nvim_context_vt', cmd = { 'NvimContextVtToggle' } },
-      { 'p00f/nvim-ts-rainbow', enabled = false },
-      'JoosepAlviste/nvim-ts-context-commentstring',
-    },
   },
 
-  {
-    'nvim-treesitter/nvim-treesitter-context',
-    event = 'VeryLazy',
-    config = true,
-  },
+  'JoosepAlviste/nvim-ts-context-commentstring',
+
   -- }}}
 }

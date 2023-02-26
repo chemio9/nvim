@@ -19,12 +19,6 @@ require 'nvim-treesitter.configs'.setup {
     end,
     additional_vim_regex_highlighting = false,
   },
-  -- rainbow = {
-  --   enable = true,
-  --   disable = { 'html' },
-  --   extended_mode = false,
-  --   max_file_lines = nil,
-  -- },
   context_commentstring = {
     enable = true,
     enable_autocmd = false,
