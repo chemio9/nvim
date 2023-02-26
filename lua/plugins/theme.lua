@@ -3,7 +3,7 @@ return {
     'folke/tokyonight.nvim',
     priority = 100, -- load theme first
     config = function()
-      local util = require('tokyonight.util')
+      local util = require 'tokyonight.util'
       require 'tokyonight'.setup {
         style = 'night', -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
         light_style = 'day', -- The theme is used when the background is set to light
@@ -28,8 +28,6 @@ return {
           highlights.TablineSel = { bg = util.darken(colors.fg_gutter, 0.3) }
         end,
       }
-      vim.cmd.colorscheme 'tokyonight'
     end,
-    lazy = false,
   },
 }

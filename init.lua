@@ -44,4 +44,5 @@ require 'lazy'.setup('plugins', {
 })
 
 require 'core.autocmds'
-require('core.keymap').setup()
+require 'core.keymap'.setup()
+vim.cmd.colorscheme 'tokyonight'
