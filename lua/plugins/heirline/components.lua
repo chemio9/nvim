@@ -123,6 +123,10 @@ M.FileIcon = {
   end,
 }
 M.FileName = {
+  condition = function()
+    local buftype = vim.api.nvim_buf_get_option(0, 'buftype')
+    return not (buftype == 'terminal' or buftype == 'nofile')
+  end,
   init = function(self)
     self.lfilename = vim.fn.fnamemodify(self.filename, ':.')
     if self.lfilename == '' then self.lfilename = '[No Name]' end
@@ -184,6 +188,10 @@ M.FileNameBlock = utils.insert(
 )
 
 M.FileSize = {
+  condition = function()
+    local buftype = vim.api.nvim_buf_get_option(0, 'buftype')
+    return not (buftype == 'terminal' or buftype == 'nofile')
+  end,
   provider = function()
     -- stackoverflow, compute human readable file size
     local suffix = { 'b', 'k', 'M', 'G', 'T', 'P', 'E' }
