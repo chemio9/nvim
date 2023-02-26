@@ -1,7 +1,7 @@
 local lspconfig = require 'lspconfig'
 local M = {}
 
-function M.setup(settings)
+function M.setup(c)
   -- TODO: cannot complete plugins
   require 'neodev'.setup {
     settings = {
@@ -31,8 +31,7 @@ function M.setup(settings)
     },
   }
   lspconfig.lua_ls.setup {
-    capabilities = settings.capabilities,
-    on_attach = settings.on_attach,
+    on_attach = c,
   }
 end
 

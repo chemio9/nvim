@@ -1,10 +1,10 @@
 local lspconfig = require 'lspconfig'
 local M = {}
 
-function M.setup(settings)
+function M.setup(c)
   lspconfig.clangd.setup {
-    root_dir = lspconfig.util.root_pattern('CMakeLists.txt',
-                                           '.clangd'),
+    root_dir = lspconfig.util.root_pattern 'CMakeLists.txt',
+
     cmd = {
       'clangd',
       '--compile-commands-dir=build/',
@@ -18,8 +18,8 @@ function M.setup(settings)
       '--j=4', -- 后台线程数，可根据机器配置自行调整
       '--background-index',
     },
-    capabilities = settings.capabilities,
-    on_attach = settings.on_attach,
+
+    on_attach = c,
   }
 end
 

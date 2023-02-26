@@ -1,14 +1,14 @@
 local utils = require 'core.utils'
-local nvim_capabilities = vim.lsp.protocol.make_client_capabilities()
-nvim_capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
-nvim_capabilities.textDocument.completion.completionItem.snippetSupport = true
-nvim_capabilities.textDocument.completion.completionItem.preselectSupport = true
-nvim_capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-nvim_capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-nvim_capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-nvim_capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-nvim_capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-nvim_capabilities.textDocument.completion.completionItem.resolveSupport = {
+local cap = vim.lsp.protocol.make_client_capabilities()
+cap.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
+cap.textDocument.completion.completionItem.snippetSupport = true
+cap.textDocument.completion.completionItem.preselectSupport = true
+cap.textDocument.completion.completionItem.insertReplaceSupport = true
+cap.textDocument.completion.completionItem.labelDetailsSupport = true
+cap.textDocument.completion.completionItem.deprecatedSupport = true
+cap.textDocument.completion.completionItem.commitCharactersSupport = true
+cap.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
+cap.textDocument.completion.completionItem.resolveSupport = {
   properties = { 'documentation', 'detail', 'additionalTextEdits' },
 }
 
@@ -50,6 +50,21 @@ local setup_diagnostics = function()
 end
 
 local on_attach = function(client, bufnr)
+  local function add_buffer_autocmd(augroup, bufnr, autocmds)
+    if not vim.tbl_islist(autocmds) then autocmds = { autocmds } end
+    local cmds_found, cmds = pcall(vim.api.nvim_get_autocmds, { group = augroup, buffer = bufnr })
+    if not cmds_found or vim.tbl_isempty(cmds) then
+      vim.api.nvim_create_augroup(augroup, { clear = false })
+      for _, autocmd in ipairs(autocmds) do
+        local events = autocmd.events
+        autocmd.events = nil
+        autocmd.group = augroup
+        autocmd.buffer = bufnr
+        vim.api.nvim_create_autocmd(events, autocmd)
+      end
+    end
+  end
+
   local capabilities = client.server_capabilities
   local lmap = { i = {}, n = {}, v = {}, t = {}, [''] = {} }
   -- Diagnsotics
@@ -77,17 +92,17 @@ local on_attach = function(client, bufnr)
     lmap.v['<leader>ca'] = lmap.n['<leader>ca']
   end
 
-  -- if capabilities.codeLensProvider then
-  --   add_buffer_autocmd('lsp_codelens_refresh', bufnr, {
-  --     events = { 'InsertLeave', 'BufEnter' },
-  --     callback = function()
-  --       if vim.g.codelens_enabled then vim.lsp.codelens.refresh() end
-  --     end,
-  --   })
-  --   vim.lsp.codelens.refresh()
-  --   lmap.n['<leader>ll'] = { function() vim.lsp.codelens.refresh() end, desc = 'LSP CodeLens refresh' }
-  --   lmap.n['<leader>lL'] = { function() vim.lsp.codelens.run() end, desc = 'LSP CodeLens run' }
-  -- end
+  if capabilities.codeLensProvider then
+    add_buffer_autocmd('lsp_codelens_refresh', bufnr, {
+      events = { 'InsertLeave', 'BufEnter' },
+      callback = function()
+        if vim.g.codelens_enabled then vim.lsp.codelens.refresh() end
+      end,
+    })
+    vim.lsp.codelens.refresh()
+    lmap.n['<leader>ll'] = { function() vim.lsp.codelens.refresh() end, desc = 'LSP CodeLens refresh' }
+    lmap.n['<leader>lL'] = { function() vim.lsp.codelens.run() end, desc = 'LSP CodeLens run' }
+  end
 
   if capabilities.declarationProvider then
     lmap.n['gD'] = { function() vim.lsp.buf.declaration() end, desc = 'Declaration of current symbol' }
@@ -108,12 +123,12 @@ local on_attach = function(client, bufnr)
     lmap.v['<leader>cf'] = lmap.n['<leader>cf']
   end
 
-  -- if capabilities.documentHighlightProvider then
-  --   add_buffer_autocmd('lsp_document_highlight', bufnr, {
-  --     { events = { 'CursorHold', 'CursorHoldI' }, callback = function() vim.lsp.buf.document_highlight() end },
-  --     { events = 'CursorMoved', callback = function() vim.lsp.buf.clear_references() end },
-  --   })
-  -- end
+  if capabilities.documentHighlightProvider then
+    add_buffer_autocmd('lsp_document_highlight', bufnr, {
+      { events = { 'CursorHold', 'CursorHoldI' }, callback = function() vim.lsp.buf.document_highlight() end },
+      { events = 'CursorMoved', callback = function() vim.lsp.buf.clear_references() end },
+    })
+  end
 
   if capabilities.hoverProvider then
     lmap.n['K'] = { function() vim.lsp.buf.hover() end, desc = 'Hover symbol details' }
@@ -154,6 +169,6 @@ end
 
 return {
   on_attach = on_attach,
-  capabilities = nvim_capabilities,
+  capabilities = cap,
   setup_diagnostics = setup_diagnostics,
 }
