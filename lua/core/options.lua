@@ -76,6 +76,7 @@ o.shortmess:append { s = true, I = true }
 o.backspace:append { 'nostop' }
 if vim.fn.has 'nvim-0.9' then
   o.diffopt:append 'linematch:60'
+  o.splitkeep = 'screen'
 end
 
 o.fillchars = { eob = ' ' } -- Disable `~` on nonexistent lines

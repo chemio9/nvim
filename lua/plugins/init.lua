@@ -150,5 +150,6 @@ return {
     end,
   },
 
+  { 'LunarVim/bigfile.nvim', lazy = false },
 }
 -- vim: fdm=marker
