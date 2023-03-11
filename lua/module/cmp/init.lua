@@ -96,7 +96,6 @@ config.view = {
 config.preselect = cmp.PreselectMode.None
 
 cmp.setup(config)
-
 -- Set configuration for specific filetype.
 
 cmp.setup.filetype('gitcommit', {
@@ -104,23 +103,5 @@ cmp.setup.filetype('gitcommit', {
     { name = 'cmp_git' }, -- TODO: You can specify the `cmp_git` source if you were installed it.
   }, {
     { name = 'buffer' },
-  }),
-})
-
--- Use buffer source for `/` and `?`
-cmp.setup.cmdline({ '/', '?' }, {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = 'buffer' },
-  },
-})
-
--- Use cmdline & path source for ':'
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = 'path' },
-  }, {
-    { name = 'cmdline' },
   }),
 })
