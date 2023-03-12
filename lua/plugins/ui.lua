@@ -138,6 +138,9 @@ return {
       wilder.set_option('renderer', wilder.renderer_mux {
         [':'] = wilder.popupmenu_renderer {
           highlighter = wilder.lua_fzy_highlighter(),
+          highlights = {
+            accent = wilder.make_hl('WilderAccent', 'CmpItemAbbrMatch'),
+          },
           left = {
             ' ',
             wilder.popupmenu_devicons(),

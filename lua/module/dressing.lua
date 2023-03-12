@@ -4,7 +4,7 @@ require 'dressing'.setup {
     win_options = { winhighlight = 'normal:normal,normalnc:normal' },
   },
   select = {
-    backend = { 'fzf', 'builtin' },
+    backend = { 'fzf_lua', 'builtin' },
     builtin = { win_options = { winhighlight = 'normal:normal,normalnc:normal' } },
   },
 }
