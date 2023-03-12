@@ -113,7 +113,7 @@ return {
 
   {
     'romainl/vim-cool',
-    event = 'VeryLazy',
+    enabled = false,
   },
 
   {
