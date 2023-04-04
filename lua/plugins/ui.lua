@@ -118,7 +118,7 @@ return {
 
   {
     'gelguy/wilder.nvim',
-    event = 'UIEnter',
+    -- TODO: load it at a proper time TOO SLOW! Damn
     config = function()
       local wilder = require 'wilder'
       wilder.setup { modes = { ':', '/', '?' } }
@@ -127,16 +127,18 @@ return {
 
       wilder.set_option('pipeline', {
         wilder.branch(
-        wilder.cmdline_pipeline {
-          fuzzy = 1,
-          fuzzy_filter = wilder.lua_fzy_filter(),
-        },
-            wilder.vim_search_pipeline()
+          wilder.cmdline_pipeline {
+            use_python = 0,
+            fuzzy = 1,
+            fuzzy_filter = wilder.lua_fzy_filter(),
+          },
+          wilder.vim_search_pipeline()
         ),
       })
 
       wilder.set_option('renderer', wilder.renderer_mux {
         [':'] = wilder.popupmenu_renderer {
+          empty_message = wilder.popupmenu_empty_message_with_spinner(),
           highlighter = wilder.lua_fzy_highlighter(),
           highlights = {
             accent = wilder.make_hl('WilderAccent', 'CmpItemAbbrMatch'),
@@ -152,6 +154,10 @@ return {
         },
         ['/'] = wilder.wildmenu_renderer {
           highlighter = wilder.lua_fzy_highlighter(),
+          apply_incsearch_fix = true,
+          separator = " | ",
+          left = { " ", wilder.wildmenu_spinner(), " " },
+          right = { " ", wilder.wildmenu_index() },
         },
       })
     end,
