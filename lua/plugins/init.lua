@@ -1,8 +1,6 @@
-local loadPlugin = require 'core.utils'.loadPlugin
 return {
   {
     'akinsho/toggleterm.nvim',
-    -- tag = '*',
     cmd = {
       'ToggleTerm',
       'ToggleTermToggleAll',
