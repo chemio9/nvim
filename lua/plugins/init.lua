@@ -63,25 +63,6 @@ return {
 
   {
     'goolord/alpha-nvim',
-    init = function()
-      local should_load = true
-      ---@diagnostic disable-next-line: param-type-mismatch
-      if vim.fn.argc() > 0 or vim.fn.line2byte '$' ~= -1 or not vim.o.modifiable then
-        should_load = false
-      else
-        for _, arg in pairs(vim.v.argv) do
-          if arg == '-b' or arg == '-c' or vim.startswith(arg, '+') or
-              arg == '-S' then
-            should_load = false
-            break
-          end
-        end
-      end
-      if should_load then
-        loadPlugin 'alpha-nvim'
-      end
-    end,
-    dev = true, -- use local version of alpha
     cmd = 'Alpha',
     config = function()
       require 'module.alpha'
@@ -148,6 +129,5 @@ return {
     end,
   },
 
-  { 'LunarVim/bigfile.nvim', lazy = false },
 }
 -- vim: fdm=marker

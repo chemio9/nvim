@@ -1,118 +1,54 @@
+local dashboard = require "alpha.themes.dashboard"
 local if_nil = vim.F.if_nil
 
-local default_terminal = {
-  type = 'terminal',
-  command = nil,
-  width = 69,
-  height = 8,
-  opts = {
-    redraw = true,
-    window_config = {},
-  },
-}
+vim.api.nvim_create_autocmd("UIEnter", {
+  callback = function()
+    local stats = require("lazy").stats()
+    local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
+    dashboard.section.footer.val = { ' ', ' ', ' ', 'Loaded ' .. stats.count .. ' plugins  in ' .. ms .. 'ms' }
+    dashboard.section.footer.opts.hl = "DashboardFooter"
+  end,
+})
 
-local default_header = {
-  type = 'text',
-  val = {
-    [[                               __                ]],
-    [[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
-    [[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
-    [[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
-    [[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
-    [[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
-  },
-  opts = {
-    position = 'center',
-    hl = 'Type',
-    -- wrap = "overflow";
-  },
-}
-
-local footer = {
-  type = 'text',
-  val = { ' ', ' ', ' ', 'Installed ' .. require 'lazy'.stats().count .. ' plugins ' },
-  opts = {
-    position = 'center',
-    hl = 'Number',
-  },
-}
-
-local leader = 'SPC'
-
---- @param sc string
---- @param txt string
---- @param keybind string? optional
---- @param keybind_opts table? optional
+local leader = "SPC"
 local function button(sc, txt, keybind, keybind_opts)
-  local sc_ = sc:gsub('%s', ''):gsub(leader, '<leader>')
+  local sc_ = sc:gsub("%s", ""):gsub(leader, "<leader>")
 
   local opts = {
-    position = 'center',
+    position = "center",
+    text = txt,
     shortcut = sc,
     cursor = 5,
-    width = 50,
-    align_shortcut = 'right',
-    hl_shortcut = 'Keyword',
+    width = 36,
+    align_shortcut = "right",
+    hl = "DashboardCenter",
+    hl_shortcut = "DashboardShortcut",
   }
   if keybind then
     keybind_opts = if_nil(keybind_opts, { noremap = true, silent = true, nowait = true })
-    opts.keymap = { 'n', sc_, keybind, keybind_opts }
+    opts.keymap = { "n", sc_, keybind, keybind_opts }
   end
 
   local function on_press()
-    local key = vim.api.nvim_replace_termcodes(sc_ .. '<Ignore>', true, false, true)
-    vim.api.nvim_feedkeys(key, 't', false)
+    local key = vim.api.nvim_replace_termcodes(sc_ .. "<Ignore>", true, false, true)
+    vim.api.nvim_feedkeys(key, "t", false)
   end
 
   return {
-    type = 'button',
+    type = "button",
     val = txt,
     on_press = on_press,
     opts = opts,
   }
 end
 
-local buttons = {
-  type = 'group',
-  val = {
-    button('e', '  New file', '<cmd>ene <CR>'),
-    button('SPC f f', '  Find file', '<cmd>FzfLua files<CR>'),
-    button('SPC f g', '  Find word', '<cmd>FzfLua live_grep<CR>'),
-  },
-  opts = {
-    spacing = 1,
-  },
+dashboard.section.buttons.val = {
+  button('e', '  New file', '<cmd>ene <CR>'),
+  button('SPC f f', '  Find file', '<cmd>FzfLua files<CR>'),
+  button('SPC f g', '  Find word', '<cmd>FzfLua live_grep<CR>'),
 }
 
-local section = {
-  terminal = default_terminal,
-  header = default_header,
-  buttons = buttons,
-  footer = footer,
-}
-
-local config = {
-  layout = {
-    { type = 'padding', val = 2 },
-    section.header,
-    { type = 'padding', val = 2 },
-    section.buttons,
-    { type = 'padding', val = 5 },
-    section.footer,
-  },
-  opts = {
-    margin = 5,
-  },
-}
-
-
-local alpha = {
-  button = button,
-  section = section,
-  config = config,
-  -- theme config
-  leader = leader,
-  -- deprecated
-  opts = config,
-}
-require 'alpha'.setup(alpha.config)
+dashboard.config.layout[1].val = vim.fn.max { 2, vim.fn.floor(vim.fn.winheight(0) * 0.2) }
+dashboard.config.layout[3].val = 5
+dashboard.config.opts.noautocmd = true
+require 'alpha'.setup(dashboard.config)

@@ -1,6 +1,6 @@
 return {
   'rebelot/heirline.nvim',
-  event = 'UIEnter',
+  event = 'BufEnter',
   config = function()
     vim.opt.laststatus = 3
     vim.opt.showmode = false
