@@ -1,22 +1,7 @@
 local plugin = {
   {
     'neovim/nvim-lspconfig',
-    ft = {
-      'lua',
-      'cpp',
-      'c',
-      'objc',
-      'json',
-      'jsonc',
-      'html',
-      'css',
-      'javascript',
-      'javascriptreact',
-      'javascript.jsx',
-      'typescript',
-      'typescriptreact',
-      'typescript.tsx',
-    },
+    event = 'User File',
     config = function()
       require 'module.lsp'.setup_diagnostics()
       local on_attach = function(client, bufnr)
@@ -28,6 +13,7 @@ local plugin = {
         }, bufnr)
         require 'module.lsp'.on_attach(client, bufnr)
       end
+
       require 'lspconfig'.util.default_config.capabilities = require 'module.lsp'.capabilities
       for _, config in ipairs { 'clangd', 'lua_ls' } do
         require('module.lsp.' .. config).setup(on_attach)
@@ -45,6 +31,9 @@ local plugin = {
           on_attach = on_attach,
         }
       end
+
+      vim.api.nvim_exec_autocmds("FileType", { group = 'lspconfig' })
+      require("core.utils").event("LspSetup")
     end,
   },
 
@@ -78,7 +67,7 @@ local plugin = {
   },
   {
     'j-hui/fidget.nvim',
-    event = 'LspAttach',
+    event = 'User LspSetup',
     config = function()
       require 'fidget'.setup {
         window = {

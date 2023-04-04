@@ -4,25 +4,26 @@ return {
     cmd = 'Neogit',
     config = function()
       local neogit = require 'neogit'
-
       neogit.setup {}
     end,
   },
 
   {
     'lewis6991/gitsigns.nvim',
-    event = { 'CursorHold', 'CursorHoldI' },
+    enabled = vim.fn.executable "git" == 1,
+    ft = "gitcommit",
+    event = "User GitFile",
     cmd = 'Gitsigns',
     config = function()
       require 'gitsigns'.setup {
         trouble = true,
         signs = {
-          add = { text = '│' },
-          change = { text = '│' },
-          delete = { text = '_' },
-          topdelete = { text = '‾' },
-          changedelete = { text = '~' },
-          untracked = { text = '┆' },
+          add = { text = "▎" },
+          change = { text = "▎" },
+          delete = { text = "▎" },
+          topdelete = { text = "契" },
+          changedelete = { text = "▎" },
+          untracked = { text = "▎" },
         },
         signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
         numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
@@ -33,7 +34,7 @@ return {
           follow_files = true,
         },
         attach_to_untracked = true,
-        current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+        current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
         current_line_blame_opts = {
           virt_text = true,
           virt_text_pos = 'right_align', -- 'eol' | 'overlay' | 'right_align'

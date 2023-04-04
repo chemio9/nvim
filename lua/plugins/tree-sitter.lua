@@ -1,7 +1,10 @@
 return {
-  --tree-sitter related {{{
   {
     'nvim-treesitter/nvim-treesitter',
+    dependencies = {
+      'JoosepAlviste/nvim-ts-context-commentstring',
+    },
+    event = "User File",
     cmd = {
       'TSBufDisable',
       'TSBufEnable',
@@ -17,15 +20,10 @@ return {
       'TSUpdate',
       'TSUpdateSync',
     },
-    build = function()
-      require 'nvim-treesitter.install'.update { with_sync = true } ()
-    end,
+    build = ":TSUpdate",
     config = function()
       require 'module.tree-sitter'
     end,
   },
 
-  'JoosepAlviste/nvim-ts-context-commentstring',
-
-  -- }}}
 }

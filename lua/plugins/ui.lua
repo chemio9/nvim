@@ -1,7 +1,9 @@
 return {
   {
     'rcarriga/nvim-notify',
-    event = 'VeryLazy',
+    init = function()
+      require("core.utils").load_plugin_with_func("nvim-notify", vim, "notify")
+    end,
     config = function()
       require 'module.notify'
     end,
@@ -9,7 +11,9 @@ return {
 
   {
     'stevearc/dressing.nvim',
-    event = 'VeryLazy',
+    init = function()
+      require("core.utils").load_plugin_with_func("dressing.nvim", vim.ui, { "input", "select" })
+    end,
     config = function()
       require 'module.dressing'
     end,
@@ -17,13 +21,7 @@ return {
 
   {
     'NvChad/nvim-colorizer.lua',
-    cmd = {
-      'ColorizerToggle',
-      'ColorizerAttachToBuffer',
-      'ColorizerDetachFromBuffer',
-      'ColorizerReloadAllBuffers',
-    },
-    event = 'VeryLazy',
+    event = 'User File',
     config = function()
       require 'colorizer'.setup { user_default_options = { names = false } }
     end,
@@ -31,7 +29,7 @@ return {
 
   {
     'lukas-reineke/indent-blankline.nvim',
-    event = 'VeryLazy',
+    event = 'User File',
     config = function()
       require 'indent_blankline'.setup {
         buftype_exclude = {
@@ -83,7 +81,7 @@ return {
 
   {
     'quocnho/nvim-pqf',
-    event = 'UIEnter',
+    event = 'VeryLazy',
     config = function()
       local icons = require 'core.icons'
       require 'pqf'.setup {
