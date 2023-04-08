@@ -2,7 +2,7 @@ return {
   {
     'rcarriga/nvim-notify',
     init = function()
-      require("core.utils").load_plugin_with_func("nvim-notify", vim, "notify")
+      require 'core.utils'.load_plugin_with_func('nvim-notify', vim, 'notify')
     end,
     config = function()
       require 'module.notify'
@@ -12,7 +12,7 @@ return {
   {
     'stevearc/dressing.nvim',
     init = function()
-      require("core.utils").load_plugin_with_func("dressing.nvim", vim.ui, { "input", "select" })
+      require 'core.utils'.load_plugin_with_func('dressing.nvim', vim.ui, { 'input', 'select' })
     end,
     config = function()
       require 'module.dressing'
@@ -111,7 +111,7 @@ return {
 
   {
     'romainl/vim-cool',
-    event = "VeryLazy",
+    keys = '/',
   },
 
   {
@@ -153,9 +153,9 @@ return {
         ['/'] = wilder.wildmenu_renderer {
           highlighter = wilder.lua_fzy_highlighter(),
           apply_incsearch_fix = true,
-          separator = " | ",
-          left = { " ", wilder.wildmenu_spinner(), " " },
-          right = { " ", wilder.wildmenu_index() },
+          separator = ' | ',
+          left = { ' ', wilder.wildmenu_spinner(), ' ' },
+          right = { ' ', wilder.wildmenu_index() },
         },
       })
     end,
