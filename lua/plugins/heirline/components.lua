@@ -1,7 +1,8 @@
 local conditions = require 'heirline.conditions'
 local utils = require 'heirline.utils'
+local icons = require 'core.icons'
 local M = {}
-M.Align = { provider = '%=', hl = { bg = 'bg' } }
+M.Align = { provider = '%=' }
 M.Space = { provider = ' ' }
 
 M.ViMode = {
@@ -10,22 +11,13 @@ M.ViMode = {
   -- evaluation and store it as a component attribute
   init = function(self)
     self.mode = vim.fn.mode(1) -- :h mode()
-
-    -- execute this only once, this is required if you want the ViMode
-    -- component to be updated on operator pending mode
-    if not self.once then
-      vim.api.nvim_create_autocmd('ModeChanged', {
-        pattern = '*:*o',
-        command = 'redrawstatus',
-      })
-      self.once = true
-    end
   end,
   -- Now we define some dictionaries to map the output of mode() to the
   -- corresponding string and color. We can put these into `static` to compute
   -- them at initialisation time.
   static = {
-    mode_names = { -- change the strings if you like it vvvvverbose!
+    mode_names = {
+      -- change the strings if you like it vvvvverbose!
       n = 'N',
       no = 'N?',
       nov = 'N?',
@@ -85,7 +77,7 @@ M.ViMode = {
   -- control the padding and make sure our string is always at least 2
   -- characters long. Plus a nice Icon.
   provider = function(self)
-    return '  %2(' .. self.mode_names[self.mode] .. '%)'
+    return icons.Evil .. ' %2(' .. self.mode_names[self.mode] .. '%)'
   end,
   -- Same goes for the highlight. Now the foreground will change according to the current mode.
   hl = function(self)
@@ -93,10 +85,13 @@ M.ViMode = {
     return { fg = self.mode_colors[mode], bold = true }
   end,
   -- Re-evaluate the component only on ModeChanged event!
-  -- This is not required in any way, but it's there, and it's a small
-  -- performance improvement.
+  -- Also allows the statusline to be re-evaluated when entering operator-pending mode
   update = {
     'ModeChanged',
+    pattern = '*:*',
+    callback = vim.schedule_wrap(function()
+      vim.cmd 'redrawstatus'
+    end),
   },
 }
 
@@ -122,6 +117,7 @@ M.FileIcon = {
     return { fg = self.icon_color }
   end,
 }
+
 M.FileName = {
   condition = function()
     local buftype = vim.api.nvim_buf_get_option(0, 'buftype')
@@ -159,7 +155,7 @@ M.FileFlags = {
     condition = function()
       return not vim.bo.modifiable or vim.bo.readonly
     end,
-    provider = '  ',
+    provider = '',
     hl = { fg = 'orange' },
   },
 }
@@ -180,12 +176,33 @@ M.FileNameModifer = {
 
 -- let's add the children to our FileNameBlock component
 M.FileNameBlock = utils.insert(
-        M.FileNameBlock,
-        M.FileIcon,
-        utils.insert(M.FileNameModifer, M.FileName),
-        -- a new table where FileName is a child of FileNameModifier
-        { provider = '%<' }-- this means that the statusline is cut here when there's not enough space
+  M.FileNameBlock,
+  M.FileIcon,
+  utils.insert(M.FileNameModifer, M.FileName), -- a new table where FileName is a child of FileNameModifier
+  M.FileFlags,
+  { provider = '%<' }                          -- this means that the statusline is cut here when there's not enough space
 )
+
+M.FileType = {
+  provider = function()
+    return string.upper(vim.bo.filetype)
+  end,
+  hl = { fg = utils.get_highlight 'Type'.fg, bold = true },
+}
+
+M.FileEncoding = {
+  provider = function()
+    local enc = (vim.bo.fenc ~= '' and vim.bo.fenc) or vim.o.enc -- :h 'enc'
+    return enc ~= 'utf-8' and enc:upper()
+  end,
+}
+
+M.FileFormat = {
+  provider = function()
+    local fmt = vim.bo.fileformat
+    return fmt ~= 'unix' and fmt:upper()
+  end,
+}
 
 M.FileSize = {
   condition = function()
@@ -203,15 +220,6 @@ M.FileSize = {
     local i = math.floor((math.log(fsize) / math.log(1024)))
     return string.format('%.2g%s', fsize / math.pow(1024, i), suffix[i + 1])
   end,
-
-  hl = { bg = 'bg' },
-}
-
-M.FileType = {
-  provider = function()
-    return string.upper(vim.bo.filetype)
-  end,
-  hl = { fg = utils.get_highlight 'Type'.fg, bold = true },
 }
 
 M.Ruler = {
@@ -225,6 +233,8 @@ M.Ruler = {
 M.ScrollBar = {
   static = {
     sbar = { '🭶', '🭷', '🭸', '🭹', '🭺', '🭻' },
+    -- Another variant, because the more choice the better.
+    -- sbar = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
   },
   provider = function(self)
     local curr_line = vim.api.nvim_win_get_cursor(0)[1]
@@ -235,8 +245,42 @@ M.ScrollBar = {
   hl = { fg = 'blue' },
 }
 
-M.Diagnostics = {
+M.LSPActive = {
+  condition = conditions.lsp_attached,
+  update = { 'LspAttach', 'LspDetach' },
 
+  on_click = {
+    callback = function()
+      vim.defer_fn(function()
+        vim.cmd 'LspInfo'
+      end, 100)
+    end,
+    name = 'heirline_LSP',
+  },
+
+  flexible = 1,
+
+  {
+    -- You can keep it simple,
+    provider = ' [LSP]',
+
+    hl = { fg = 'green', bold = true },
+    -- Or complicate things a bit and get the servers names
+    -- provider  = function()
+    --     local names = {}
+    --     for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+    --         table.insert(names, server.name)
+    --     end
+    --     return " [" .. table.concat(names, " ") .. "]"
+    -- end,
+  },
+
+  {
+    provider = ''
+  },
+}
+
+M.Diagnostics = {
   condition = conditions.has_diagnostics,
 
   static = {
@@ -244,6 +288,15 @@ M.Diagnostics = {
     warn_icon = require 'core.icons'.DiagnosticWarn,
     info_icon = require 'core.icons'.DiagnosticInfo,
     hint_icon = require 'core.icons'.DiagnosticHint,
+  },
+
+  on_click = {
+    callback = function()
+      require 'trouble'.toggle { mode = 'document_diagnostics' }
+      -- or
+      -- vim.diagnostic.setqflist()
+    end,
+    name = 'heirline_diagnostics',
   },
 
   init = function(self)
@@ -255,39 +308,103 @@ M.Diagnostics = {
 
   update = { 'DiagnosticChanged', 'BufEnter' },
 
-  on_click = {
-    callback = function()
-      require 'trouble'.toggle { mode = 'document_diagnostics' }
-      -- or
-      -- vim.diagnostic.setqflist()
-    end,
-    name = 'heirline_diagnostics',
+  flexible = 1,
+
+  {
+
+    {
+      provider = function(self)
+        -- 0 is just another output, we can decide to print it or not!
+        return self.errors > 0 and (self.error_icon .. self.errors .. ' ')
+      end,
+      hl = 'DiagnosticError',
+    },
+    {
+      provider = function(self)
+        return self.warnings > 0 and (self.warn_icon .. self.warnings .. ' ')
+      end,
+      hl = 'DiagnosticWarn',
+    },
+    {
+      provider = function(self)
+        return self.info > 0 and (self.info_icon .. self.info .. ' ')
+      end,
+      hl = 'DiagnosticInfo',
+    },
+    {
+      provider = function(self)
+        return self.hints > 0 and (self.hint_icon .. self.hints)
+      end,
+      hl = 'DiagnosticHint',
+    },
   },
 
   {
-    provider = function(self)
-      -- 0 is just another output, we can decide to print it or not!
-      return self.errors > 0 and (self.error_icon .. ' ' .. self.errors .. ' ')
-    end,
-    hl = 'DiagnosticError',
+    provider = '',
   },
+}
+
+M.Git = {
+  condition = conditions.is_git_repo,
+
+  init = function(self)
+    self.status_dict = vim.b.gitsigns_status_dict
+    self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
+  end,
+
+  hl = { fg = 'orange' },
+
+  flexible = 1,
+
   {
-    provider = function(self)
-      return self.warnings > 0 and (self.warn_icon .. ' ' .. self.warnings .. ' ')
-    end,
-    hl = 'DiagnosticWarn',
+
+    {
+      -- git branch name
+      provider = function(self)
+        return ' ' .. self.status_dict.head
+      end,
+      hl = { bold = true },
+    },
+    -- You could handle delimiters, icons and counts similar to Diagnostics
+    {
+      condition = function(self)
+        return self.has_changes
+      end,
+      provider = '('
+    },
+    {
+      provider = function(self)
+        local count = self.status_dict.added or 0
+        return count > 0 and ('+' .. count)
+      end,
+      hl = { fg = 'git_add' },
+    },
+    {
+      provider = function(self)
+        local count = self.status_dict.removed or 0
+        return count > 0 and ('-' .. count)
+      end,
+      hl = { fg = 'git_del' },
+    },
+    {
+      provider = function(self)
+        local count = self.status_dict.changed or 0
+        return count > 0 and ('~' .. count)
+      end,
+      hl = { fg = 'git_change' },
+    },
+    {
+      condition = function(self)
+        return self.has_changes
+      end,
+      provider = ')',
+    },
   },
+
   {
-    provider = function(self)
-      return self.info > 0 and (self.info_icon .. ' ' .. self.info .. ' ')
-    end,
-    hl = 'DiagnosticInfo',
-  },
-  {
-    provider = function(self)
-      return self.hints > 0 and (self.hint_icon .. ' ' .. self.hints)
-    end,
-    hl = 'DiagnosticHint',
+    -- only display an icon when there is not enough space
+    provider = ' ',
+    hl = { bold = true },
   },
 }
 
@@ -299,7 +416,7 @@ M.WorkDir = {
   end,
   hl = { fg = 'blue', bold = true },
 
-  flexible = 1,
+  flexible = 2,
 
   {
     -- evaluates to the full-lenth path
@@ -321,6 +438,47 @@ M.WorkDir = {
     provider = '',
   },
 }
+
+M.SearchCount = {
+  condition = function()
+    return vim.v.hlsearch ~= 0 and vim.o.cmdheight == 0
+  end,
+  init = function(self)
+    local ok, search = pcall(vim.fn.searchcount)
+    if ok and search.total then
+      self.search = search
+    end
+  end,
+  provider = function(self)
+    local search = self.search
+    return string.format('[%d/%d]', search.current, math.min(search.total, search.maxcount))
+  end,
+}
+
+M.MacroRec = {
+  condition = function()
+    return vim.fn.reg_recording() ~= '' and vim.o.cmdheight == 0
+  end,
+  provider = ' ',
+  hl = { fg = 'orange', bold = true },
+  utils.surround({ '[', ']' }, nil, {
+    provider = function()
+      return vim.fn.reg_recording()
+    end,
+    hl = { fg = 'green', bold = true },
+  }),
+  update = {
+    'RecordingEnter',
+    'RecordingLeave',
+    -- redraw the statusline on recording events
+    -- Note: this is only required for Neovim < 0.9.0. Newer versions of
+    -- Neovim ensure `statusline` is redrawn on those events.
+    callback = vim.schedule_wrap(function()
+      vim.cmd 'redrawstatus'
+    end),
+  },
+}
+
 M.SearchResults = {
   condition = function(self)
     local lines = vim.api.nvim_buf_line_count(0)
@@ -353,7 +511,7 @@ M.SearchResults = {
     end,
     hl = nil, -- your highlight goes here
   },
-  M.Space, -- A separator after, if section is active, without highlight.
+  M.Space,    -- A separator after, if section is active, without highlight.
 }
 
 M.TerminalName = {
@@ -366,6 +524,16 @@ M.TerminalName = {
   hl = { fg = 'blue', bold = true },
 }
 
+M.HelpFileName = {
+  condition = function()
+    return vim.bo.filetype == 'help'
+  end,
+  provider = function()
+    local filename = vim.api.nvim_buf_get_name(0)
+    return vim.fn.fnamemodify(filename, ':t')
+  end,
+  hl = { fg = 'blue' },
+}
 
 M.TablineBufnr = {
   provider = function(self)
@@ -480,9 +648,9 @@ end, { M.TablineFileNameBlock, M.TablineCloseButton })
 
 -- and here we go
 M.BufferLine = utils.make_buflist(
-    M.TablineBufferBlock,
-    { provider = '', hl = { fg = 'gray' } }, -- left truncation, optional (defaults to "<")
-    { provider = '', hl = { fg = 'gray' } }-- right trunctation, also optional (defaults to ...... yep, ">")
+  M.TablineBufferBlock,
+  { provider = '', hl = { fg = 'gray' } }, -- left truncation, optional (defaults to "<")
+  { provider = '', hl = { fg = 'gray' } } -- right trunctation, also optional (defaults to ...... yep, ">")
 -- by the way, open a lot of buffers and try clicking them ;)
 )
 
