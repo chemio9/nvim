@@ -4,7 +4,7 @@ return {
     dependencies = {
       'JoosepAlviste/nvim-ts-context-commentstring',
     },
-    event = "User File",
+    event = 'User File',
     cmd = {
       'TSBufDisable',
       'TSBufEnable',
@@ -20,7 +20,7 @@ return {
       'TSUpdate',
       'TSUpdateSync',
     },
-    build = ":TSUpdate",
+    build = ':TSUpdate',
     config = function()
       require 'module.tree-sitter'
     end,

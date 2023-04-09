@@ -1,41 +1,41 @@
-local dashboard = require "alpha.themes.dashboard"
+local dashboard = require 'alpha.themes.dashboard'
 local if_nil = vim.F.if_nil
 
-vim.api.nvim_create_autocmd("UIEnter", {
+vim.api.nvim_create_autocmd('UIEnter', {
   callback = function()
-    local stats = require("lazy").stats()
+    local stats = require 'lazy'.stats()
     local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
     dashboard.section.footer.val = { ' ', ' ', ' ', 'Loaded ' .. stats.count .. ' plugins  in ' .. ms .. 'ms' }
-    dashboard.section.footer.opts.hl = "DashboardFooter"
+    dashboard.section.footer.opts.hl = 'DashboardFooter'
   end,
 })
 
-local leader = "SPC"
+local leader = 'SPC'
 local function button(sc, txt, keybind, keybind_opts)
-  local sc_ = sc:gsub("%s", ""):gsub(leader, "<leader>")
+  local sc_ = sc:gsub('%s', ''):gsub(leader, '<leader>')
 
   local opts = {
-    position = "center",
+    position = 'center',
     text = txt,
     shortcut = sc,
     cursor = 5,
     width = 36,
-    align_shortcut = "right",
-    hl = "DashboardCenter",
-    hl_shortcut = "DashboardShortcut",
+    align_shortcut = 'right',
+    hl = 'DashboardCenter',
+    hl_shortcut = 'DashboardShortcut',
   }
   if keybind then
     keybind_opts = if_nil(keybind_opts, { noremap = true, silent = true, nowait = true })
-    opts.keymap = { "n", sc_, keybind, keybind_opts }
+    opts.keymap = { 'n', sc_, keybind, keybind_opts }
   end
 
   local function on_press()
-    local key = vim.api.nvim_replace_termcodes(sc_ .. "<Ignore>", true, false, true)
-    vim.api.nvim_feedkeys(key, "t", false)
+    local key = vim.api.nvim_replace_termcodes(sc_ .. '<Ignore>', true, false, true)
+    vim.api.nvim_feedkeys(key, 't', false)
   end
 
   return {
-    type = "button",
+    type = 'button',
     val = txt,
     on_press = on_press,
     opts = opts,

@@ -37,7 +37,7 @@ o.maxmempattern = 2000 -- max match pattern
 -- o.autochdir = true -- auto change directory to current file
 o.autoread = true
 o.lazyredraw = true -- true will speed up in macro repeat
-o.ttyfast = true -- true maybe as lazyredraw ? TODO
+o.ttyfast = true    -- true maybe as lazyredraw ? TODO
 
 o.wrap = false
 o.mouse = 'a'
@@ -58,12 +58,12 @@ o.cursorline = true
 o.conceallevel = 2
 o.concealcursor = 'nc' -- char will always fold except in insert mode
 
-o.foldenable = false -- fold
-o.foldlevel = 99 -- disable fold for opened file
-o.foldminlines = 2 -- 0 means even the child is only one line fold always works
-o.foldmethod = 'expr' -- for most filetype fold by syntax
+o.foldenable = false   -- fold
+o.foldlevel = 99       -- disable fold for opened file
+o.foldminlines = 2     -- 0 means even the child is only one line fold always works
+o.foldmethod = 'expr'  -- for most filetype fold by syntax
 o.foldexpr = 'nvim_treesitter#foldexpr()'
-o.foldnestmax = 5 -- max fold nest
+o.foldnestmax = 5      -- max fold nest
 
 -- Clipboard
 o.clipboard.append 'unnamedplus'
@@ -74,13 +74,11 @@ o.updatetime = 300
 
 o.shortmess:append { s = true, I = true }
 o.backspace:append { 'nostop' }
-if vim.fn.has 'nvim-0.9' then
-  o.diffopt:append 'linematch:60'
-  o.splitkeep = 'screen'
-end
+o.diffopt:append 'linematch:60'
+o.splitkeep = 'screen'
 
 o.fillchars = { eob = ' ' } -- Disable `~` on nonexistent lines
-o.history = 100 -- Number of commands to remember in a history table
+o.history = 100             -- Number of commands to remember in a history table
 
 -- Leader/local leader
 g.mapleader = [[ ]]

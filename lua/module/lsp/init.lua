@@ -15,15 +15,15 @@ cap.textDocument.completion.completionItem.resolveSupport = {
 local setup_diagnostics = function()
   local icons = require 'core.icons'
   local signs = {
-    { name = 'DiagnosticSignError', text = icons.DiagnosticError, texthl = 'DiagnosticSignError' },
-    { name = 'DiagnosticSignWarn', text = icons.DiagnosticWarn, texthl = 'DiagnosticSignWarn' },
-    { name = 'DiagnosticSignHint', text = icons.DiagnosticHint, texthl = 'DiagnosticSignHint' },
-    { name = 'DiagnosticSignInfo', text = icons.DiagnosticInfo, texthl = 'DiagnosticSignInfo' },
-    { name = 'DapStopped', text = icons.DapStopped, texthl = 'DiagnosticWarn' },
-    { name = 'DapBreakpoint', text = icons.DapBreakpoint, texthl = 'DiagnosticInfo' },
-    { name = 'DapBreakpointRejected', text = icons.DapBreakpointRejected, texthl = 'DiagnosticError' },
+    { name = 'DiagnosticSignError',    text = icons.DiagnosticError,        texthl = 'DiagnosticSignError' },
+    { name = 'DiagnosticSignWarn',     text = icons.DiagnosticWarn,         texthl = 'DiagnosticSignWarn' },
+    { name = 'DiagnosticSignHint',     text = icons.DiagnosticHint,         texthl = 'DiagnosticSignHint' },
+    { name = 'DiagnosticSignInfo',     text = icons.DiagnosticInfo,         texthl = 'DiagnosticSignInfo' },
+    { name = 'DapStopped',             text = icons.DapStopped,             texthl = 'DiagnosticWarn' },
+    { name = 'DapBreakpoint',          text = icons.DapBreakpoint,          texthl = 'DiagnosticInfo' },
+    { name = 'DapBreakpointRejected',  text = icons.DapBreakpointRejected,  texthl = 'DiagnosticError' },
     { name = 'DapBreakpointCondition', text = icons.DapBreakpointCondition, texthl = 'DiagnosticInfo' },
-    { name = 'DapLogPoint', text = icons.DapLogPoint, texthl = 'DiagnosticInfo' },
+    { name = 'DapLogPoint',            text = icons.DapLogPoint,            texthl = 'DiagnosticInfo' },
   }
 
   for _, sign in ipairs(signs) do
@@ -50,6 +50,7 @@ local setup_diagnostics = function()
 end
 
 local on_attach = function(client, bufnr)
+  ---@diagnostic disable-next-line: redefined-local
   local function add_buffer_autocmd(augroup, bufnr, autocmds)
     if not vim.tbl_islist(autocmds) then autocmds = { autocmds } end
     local cmds_found, cmds = pcall(vim.api.nvim_get_autocmds, { group = augroup, buffer = bufnr })
@@ -66,7 +67,7 @@ local on_attach = function(client, bufnr)
   end
 
   local capabilities = client.server_capabilities
-  local lmap = { i = {}, n = {}, v = {}, t = {}, [''] = {} }
+  local lmap = { i = {}, n = {}, v = {}, t = {},[''] = {} }
   -- Diagnsotics
   lmap.n['<leader>e'] = { name = 'diagnostic' }
   lmap.n['<leader>ef'] = { vim.diagnostic.open_float, desc = 'diagnostics in float' }
@@ -75,15 +76,21 @@ local on_attach = function(client, bufnr)
   lmap.n['[e'] = { '<cmd>Lspsaga diagnostic_jump_prev<CR>', desc = 'previous diagnostic' }
   lmap.n[']e'] = { '<cmd>Lspsaga diagnostic_jump_next<CR>', desc = 'next diagnostic' }
   -- Only jump to error
-  lmap.n['[E'] = { function() require 'lspsaga.diagnostic'.goto_prev { severity = vim.diagnostic.severity.ERROR } end,
-    desc = 'previous error', }
-  lmap.n[']E'] = { function() require 'lspsaga.diagnostic'.goto_next { severity = vim.diagnostic.severity.ERROR } end,
-    desc = 'next error', }
+  lmap.n['[E'] = {
+    function() require 'lspsaga.diagnostic'.goto_prev { severity = vim.diagnostic.severity.ERROR } end,
+    desc = 'previous error',
+  }
+  lmap.n[']E'] = {
+    function() require 'lspsaga.diagnostic'.goto_next { severity = vim.diagnostic.severity.ERROR } end,
+    desc = 'next error',
+  }
 
   lmap.n['<leader>wa'] = { vim.lsp.buf.add_workspace_folder, desc = 'add workspace folder' }
   lmap.n['<leader>wr'] = { vim.lsp.buf.remove_workspace_folder, desc = 'remove workspace folder' }
-  lmap.n['<leader>wl'] = { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
-    desc = 'list workspace folders', }
+  lmap.n['<leader>wl'] = {
+    function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+    desc = 'list workspace folders',
+  }
 
   lmap.n['<leader>c'] = { name = 'Code' }
   if capabilities.codeActionProvider then
@@ -126,7 +133,7 @@ local on_attach = function(client, bufnr)
   if capabilities.documentHighlightProvider then
     add_buffer_autocmd('lsp_document_highlight', bufnr, {
       { events = { 'CursorHold', 'CursorHoldI' }, callback = function() vim.lsp.buf.document_highlight() end },
-      { events = 'CursorMoved', callback = function() vim.lsp.buf.clear_references() end },
+      { events = 'CursorMoved',                   callback = function() vim.lsp.buf.clear_references() end },
     })
   end
 
@@ -155,6 +162,7 @@ local on_attach = function(client, bufnr)
   end
 
   if capabilities.workspaceSymbolProvider then
+    ---@diagnostic disable-next-line: missing-parameter
     lmap.n['<leader>cG'] = { function() vim.lsp.buf.workspace_symbol() end, desc = 'Search workspace symbols' }
   end
 

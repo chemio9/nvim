@@ -17,7 +17,7 @@ config.formatting = {
     --  e.g.
     --    |completion    Text [LSP]|
     local item = lspkind.cmp_format {
-      maxwidth = 60, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+      maxwidth = 60,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
       ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
       preset = 'codicons',
       mode = 'symbol_text',
@@ -82,9 +82,9 @@ config.mapping = {
 
 config.sources = cmp.config.sources({
   { name = 'nvim_lsp', priority = 1000 },
-  { name = 'luasnip', priority = 750 },
+  { name = 'luasnip',  priority = 750 },
 }, {
-  { name = 'path', priority = 500 },
+  { name = 'path',   priority = 500 },
   { name = 'buffer', priority = 500 },
   { name = 'calc' },
 })

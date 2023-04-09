@@ -1,2 +1,2 @@
 -- TODO: luasnip config
-local luasnip = require('luasnip')
+local luasnip = require 'luasnip'

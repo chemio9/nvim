@@ -18,7 +18,7 @@ if not vim.loop.fs_stat(lazypath) then
       vim.cmd.bw()
       vim.opt.cmdheight = oldcmdheight
       vim.tbl_map(function(module) pcall(require, module) end,
-                  { 'nvim-treesitter' })
+        { 'nvim-treesitter' })
     end,
   })
 end
@@ -66,4 +66,3 @@ require 'lazy'.setup('plugins', {
     fallback = true, -- Fallback to git when local plugin doesn't exist
   },
 })
-

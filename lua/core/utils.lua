@@ -48,7 +48,7 @@ end
 -- }}}
 
 function M.event(ev)
-  vim.schedule(function() vim.api.nvim_exec_autocmds("User", { pattern = ev }) end)
+  vim.schedule(function() vim.api.nvim_exec_autocmds('User', { pattern = ev }) end)
 end
 
 --- Run a shell command and capture the output and if the command succeeded or failed
@@ -56,13 +56,13 @@ end
 -- @param show_error boolean of whether or not to show an unsuccessful command as an error to the user
 -- @return the result of a successfully executed command or nil
 function M.cmd(cmd, show_error)
-  if vim.fn.has "win32" == 1 then cmd = { "cmd.exe", "/C", cmd } end
+  if vim.fn.has 'win32' == 1 then cmd = { 'cmd.exe', '/C', cmd } end
   local result = vim.fn.system(cmd)
-  local success = vim.api.nvim_get_vvar "shell_error" == 0
+  local success = vim.api.nvim_get_vvar 'shell_error' == 0
   if not success and (show_error == nil or show_error) then
-    vim.api.nvim_err_writeln("Error running command: " .. cmd .. "\nError message:\n" .. result)
+    vim.api.nvim_err_writeln('Error running command: ' .. cmd .. '\nError message:\n' .. result)
   end
-  return success and result:gsub("[\27\155][][()#;?%d]*[A-PRZcf-ntqry=><~]", "") or nil
+  return success and result:gsub('[\27\155][][()#;?%d]*[A-PRZcf-ntqry=><~]', '') or nil
 end
 
 --- A helper function to wrap a module function to require a plugin before running
@@ -70,12 +70,12 @@ end
 -- @param module the system module where the functions live (e.g. `vim.ui`)
 -- @param func_names a string or a list like table of strings for functions to wrap in the given module (e.g. `{ "ui", "select }`)
 function M.load_plugin_with_func(plugin, module, func_names)
-  if type(func_names) == "string" then func_names = { func_names } end
+  if type(func_names) == 'string' then func_names = { func_names } end
   for _, func in ipairs(func_names) do
     local old_func = module[func]
     module[func] = function(...)
       module[func] = old_func
-      require("lazy").load { plugins = { plugin } }
+      require 'lazy'.load { plugins = { plugin } }
       module[func](...)
     end
   end

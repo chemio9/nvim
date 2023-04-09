@@ -32,8 +32,8 @@ local plugin = {
         }
       end
 
-      vim.api.nvim_exec_autocmds("FileType", { group = 'lspconfig' })
-      require("core.utils").event("LspSetup")
+      vim.api.nvim_exec_autocmds('FileType', { group = 'lspconfig' })
+      require 'core.utils'.event 'LspSetup'
     end,
   },
 

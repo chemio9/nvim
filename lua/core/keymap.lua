@@ -1,4 +1,4 @@
-local map = { i = {}, n = {}, v = {}, t = {}, [''] = {} }
+local map = { i = {}, n = {}, v = {}, t = {},[''] = {} }
 -- {{{
 -- Smart Splits
 -- Better window navigation
@@ -62,7 +62,7 @@ map.v['k'] = map.n.k
 -- run `nvim -V3log +quit` and search through the "Terminal info" in the `log` file for the correct keyname
 map.n['<leader>d'] = { name = 'Debugger' }
 map.n['<F5>'] = { function() require 'dap'.continue() end, desc = 'Debugger: Start' }
-map.n['<F17>'] = { function() require 'dap'.terminate() end, desc = 'Debugger: Stop' } -- Shift+F5
+map.n['<F17>'] = { function() require 'dap'.terminate() end, desc = 'Debugger: Stop' }        -- Shift+F5
 map.n['<F29>'] = { function() require 'dap'.restart_frame() end, desc = 'Debugger: Restart' } -- Control+F5
 map.n['<F6>'] = { function() require 'dap'.pause() end, desc = 'Debugger: Pause' }
 map.n['<F9>'] = { function() require 'dap'.toggle_breakpoint() end, desc = 'Debugger: Toggle Breakpoint' }
