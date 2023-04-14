@@ -80,22 +80,6 @@ return {
   },
 
   {
-    'quocnho/nvim-pqf',
-    event = 'VeryLazy',
-    config = function()
-      local icons = require 'core.icons'
-      require 'pqf'.setup {
-        signs = {
-          error = icons.DiagnosticError,
-          warning = icons.DiagnosticWarn,
-          info = icons.DiagnosticInfo,
-          hint = icons.DiagnosticHint,
-        },
-      }
-    end,
-  },
-
-  {
     'folke/which-key.nvim',
     event = 'VeryLazy',
     config = function()
