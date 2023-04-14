@@ -69,7 +69,7 @@ local on_attach = function(client, bufnr)
   local capabilities = client.server_capabilities
   local lmap = { i = {}, n = {}, v = {}, t = {},[''] = {} }
   -- Diagnsotics
-  lmap.n['<leader>e'] = { name = 'diagnostic' }
+  lmap.n['<leader>e'] = { desc = 'diagnostic' }
   lmap.n['<leader>ef'] = { vim.diagnostic.open_float, desc = 'diagnostics in float' }
   lmap.n['<leader>eq'] = { vim.diagnostic.setloclist, desc = 'diagnostics in location list' }
   -- Diagnsotic jump can use `<c-o>` to jump back
@@ -92,7 +92,7 @@ local on_attach = function(client, bufnr)
     desc = 'list workspace folders',
   }
 
-  lmap.n['<leader>c'] = { name = 'Code' }
+  lmap.n['<leader>c'] = { desc = 'Code' }
   if capabilities.codeActionProvider then
     -- Code action
     lmap.n['<leader>ca'] = { '<cmd>Lspsaga code_action<CR>', desc = 'run code action' }
