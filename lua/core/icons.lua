@@ -9,6 +9,8 @@ local icons = {
   DiagnosticHint = ' ',
   DiagnosticInfo = ' ',
   DiagnosticWarn = ' ',
+  Search = " ",
+  Selected = "❯",
 }
 
 return icons

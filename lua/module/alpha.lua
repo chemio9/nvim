@@ -10,7 +10,7 @@ vim.api.nvim_create_autocmd('UIEnter', {
   end,
 })
 
-local leader = 'SPC'
+local leader = 'LDR'
 local function button(sc, txt, keybind, keybind_opts)
   local sc_ = sc:gsub('%s', ''):gsub(leader, '<leader>')
 
@@ -43,9 +43,12 @@ local function button(sc, txt, keybind, keybind_opts)
 end
 
 dashboard.section.buttons.val = {
-  button('e', '  New file', '<cmd>ene <CR>'),
-  button('SPC f f', '  Find file', '<cmd>FzfLua files<CR>'),
-  button('SPC f g', '  Find word', '<cmd>FzfLua live_grep<CR>'),
+  button('e', '  New File  ','<cmd>ene <CR>'),
+  button('LDR f f', '  Find File  '),
+  button('LDR f o', '  Recents  '),
+  button('LDR f w', '  Find Word  '),
+  button("LDR f '", '  Bookmarks  '),
+  -- button('LDR S l', '  Last Session  '),
 }
 
 dashboard.config.layout[1].val = vim.fn.max { 2, vim.fn.floor(vim.fn.winheight(0) * 0.2) }

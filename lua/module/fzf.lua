@@ -1,1 +1,0 @@
-require 'fzf-lua'.setup {}

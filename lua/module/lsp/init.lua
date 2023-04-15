@@ -68,10 +68,28 @@ local on_attach = function(client, bufnr)
 
   local capabilities = client.server_capabilities
   local lmap = { i = {}, n = {}, v = {}, t = {},[''] = {} }
+
+  lmap.n['<leader>e'] = { desc = ' LSP' }
+  lmap.n['<leader>eD'] = { function() require 'telescope.builtin'.diagnostics() end, desc = 'Search diagnostics' }
+  lmap.n['<leader>es'] = {
+    function()
+      local aerial_avail, _ = pcall(require, 'aerial')
+      if aerial_avail then
+        require 'telescope'.extensions.aerial.aerial()
+      else
+        require 'telescope.builtin'.lsp_document_symbols()
+      end
+    end,
+    desc = 'Search symbols',
+  }
   -- Diagnsotics
-  lmap.n['<leader>e'] = { desc = 'diagnostic' }
-  lmap.n['<leader>ef'] = { vim.diagnostic.open_float, desc = 'diagnostics in float' }
-  lmap.n['<leader>eq'] = { vim.diagnostic.setloclist, desc = 'diagnostics in location list' }
+  lmap.n['<leader>eq'] = {
+    function()
+      require 'trouble'.open 'workspace_diagnostics'
+    end,
+    desc = 'Workspace Diagnostics'
+  }
+
   -- Diagnsotic jump can use `<c-o>` to jump back
   lmap.n['[e'] = { '<cmd>Lspsaga diagnostic_jump_prev<CR>', desc = 'previous diagnostic' }
   lmap.n[']e'] = { '<cmd>Lspsaga diagnostic_jump_next<CR>', desc = 'next diagnostic' }
@@ -85,9 +103,10 @@ local on_attach = function(client, bufnr)
     desc = 'next error',
   }
 
-  lmap.n['<leader>wa'] = { vim.lsp.buf.add_workspace_folder, desc = 'add workspace folder' }
-  lmap.n['<leader>wr'] = { vim.lsp.buf.remove_workspace_folder, desc = 'remove workspace folder' }
-  lmap.n['<leader>wl'] = {
+  lmap.n['<leader>ew'] = { desc = 'Workspaces' }
+  lmap.n['<leader>ewa'] = { vim.lsp.buf.add_workspace_folder, desc = 'add workspace folder' }
+  lmap.n['<leader>ewr'] = { vim.lsp.buf.remove_workspace_folder, desc = 'remove workspace folder' }
+  lmap.n['<leader>ewl'] = {
     function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
     desc = 'list workspace folders',
   }
@@ -107,8 +126,8 @@ local on_attach = function(client, bufnr)
       end,
     })
     vim.lsp.codelens.refresh()
-    lmap.n['<leader>ll'] = { function() vim.lsp.codelens.refresh() end, desc = 'LSP CodeLens refresh' }
-    lmap.n['<leader>lL'] = { function() vim.lsp.codelens.run() end, desc = 'LSP CodeLens run' }
+    lmap.n['<leader>el'] = { function() vim.lsp.codelens.refresh() end, desc = 'LSP CodeLens refresh' }
+    lmap.n['<leader>eL'] = { function() vim.lsp.codelens.run() end, desc = 'LSP CodeLens run' }
   end
 
   if capabilities.declarationProvider then
