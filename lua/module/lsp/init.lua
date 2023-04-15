@@ -49,6 +49,8 @@ local setup_diagnostics = function()
   vim.diagnostic.config(diagnostics)
 end
 
+---@param client table
+---@param bufnr number
 local on_attach = function(client, bufnr)
   ---@diagnostic disable-next-line: redefined-local
   local function add_buffer_autocmd(augroup, bufnr, autocmds)
@@ -73,12 +75,7 @@ local on_attach = function(client, bufnr)
   lmap.n['<leader>eD'] = { function() require 'telescope.builtin'.diagnostics() end, desc = 'Search diagnostics' }
   lmap.n['<leader>es'] = {
     function()
-      local aerial_avail, _ = pcall(require, 'aerial')
-      if aerial_avail then
-        require 'telescope'.extensions.aerial.aerial()
-      else
-        require 'telescope.builtin'.lsp_document_symbols()
-      end
+      require 'telescope.builtin'.lsp_document_symbols()
     end,
     desc = 'Search symbols',
   }
@@ -135,7 +132,10 @@ local on_attach = function(client, bufnr)
   end
 
   if capabilities.definitionProvider then
-    lmap.n['gd'] = { function() vim.lsp.buf.definition() end, desc = 'Show the definition of current symbol' }
+    lmap.n['gd'] = {
+      function() require 'telescope.builtin'.lsp_definitions() end,
+      desc = 'Show the definition of current symbol'
+    }
     lmap.n['gp'] = { '<cmd>Lspsaga peek_definition<CR>', desc = 'peek definition' }
   end
 
@@ -161,11 +161,17 @@ local on_attach = function(client, bufnr)
   end
 
   if capabilities.implementationProvider then
-    lmap.n['gi'] = { function() vim.lsp.buf.implementation() end, desc = 'Implementation of current symbol' }
+    lmap.n['gi'] = {
+      function() require 'telescope.builtin'.lsp_implementations() end,
+      desc = 'Implementation of current symbol'
+    }
   end
 
   if capabilities.referencesProvider then
-    lmap.n['gr'] = { '<cmd>Lspsaga lsp_finder<CR>', desc = 'find references' }
+    lmap.n['gr'] = {
+      function() require 'telescope.builtin'.lsp_references() end,
+      desc = 'find references'
+    }
   end
 
   if capabilities.renameProvider then
@@ -177,16 +183,30 @@ local on_attach = function(client, bufnr)
   end
 
   if capabilities.typeDefinitionProvider then
-    lmap.n['gt'] = { function() vim.lsp.buf.type_definition() end, desc = 'Definition of current type' }
+    lmap.n['gt'] = {
+      function() require 'telescope.builtin'.lsp_type_definitions() end,
+      desc = 'Definition of current type'
+    }
   end
 
   if capabilities.workspaceSymbolProvider then
     ---@diagnostic disable-next-line: missing-parameter
-    lmap.n['<leader>cG'] = { function() vim.lsp.buf.workspace_symbol() end, desc = 'Search workspace symbols' }
+    lmap.n['<leader>cG'] = {
+      function()
+        vim.ui.input({ prompt = 'Symbol Query: ' }, function(query)
+          if query then require 'telescope.builtin'.lsp_workspace_symbols { query = query } end
+        end)
+      end,
+      desc = 'Search workspace symbols'
+    }
   end
 
   if capabilities.documentSymbolProvider then
     lmap.n['<leader>co'] = { '<cmd>Lspsaga outline<CR>', desc = 'symbols outline' }
+  end
+
+  if capabilities.semanticTokensProvider then
+    vim.lsp.semantic_tokens.start(bufnr, client.id)
   end
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
   utils.setup_mappings(lmap, bufopts)
