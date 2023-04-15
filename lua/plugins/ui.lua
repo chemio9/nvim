@@ -84,7 +84,7 @@ return {
     event = 'VeryLazy',
     config = function()
       require 'which-key'.setup {
-        operators = { gc = 'Comments' },
+        operators = { gc = 'Comments', gb = 'Comments' },
         key_labels = {
           -- override the label used to display
           ['<space>'] = 'SPC',
