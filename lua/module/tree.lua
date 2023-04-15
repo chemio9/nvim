@@ -1,8 +1,12 @@
 require 'nvim-tree'.setup {
   disable_netrw = true,
   hijack_netrw = true,
-  hijack_cursor = true,
   sync_root_with_cwd = true,
+  respect_buf_cwd = true,
+  update_focused_file = {
+    enable = true,
+    update_root = true,
+  },
   renderer = {
     indent_markers = {
       enable = true,
@@ -31,11 +35,13 @@ require 'nvim-tree'.setup {
   git = {
     enable = false,
   },
-  modified = {
-    enable = true,
+  actions = {
+    open_file = {
+      resize_window = true,
+    },
   },
   live_filter = {
-    prefix = '[FILTER]: ',
+    prefix = '[F]: ',
     always_show_folders = false,
   },
 }
