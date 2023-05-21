@@ -15,18 +15,7 @@ autocmd('TextYankPost', {
   desc = 'Highlight yanked text',
   group = augroup('highlightyank', { clear = true }),
   pattern = '*',
-  callback = function() vim.highlight.on_yank { higroup = 'PmenuSel', timeout = 600 } end,
-})
-
-autocmd({ 'BufEnter', 'BufNewFile' }, {
-  group = augroup('NvimTree', { clear = true }),
-  pattern = '*',
-  callback = function()
-    local stats = vim.loop.fs_stat(vim.api.nvim_buf_get_name(0))
-    if stats and stats.type == 'directory' then
-      vim.cmd.NvimTreeOpen(vim.api.nvim_buf_get_name(0))
-    end
-  end,
+  callback = function() vim.highlight.on_yank {} end,
 })
 
 local group_name = augroup('alpha_settings', { clear = true })
@@ -49,6 +38,7 @@ autocmd('User', {
     })
   end,
 })
+
 autocmd('VimEnter', {
   desc = 'Start Alpha when vim is opened with no arguments',
   group = group_name,
