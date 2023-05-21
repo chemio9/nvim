@@ -43,39 +43,35 @@ local plugin = {
     'glepnir/lspsaga.nvim',
     cmd = 'Lspsaga',
     branch = 'main',
-    config = function()
-      local saga = require 'lspsaga'
-      saga.setup {
-        lightbulb = {
-          enable = true,
-          enable_in_insert = true,
-          virtual_text = false,
+    opts = {
+      lightbulb = {
+        enable = true,
+        enable_in_insert = true,
+        virtual_text = false,
+      },
+      ui = {
+        border = 'rounded',
+        colors = {
+          normal_bg = 'NONE',
+          title_bg = 'NONE',
         },
-        ui = {
-          border = 'rounded',
-          colors = {
-            normal_bg = 'NONE',
-            title_bg = 'NONE',
-          },
-        },
-        symbol_in_winbar = {
-          enable = false,
-          color_mode = true,
-        },
-      }
-    end,
+      },
+      symbol_in_winbar = {
+        enable = false,
+        color_mode = true,
+      },
+    },
   },
+
   {
     'j-hui/fidget.nvim',
     event = 'User LspSetup',
-    config = function()
-      require 'fidget'.setup {
-        window = {
-          -- make the fidget background transparent
-          blend = 0,
-        },
-      }
-    end,
+    opts = {
+      window = {
+        -- make the fidget background transparent
+        blend = 0,
+      },
+    },
   },
 
   { 'folke/neodev.nvim' },
@@ -88,11 +84,9 @@ local plugin = {
       'TroubleToggle',
       'TroubleClose',
     },
-    config = function()
-      require 'trouble'.setup {
-        use_diagnostic_signs = true,
-      }
-    end,
+    opts = {
+      use_diagnostic_signs = true,
+    },
   },
 }
 return plugin

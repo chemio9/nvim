@@ -1,3 +1,4 @@
+---@type LazySpec[]
 return {
   {
     'akinsho/toggleterm.nvim',
@@ -7,6 +8,17 @@ return {
       'ToggleTermSetName',
       'ToggleTermSendVisualLines',
       'ToggleTermSendVisualSelection',
+    },
+    keys = {
+      { '<leader>tf', '<cmd>ToggleTerm direction=float<cr>',              desc = 'ToggleTerm float' },
+      { '<leader>th', '<cmd>ToggleTerm size=10 direction=horizontal<cr>', desc = 'ToggleTerm horizontal split' },
+      { '<leader>tv', '<cmd>ToggleTerm size=80 direction=vertical<cr>',   desc = 'ToggleTerm vertical split' },
+      {
+        '<F7>',
+        '<cmd>ToggleTerm<cr>',
+        desc = 'Toggle terminal',
+        mode = { 't', 'n' },
+      },
     },
     config = true,
   },
@@ -20,9 +32,26 @@ return {
   -- window managing
   {
     'mrjones2014/smart-splits.nvim',
-    config = function()
-      require 'module.smart-splits'
-    end,
+    opts = {
+      ignored_filetypes = {
+        'nofile',
+        'quickfix',
+        'qf',
+        'prompt',
+      },
+      ignored_buftypes = { 'nofile' },
+    },
+
+    keys = {
+      { '<C-h>',     function() require 'smart-splits'.move_cursor_left() end,  desc = 'Move to left split' },
+      { '<C-j>',     function() require 'smart-splits'.move_cursor_down() end,  desc = 'Move to below split' },
+      { '<C-k>',     function() require 'smart-splits'.move_cursor_up() end,    desc = 'Move to above split' },
+      { '<C-l>',     function() require 'smart-splits'.move_cursor_right() end, desc = 'Move to right split' },
+      { '<C-Up>',    function() require 'smart-splits'.resize_up() end,         desc = 'Resize split up' },
+      { '<C-Down>',  function() require 'smart-splits'.resize_down() end,       desc = 'Resize split down' },
+      { '<C-Left>',  function() require 'smart-splits'.resize_left() end,       desc = 'Resize split left' },
+      { '<C-Right>', function() require 'smart-splits'.resize_right() end,      desc = 'Resize split right' },
+    },
   },
 
   {
@@ -152,17 +181,40 @@ return {
   {
     'rainbowhxch/accelerated-jk.nvim',
     event = 'CursorMoved',
-    config = function()
-      vim.api.nvim_set_keymap('n', 'j', '<Plug>(accelerated_jk_gj)', {})
-      vim.api.nvim_set_keymap('n', 'k', '<Plug>(accelerated_jk_gk)', {})
-    end,
+    keys = {
+      { 'j', '<Plug>(accelerated_jk_gj)' },
+      { 'k', '<Plug>(accelerated_jk_gk)' },
+    },
   },
 
+  -- easily jump to any location and enhanced f/t motions for Leap
   {
-    'phaazon/hop.nvim',
-    config = function()
-      -- you can configure Hop the way you like here; see :h hop-config
-      require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+    'ggandor/flit.nvim',
+    keys = function()
+      ---@type LazyKeys[]
+      local ret = {}
+      for _, key in ipairs { 'f', 'F', 't', 'T' } do
+        ret[#ret + 1] = { key, mode = { 'n', 'x', 'o' }, desc = key }
+      end
+      return ret
+    end,
+    opts = { labeled_modes = 'nx' },
+  },
+  {
+    'ggandor/leap.nvim',
+    keys = {
+      { 's',  mode = { 'n', 'x', 'o' }, desc = 'Leap forward to' },
+      { 'S',  mode = { 'n', 'x', 'o' }, desc = 'Leap backward to' },
+      { 'gs', mode = { 'n', 'x', 'o' }, desc = 'Leap from windows' },
+    },
+    config = function(_, opts)
+      local leap = require 'leap'
+      for k, v in pairs(opts) do
+        leap.opts[k] = v
+      end
+      leap.add_default_mappings(true)
+      vim.keymap.del({ 'x', 'o' }, 'x')
+      vim.keymap.del({ 'x', 'o' }, 'X')
     end,
   },
 

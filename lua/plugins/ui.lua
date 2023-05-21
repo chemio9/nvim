@@ -14,69 +14,72 @@ return {
     init = function()
       require 'core.utils'.load_plugin_with_func('dressing.nvim', vim.ui, { 'input', 'select' })
     end,
-    config = function()
-      require 'module.dressing'
-    end,
+    opts = {
+      input = {
+        default_prompt = '➤ ',
+        win_options = { winhighlight = 'normal:normal,normalnc:normal' },
+      },
+      select = {
+        backend = { 'telescope', 'builtin' },
+        builtin = { win_options = { winhighlight = 'normal:normal,normalnc:normal' } },
+      },
+    },
   },
 
   {
     'NvChad/nvim-colorizer.lua',
     event = 'User File',
-    config = function()
-      require 'colorizer'.setup { user_default_options = { names = false } }
-    end,
+    opts = { user_default_options = { names = false } },
   },
 
   {
     'lukas-reineke/indent-blankline.nvim',
     event = 'User File',
-    config = function()
-      require 'indent_blankline'.setup {
-        buftype_exclude = {
-          'nofile',
-          'terminal',
-        },
-        filetype_exclude = {
-          'help',
-          'startify',
-          'aerial',
-          'alpha',
-          'dashboard',
-          'lazy',
-          'neogitstatus',
-          'NvimTree',
-          'neo-tree',
-          'Trouble',
-        },
-        context_patterns = {
-          'class',
-          'return',
-          'function',
-          'method',
-          '^if',
-          '^while',
-          'jsx_element',
-          '^for',
-          '^object',
-          '^table',
-          'block',
-          'arguments',
-          'if_statement',
-          'else_clause',
-          'jsx_element',
-          'jsx_self_closing_element',
-          'try_statement',
-          'catch_clause',
-          'import_statement',
-          'operation_type',
-        },
-        show_trailing_blankline_indent = false,
-        use_treesitter = true,
-        char = '▏',
-        context_char = '▏',
-        show_current_context = true,
-      }
-    end,
+    opts = {
+      buftype_exclude = {
+        'nofile',
+        'terminal',
+      },
+      filetype_exclude = {
+        'help',
+        'startify',
+        'aerial',
+        'alpha',
+        'dashboard',
+        'lazy',
+        'neogitstatus',
+        'NvimTree',
+        'neo-tree',
+        'Trouble',
+      },
+      context_patterns = {
+        'class',
+        'return',
+        'function',
+        'method',
+        '^if',
+        '^while',
+        'jsx_element',
+        '^for',
+        '^object',
+        '^table',
+        'block',
+        'arguments',
+        'if_statement',
+        'else_clause',
+        'jsx_element',
+        'jsx_self_closing_element',
+        'try_statement',
+        'catch_clause',
+        'import_statement',
+        'operation_type',
+      },
+      show_trailing_blankline_indent = false,
+      use_treesitter = true,
+      char = '▏',
+      context_char = '▏',
+      show_current_context = true,
+    },
   },
 
   {
@@ -88,6 +91,7 @@ return {
         key_labels = {
           -- override the label used to display
           ['<space>'] = 'SPC',
+          ['<leader>'] = 'LDR',
         },
       }
     end,

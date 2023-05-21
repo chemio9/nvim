@@ -9,7 +9,7 @@ local icons = {
   DiagnosticHint = ' ',
   DiagnosticInfo = ' ',
   DiagnosticWarn = ' ',
-  Search = " ",
+  Search = "",
   Selected = "❯",
 }
 

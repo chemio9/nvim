@@ -1,16 +1,5 @@
 local M = {}
 
----@diagnostic disable: redefined-local
----@param plugin string
----@param sync? boolean
-function M.loadPlugin(plugin, sync)
-  if sync == nil then
-    sync = false
-  end
-  -- force = true ==> sync load
-  require 'lazy.core.loader'.load(plugin, { cmd = 'Lazy load' }, { force = sync })
-end
-
 --- Call function if a condition is met
 ---@param func function The function to run
 ---@param condition boolean # Whether to run the function or not
@@ -100,7 +89,7 @@ end
 --- Check if a plugin is defined in lazy. Useful with lazy loading when a plugin is not necessarily loaded yet
 ---@param plugin string The plugin to search for
 ---@return boolean available # Whether the plugin is available
-function M.is_available(plugin)
+function M.has(plugin)
   local lazy_config_avail, lazy_config = pcall(require, "lazy.core.config")
   return lazy_config_avail and lazy_config.plugins[plugin] ~= nil
 end
