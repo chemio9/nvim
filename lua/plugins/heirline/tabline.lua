@@ -33,18 +33,6 @@ vim.api.nvim_create_autocmd({ 'VimEnter', 'UIEnter', 'BufAdd', 'BufDelete' }, {
   end,
 })
 
-local BufferLine = utils.make_buflist(
-  c.TablineBufferBlock,
-  { provider = ' ', hl = { fg = 'gray' } },
-  { provider = ' ', hl = { fg = 'gray' } },
-  -- out buf_func simply returns the buflist_cache
-  function()
-    return buflist_cache
-  end,
-  -- no cache, as we're handling everything ourselves
-  false
-)
-
 local TablinePicker = {
   condition = function(self)
     return self._show_picker
@@ -70,9 +58,22 @@ local TablinePicker = {
   hl = { fg = 'red', bold = true },
 }
 
+local BufferLine = utils.make_buflist(
+  { TablinePicker, c.TablineBufferBlock },
+  { provider = ' ', hl = { fg = 'gray' } },
+  { provider = ' ', hl = { fg = 'gray' } },
+  -- out buf_func simply returns the buflist_cache
+  function()
+    return buflist_cache
+  end,
+  -- no cache, as we're handling everything ourselves
+  false
+)
+
+
 vim.keymap.set('n', 'gbp', function()
   local tabline = require 'heirline'.tabline
-  local buflist = tabline._buflist[1]
+  local buflist = tabline[3]._buflist[1]
   buflist._picker_labels = {}
   buflist._show_picker = true
   vim.cmd.redrawtabline()
@@ -85,4 +86,4 @@ vim.keymap.set('n', 'gbp', function()
   vim.cmd.redrawtabline()
 end)
 
-return { c.TabLineOffset, TablinePicker, BufferLine, c.TabPages }
+return { c.TabLineOffset, BufferLine, c.TabPages }

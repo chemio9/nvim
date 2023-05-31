@@ -20,7 +20,7 @@ local WinBars = {
     condition = function()
       return conditions.buffer_matches { buftype = { 'terminal' } }
     end,
-    utils.surround({ '', '' }, 'bg_dark', {
+    utils.surround({ '', '' }, 'float_bg', {
       c.FileType,
       c.Space,
       c.TerminalName,
@@ -31,11 +31,11 @@ local WinBars = {
     condition = function()
       return not conditions.is_active()
     end,
-    utils.surround({ '', '' }, 'bg_highlight',
+    utils.surround({ '', '' }, 'bg_statusline',
       { hl = { fg = 'gray', force = true }, c.FileNameBlock }),
   },
   -- A winbar for regular files
-  utils.surround({ '', '' }, 'bg_highlight', c.FileNameBlock),
+  utils.surround({ '', '' }, 'bg', c.FileNameBlock),
 }
 
 return WinBars

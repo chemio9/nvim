@@ -6,7 +6,6 @@ return {
     vim.opt.showmode = false
 
     local heirline = require 'heirline'
-    local utils = require 'heirline.utils'
 
     heirline.setup {
       statusline = require 'plugins.heirline.statusline',
@@ -22,32 +21,7 @@ return {
           local filetype = vim.tbl_contains({ 'gitcommit', 'fugitive', 'Trouble', 'packer' }, vim.bo[buf].filetype)
           return buftype or filetype
         end,
-        colors = {
-          none = 'NONE',
-          bg_dark = '#1e2030',
-          bg = '#222436',
-          bg_highlight = '#2f334d',
-          terminal_black = '#444a73',
-          fg = '#c8d3f5',
-          fg_dark = '#828bb8',
-          fg_gutter = '#3b4261',
-          blue = '#82aaff',
-          cyan = '#86e1fc',
-          purple = '#fca7ea',
-          magenta = '#c099ff',
-          orange = '#ff966c',
-          yellow = '#ffc777',
-          green = '#c3e88d',
-          red = '#ff757f',
-          red1 = '#c53b53',
-          diag_warn = utils.get_highlight 'DiagnosticWarn'.fg,
-          diag_error = utils.get_highlight 'DiagnosticError'.fg,
-          diag_hint = utils.get_highlight 'DiagnosticHint'.fg,
-          diag_info = utils.get_highlight 'DiagnosticInfo'.fg,
-          git_del = utils.get_highlight 'diffRemoved'.fg,
-          git_add = utils.get_highlight 'diffAdded'.fg,
-          git_change = utils.get_highlight 'diffChanged'.fg,
-        },
+        colors = require 'onedarkpro.helpers'.get_colors(),
       },
     }
 

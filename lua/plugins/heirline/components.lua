@@ -89,9 +89,9 @@ M.ViMode = {
   update = {
     'ModeChanged',
     pattern = '*:*',
-    callback = vim.schedule_wrap(function()
+    callback = function()
       vim.cmd 'redrawstatus'
-    end),
+    end,
   },
 }
 
@@ -348,6 +348,7 @@ M.Git = {
   condition = conditions.is_git_repo,
 
   init = function(self)
+    ---@diagnostic disable-next-line: undefined-field
     self.status_dict = vim.b.gitsigns_status_dict
     self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
   end,
@@ -384,7 +385,7 @@ M.Git = {
         local count = self.status_dict.removed or 0
         return count > 0 and ('-' .. count)
       end,
-      hl = { fg = 'git_del' },
+      hl = { fg = 'git_delete' },
     },
     {
       provider = function(self)
@@ -660,8 +661,8 @@ M.TabLineOffset = {
     local bufnr = vim.api.nvim_win_get_buf(win)
     self.winid = win
 
-    if vim.bo[bufnr].filetype == 'NvimTree' then
-      self.title = 'NvimTree'
+    if vim.bo[bufnr].filetype == 'neo-tree' then
+      self.title = 'neo-tree'
       return true
       -- elseif vim.bo[bufnr].filetype == "TagBar" then
       --     ...

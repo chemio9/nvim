@@ -4,7 +4,7 @@ local c = require 'plugins.heirline.components'
 
 
 local DefaultStatusline = {
-  utils.surround({ '', '' }, 'bg_highlight', c.ViMode),
+  utils.surround({ '', '' }, 'cursorline', c.ViMode),
   c.Space, c.WorkDir, c.Space, c.Git, c.Space, c.Diagnostics, c.Align,
   c.FileType, c.Space, c.FileNameBlock, c.Align,
   c.LSPActive, c.Space, c.FileFormat, c.FileEncoding, c.Space, c.Ruler, c.Space, c.ScrollBar,
@@ -37,7 +37,7 @@ local TerminalStatusline = {
     return conditions.buffer_matches { buftype = { 'terminal' } }
   end,
 
-  hl = { bg = 'red1' },
+  hl = { bg = 'bg' },
 
   -- Quickly add a condition to the ViMode to only show it when buffer is active!
   { condition = conditions.is_active, c.ViMode, c.Space },
