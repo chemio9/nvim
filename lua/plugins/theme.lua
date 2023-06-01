@@ -16,7 +16,7 @@ return {
         lsp_semantic_tokens = true,
         marks = false,
         neotest = false,
-        neo_tree = false,
+        neo_tree = true,
         nvim_cmp = true,
         nvim_bqf = false,
         nvim_dap = true,
@@ -25,7 +25,7 @@ return {
         nvim_lsp = true,
         nvim_navic = false,
         nvim_notify = true,
-        nvim_tree = true,
+        nvim_tree = false,
         nvim_ts_rainbow = false,
         op_nvim = false,
         packer = false,
@@ -56,7 +56,7 @@ return {
       },
       options = {
         cursorline = true,                  -- Use cursorline highlighting?
-        transparency = false,               -- Use a transparent background?
+        transparency = true,               -- Use a transparent background?
         terminal_colors = true,             -- Use the theme's colors for Neovim's :terminal?
         highlight_inactive_windows = false, -- When the window is out of focus, change the normal background?
       },
