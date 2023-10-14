@@ -1,14 +1,15 @@
 local utils = require 'core.utils'
 local cap = vim.lsp.protocol.make_client_capabilities()
-cap.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
-cap.textDocument.completion.completionItem.snippetSupport = true
-cap.textDocument.completion.completionItem.preselectSupport = true
-cap.textDocument.completion.completionItem.insertReplaceSupport = true
-cap.textDocument.completion.completionItem.labelDetailsSupport = true
-cap.textDocument.completion.completionItem.deprecatedSupport = true
-cap.textDocument.completion.completionItem.commitCharactersSupport = true
-cap.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-cap.textDocument.completion.completionItem.resolveSupport = {
+local cItem = cap.textDocument.completion.completionItem
+cItem.documentationFormat = { 'markdown', 'plaintext' }
+cItem.snippetSupport = true
+cItem.preselectSupport = true
+cItem.insertReplaceSupport = true
+cItem.labelDetailsSupport = true
+cItem.deprecatedSupport = true
+cItem.commitCharactersSupport = true
+cItem.tagSupport = { valueSet = { 1 } }
+cItem.resolveSupport = {
   properties = { 'documentation', 'detail', 'additionalTextEdits' },
 }
 
