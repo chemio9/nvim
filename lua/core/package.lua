@@ -52,6 +52,9 @@ require 'lazy'.setup('plugins', {
         'matchparen',
         'netrwPlugin',
         'shada_plugin',
+
+        'rplugin',
+        'luasnip'
       },
     },
   },
