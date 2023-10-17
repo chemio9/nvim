@@ -3,14 +3,14 @@ local icons = {
   DapBreakpoint = ' ',
   DapBreakpointCondition = ' ',
   DapBreakpointRejected = ' ',
-  DapLogPoint = '>',
-  DapStopped = ' ',
+  DapLogPoint = ' ',
+  DapStopped = '󰁕 ',
   DiagnosticError = ' ',
-  DiagnosticHint = ' ',
-  DiagnosticInfo = ' ',
+  DiagnosticHint = '󰌵 ',
+  DiagnosticInfo = '󰋼 ',
   DiagnosticWarn = ' ',
-  Search = "",
-  Selected = "❯",
+  Search = ' ',
+  Selected = '❯',
 }
 
 return icons

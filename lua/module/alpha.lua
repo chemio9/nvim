@@ -45,8 +45,8 @@ end
 dashboard.section.buttons.val = {
   button('e', '  New File  ','<cmd>ene <CR>'),
   button('LDR f f', '  Find File  '),
-  button('LDR f o', '  Recents  '),
-  button('LDR f w', '  Find Word  '),
+  button('LDR f o', '󱂬  Recents  '),
+  button('LDR f w', '󰈭  Find Word  '),
   button("LDR f '", '  Bookmarks  '),
   -- button('LDR S l', '  Last Session  '),
 }
