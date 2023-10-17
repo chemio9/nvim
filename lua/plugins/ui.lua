@@ -38,7 +38,6 @@ return {
     main = 'ibl',
     opts = {},
   },
-  },
 
   {
     'folke/which-key.nvim',

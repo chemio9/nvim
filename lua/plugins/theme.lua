@@ -44,7 +44,7 @@ return {
         methods = 'NONE',      -- Style that is applied to methods
         numbers = 'NONE',      -- Style that is applied to numbers
         strings = 'NONE',      -- Style that is applied to strings
-        comments = 'italic',     -- Style that is applied to comments
+        comments = 'italic',   -- Style that is applied to comments
         keywords = 'bold',     -- Style that is applied to keywords
         constants = 'NONE',    -- Style that is applied to constants
         functions = 'NONE',    -- Style that is applied to functions
@@ -56,7 +56,7 @@ return {
       },
       options = {
         cursorline = true,                  -- Use cursorline highlighting?
-        transparency = true,               -- Use a transparent background?
+        transparency = true,                -- Use a transparent background?
         terminal_colors = true,             -- Use the theme's colors for Neovim's :terminal?
         highlight_inactive_windows = false, -- When the window is out of focus, change the normal background?
       },
