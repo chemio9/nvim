@@ -1,12 +1,13 @@
-local lazypath = vim.fn.stdpath 'config' .. '/lazy/lazy.nvim'
+local lazypath = vim.fn.getenv 'HOME' .. '/.cache/lazy_nvim'
 if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system { 'mkdir', '-pv', lazypath .. '/lazy.nvim' }
   vim.fn.system {
     'git',
     'clone',
     '--filter=blob:none',
-    'https://github.com/folke/lazy.nvim.git',
+    'https://ghproxy.com/github.com/folke/lazy.nvim.git',
     '--branch=stable', -- latest stable release
-    lazypath,
+    lazypath .. '/lazy.nvim',
   }
   local oldcmdheight = vim.opt.cmdheight:get()
   vim.opt.cmdheight = 1
@@ -22,11 +23,11 @@ if not vim.loop.fs_stat(lazypath) then
     end,
   })
 end
-vim.opt.rtp:prepend(lazypath)
+vim.opt.rtp:prepend(lazypath .. '/lazy.nvim')
 
 require 'lazy'.setup('plugins', {
-  root = vim.fn.stdpath 'config' .. '/lazy', -- directory where plugins will be installed
-  lockfile = vim.fn.stdpath 'config' .. '/lazy/lazy-lock.json',
+  root = lazypath, -- directory where plugins will be installed
+  lockfile = lazypath .. '/lazy-lock.json',
   defaults = { lazy = true },
   performance = {
     cache = {
@@ -54,7 +55,7 @@ require 'lazy'.setup('plugins', {
         'shada_plugin',
 
         'rplugin',
-        'luasnip'
+        'luasnip',
       },
     },
   },
