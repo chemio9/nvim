@@ -73,6 +73,7 @@ local M = {}
 local utils = require 'core.utils'
 function M.setup()
   utils.setup_mappings(map)
+  utils.which_key_register()
 end
 
 return M
