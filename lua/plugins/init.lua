@@ -23,12 +23,6 @@ return {
     config = true,
   },
 
-  {
-    'kylechui/nvim-surround',
-    keys = { { 'ys' }, { 'ds' }, { 'cs' }, { 'v' } },
-    config = true,
-  },
-
   -- window managing
   {
     'mrjones2014/smart-splits.nvim',
@@ -55,12 +49,6 @@ return {
   },
 
   {
-    'max397574/better-escape.nvim',
-    event = 'InsertCharPre',
-    config = true,
-  },
-
-  {
     'folke/zen-mode.nvim',
     cmd = {
       'ZenMode',
@@ -74,7 +62,6 @@ return {
 
   'nvim-lua/plenary.nvim',
 
-  { 'famiu/bufdelete.nvim', cmd = { 'Bdelete', 'Bwipeout' } },
 
   {
     'sindrets/diffview.nvim',
@@ -104,6 +91,7 @@ return {
     cmd = 'Neotree',
     dependencies = {
       'MunifTanjim/nui.nvim',
+      'nvim-tree/nvim-web-devicons',
     },
     keys = {
       {
@@ -157,63 +145,11 @@ return {
     },
   },
 
+  -- {
+  --   's1n7ax/nvim-window-picker',
+  --   opts = {
+  --     use_winbar = 'smart',
+  --   },
+  -- },
 
-  'nvim-tree/nvim-web-devicons',
-
-  {
-    'jghauser/mkdir.nvim',
-    init = function()
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        group = vim.api.nvim_create_augroup('MkdirRun', {}),
-        pattern = '*',
-        callback = function()
-          require 'mkdir'.run()
-        end,
-      })
-    end,
-  },
-
-  {
-    's1n7ax/nvim-window-picker',
-    opts = {
-      use_winbar = 'smart',
-    },
-  },
-
-  {
-    'rainbowhxch/accelerated-jk.nvim',
-    event = 'CursorMoved',
-    keys = {
-      { 'j', '<Plug>(accelerated_jk_gj)' },
-      { 'k', '<Plug>(accelerated_jk_gk)' },
-    },
-  },
-
-  {
-    'folke/flash.nvim',
-    event = 'VeryLazy',
-    ---@type Flash.Config
-    opts = {},
-    -- stylua: ignore
-    keys = {
-      { 's', mode = { 'n', 'x', 'o' }, function() require 'flash'.jump() end,       desc = 'Flash' },
-      { 'S', mode = { 'n', 'x', 'o' }, function() require 'flash'.treesitter() end, desc = 'Flash Treesitter' },
-      { 'r', mode = 'o',               function() require 'flash'.remote() end,     desc = 'Remote Flash' },
-      {
-        'R',
-        mode = { 'o', 'x' },
-        function() require 'flash'.treesitter_search() end,
-        desc =
-        'Treesitter Search'
-      },
-      {
-        '<c-s>',
-        mode = { 'c' },
-        function() require 'flash'.toggle() end,
-        desc =
-        'Toggle Flash Search'
-      },
-    },
-  },
 }
--- vim: fdm=marker
