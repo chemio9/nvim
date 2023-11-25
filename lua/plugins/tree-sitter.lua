@@ -1,9 +1,6 @@
 return {
   {
     'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'JoosepAlviste/nvim-ts-context-commentstring',
-    },
     event = 'User File',
     cmd = {
       'TSBufDisable',
@@ -26,4 +23,8 @@ return {
     end,
   },
 
+  {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    config = true
+  },
 }

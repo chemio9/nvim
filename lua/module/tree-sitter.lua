@@ -19,9 +19,5 @@ require 'nvim-treesitter.configs'.setup {
     end,
     additional_vim_regex_highlighting = false,
   },
-  incremental_selection = { enable = true },
-  context_commentstring = {
-    enable = true,
-    enable_autocmd = false,
-  },
+  incremental_selection = { enable = true }
 }
