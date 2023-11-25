@@ -1,17 +1,22 @@
+---@diagnostic disable: inject-field
 local utils = require 'core.utils'
-local cap = vim.lsp.protocol.make_client_capabilities()
-local cItem = cap.textDocument.completion.completionItem
-cItem.documentationFormat = { 'markdown', 'plaintext' }
-cItem.snippetSupport = true
-cItem.preselectSupport = true
-cItem.insertReplaceSupport = true
-cItem.labelDetailsSupport = true
-cItem.deprecatedSupport = true
-cItem.commitCharactersSupport = true
-cItem.tagSupport = { valueSet = { 1 } }
-cItem.resolveSupport = {
-  properties = { 'documentation', 'detail', 'additionalTextEdits' },
-}
+
+local function make_capabilities()
+  local cap = vim.lsp.protocol.make_client_capabilities()
+  local cItem = cap.textDocument.completion.completionItem
+  cItem.documentationFormat = { 'markdown', 'plaintext' }
+  cItem.snippetSupport = true
+  cItem.preselectSupport = true
+  cItem.insertReplaceSupport = true
+  cItem.labelDetailsSupport = true
+  cItem.deprecatedSupport = true
+  cItem.commitCharactersSupport = true
+  cItem.tagSupport = { valueSet = { 1 } }
+  cItem.resolveSupport = {
+    properties = { 'documentation', 'detail', 'additionalTextEdits' },
+  }
+  return cap
+end
 
 local setup_diagnostics = function()
   local icons = require 'core.icons'
@@ -70,7 +75,7 @@ local on_attach = function(client, bufnr)
   end
 
   local capabilities = client.server_capabilities
-  local lmap = { i = {}, n = {}, v = {}, t = {},[''] = {} }
+  local lmap = { i = {}, n = {}, v = {}, t = {}, [''] = {} }
 
   lmap.n['<leader>e'] = { desc = ' LSP' }
   lmap.n['<leader>eD'] = { function() require 'telescope.builtin'.diagnostics() end, desc = 'Search diagnostics' }
@@ -80,26 +85,18 @@ local on_attach = function(client, bufnr)
     end,
     desc = 'Search symbols',
   }
+
   -- Diagnsotics
-  lmap.n['<leader>eq'] = {
+  lmap.n['<leader>ed'] = {
     function()
       require 'trouble'.open 'workspace_diagnostics'
     end,
-    desc = 'Workspace Diagnostics'
+    desc = 'Workspace Diagnostics',
   }
 
   -- Diagnsotic jump can use `<c-o>` to jump back
-  lmap.n['[e'] = { '<cmd>Lspsaga diagnostic_jump_prev<CR>', desc = 'previous diagnostic' }
-  lmap.n[']e'] = { '<cmd>Lspsaga diagnostic_jump_next<CR>', desc = 'next diagnostic' }
-  -- Only jump to error
-  lmap.n['[E'] = {
-    function() require 'lspsaga.diagnostic'.goto_prev { severity = vim.diagnostic.severity.ERROR } end,
-    desc = 'previous error',
-  }
-  lmap.n[']E'] = {
-    function() require 'lspsaga.diagnostic'.goto_next { severity = vim.diagnostic.severity.ERROR } end,
-    desc = 'next error',
-  }
+  lmap.n['[e'] = { '<cmd>LspUI diagnostic prev<CR>', desc = 'previous diagnostic' }
+  lmap.n[']e'] = { '<cmd>LspUI diagnostic next<CR>', desc = 'next diagnostic' }
 
   lmap.n['<leader>ew'] = { desc = 'Workspaces' }
   lmap.n['<leader>ewa'] = { vim.lsp.buf.add_workspace_folder, desc = 'add workspace folder' }
@@ -112,7 +109,7 @@ local on_attach = function(client, bufnr)
   lmap.n['<leader>c'] = { desc = 'Code' }
   if capabilities.codeActionProvider then
     -- Code action
-    lmap.n['<leader>ca'] = { '<cmd>Lspsaga code_action<CR>', desc = 'run code action' }
+    lmap.n['<leader>ca'] = { '<cmd>LspUI code_action<CR>', desc = 'run code action' }
     lmap.v['<leader>ca'] = lmap.n['<leader>ca']
   end
 
@@ -129,15 +126,15 @@ local on_attach = function(client, bufnr)
   end
 
   if capabilities.declarationProvider then
-    lmap.n['gD'] = { function() vim.lsp.buf.declaration() end, desc = 'Declaration of current symbol' }
+    lmap.n['gD'] = { '<cmd>LspUI declaration<CR>', desc = 'Declaration of current symbol' }
   end
 
   if capabilities.definitionProvider then
     lmap.n['gd'] = {
-      function() require 'telescope.builtin'.lsp_definitions() end,
-      desc = 'Show the definition of current symbol'
+      '<cmd>LspUI definition<CR>',
+      desc = 'Show the definition of current symbol',
     }
-    lmap.n['gp'] = { '<cmd>Lspsaga peek_definition<CR>', desc = 'peek definition' }
+    -- lmap.n['gp'] = { '<cmd>LspUI peek_definition<CR>', desc = 'peek definition' }
   end
 
   if capabilities.documentFormattingProvider then
@@ -158,25 +155,25 @@ local on_attach = function(client, bufnr)
   end
 
   if capabilities.hoverProvider then
-    lmap.n['K'] = { function() vim.lsp.buf.hover() end, desc = 'Hover symbol details' }
+    lmap.n['K'] = { "<cmd>LspUI hover<CR>", desc = 'Hover symbol details' }
   end
 
   if capabilities.implementationProvider then
     lmap.n['gi'] = {
-      function() require 'telescope.builtin'.lsp_implementations() end,
-      desc = 'Implementation of current symbol'
+      "<cmd>LspUI implementation<CR>",
+      desc = 'Implementation of current symbol',
     }
   end
 
   if capabilities.referencesProvider then
     lmap.n['gr'] = {
-      function() require 'telescope.builtin'.lsp_references() end,
-      desc = 'find references'
+      "<cmd>LspUI reference<CR>",
+      desc = 'find references',
     }
   end
 
   if capabilities.renameProvider then
-    lmap.n['<leader>cr'] = { '<cmd>Lspsaga rename<CR>', desc = 'rename symbols' }
+    lmap.n['<leader>cr'] = { '<cmd>LspUI rename<CR>', desc = 'rename symbols' }
   end
 
   if capabilities.signatureHelpProvider then
@@ -185,8 +182,8 @@ local on_attach = function(client, bufnr)
 
   if capabilities.typeDefinitionProvider then
     lmap.n['gt'] = {
-      function() require 'telescope.builtin'.lsp_type_definitions() end,
-      desc = 'Definition of current type'
+      "<cmd>LspUI type_definition<CR>",
+      desc = 'Definition of current type',
     }
   end
 
@@ -198,7 +195,7 @@ local on_attach = function(client, bufnr)
           if query then require 'telescope.builtin'.lsp_workspace_symbols { query = query } end
         end)
       end,
-      desc = 'Search workspace symbols'
+      desc = 'Search workspace symbols',
     }
   end
 
@@ -209,15 +206,21 @@ local on_attach = function(client, bufnr)
   if capabilities.semanticTokensProvider then
     vim.lsp.semantic_tokens.start(bufnr, client.id)
   end
+
+  --if capabilities.inlayHintsProvider then
+  -- TODO
+  --end
+
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
   utils.setup_mappings(lmap, bufopts)
   utils.which_key_register()
   -- Enable completion triggered by <c-x><c-o>
+  ---@diagnostic disable-next-line: deprecated
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 end
 
 return {
   on_attach = on_attach,
-  capabilities = cap,
+  capabilities = make_capabilities(),
   setup_diagnostics = setup_diagnostics,
 }
