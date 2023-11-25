@@ -1,7 +1,11 @@
+local augroup = vim.api.nvim_create_augroup
+local autocmd = vim.api.nvim_create_autocmd
 local dashboard = require 'alpha.themes.dashboard'
 local if_nil = vim.F.if_nil
 
-vim.api.nvim_create_autocmd('UIEnter', {
+autocmd('User', {
+  group = augroup('profile', { clear = true }),
+  pattern = 'LazyVimStarted',
   callback = function()
     local stats = require 'lazy'.stats()
     local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
@@ -43,7 +47,7 @@ local function button(sc, txt, keybind, keybind_opts)
 end
 
 dashboard.section.buttons.val = {
-  button('e', '  New File  ','<cmd>ene <CR>'),
+  button('e', '  New File  ', '<cmd>ene <CR>'),
   button('LDR f f', '  Find File  '),
   button('LDR f o', '󱂬  Recents  '),
   button('LDR f w', '󰈭  Find Word  '),
