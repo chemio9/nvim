@@ -114,15 +114,17 @@ local on_attach = function(client, bufnr)
   end
 
   if capabilities.codeLensProvider then
-    add_buffer_autocmd('lsp_codelens_refresh', bufnr, {
-      events = { 'InsertLeave', 'BufEnter' },
-      callback = function()
-        if vim.g.codelens_enabled then vim.lsp.codelens.refresh() end
-      end,
-    })
-    vim.lsp.codelens.refresh()
-    lmap.n['<leader>el'] = { function() vim.lsp.codelens.refresh() end, desc = 'LSP CodeLens refresh' }
-    lmap.n['<leader>eL'] = { function() vim.lsp.codelens.run() end, desc = 'LSP CodeLens run' }
+    if not require 'core.utils'.has 'lsp-lens.nvim' then
+      add_buffer_autocmd('lsp_codelens_refresh', bufnr, {
+        events = { 'InsertLeave', 'BufEnter' },
+        callback = function()
+          if vim.g.codelens_enabled then vim.lsp.codelens.refresh() end
+        end,
+      })
+      vim.lsp.codelens.refresh()
+      lmap.n['<leader>el'] = { function() vim.lsp.codelens.refresh() end, desc = 'LSP CodeLens refresh' }
+      lmap.n['<leader>eL'] = { function() vim.lsp.codelens.run() end, desc = 'LSP CodeLens run' }
+    end
   end
 
   if capabilities.declarationProvider then
@@ -155,19 +157,19 @@ local on_attach = function(client, bufnr)
   end
 
   if capabilities.hoverProvider then
-    lmap.n['K'] = { "<cmd>LspUI hover<CR>", desc = 'Hover symbol details' }
+    lmap.n['K'] = { '<cmd>LspUI hover<CR>', desc = 'Hover symbol details' }
   end
 
   if capabilities.implementationProvider then
     lmap.n['gi'] = {
-      "<cmd>LspUI implementation<CR>",
+      '<cmd>LspUI implementation<CR>',
       desc = 'Implementation of current symbol',
     }
   end
 
   if capabilities.referencesProvider then
     lmap.n['gr'] = {
-      "<cmd>LspUI reference<CR>",
+      '<cmd>LspUI reference<CR>',
       desc = 'find references',
     }
   end
@@ -182,7 +184,7 @@ local on_attach = function(client, bufnr)
 
   if capabilities.typeDefinitionProvider then
     lmap.n['gt'] = {
-      "<cmd>LspUI type_definition<CR>",
+      '<cmd>LspUI type_definition<CR>',
       desc = 'Definition of current type',
     }
   end

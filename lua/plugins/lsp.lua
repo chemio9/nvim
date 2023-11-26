@@ -116,5 +116,11 @@ local plugin = {
     cmd = 'LspUI',
     config = true,
   },
+
+  {
+    'VidocqH/lsp-lens.nvim',
+    event = 'User LspSetup',
+    opts = {},
+  },
 }
 return plugin
