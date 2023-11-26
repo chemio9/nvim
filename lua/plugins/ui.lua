@@ -28,7 +28,7 @@ return {
 
   {
     'NvChad/nvim-colorizer.lua',
-    event = 'User File',
+    event = 'BufRead',
     opts = { user_default_options = { names = false } },
   },
 
@@ -41,7 +41,7 @@ return {
 
   {
     'HiPhish/rainbow-delimiters.nvim',
-    event = 'User File',
+    event = 'BufRead',
     config = function()
       -- This module contains a number of default definitions
       local rainbow_delimiters = require 'rainbow-delimiters'
@@ -67,6 +67,7 @@ return {
       }
     end,
   },
+
   {
     'folke/which-key.nvim',
     event = 'VeryLazy',
