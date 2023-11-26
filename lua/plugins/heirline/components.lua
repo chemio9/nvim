@@ -77,7 +77,7 @@ M.ViMode = {
   -- control the padding and make sure our string is always at least 2
   -- characters long. Plus a nice Icon.
   provider = function(self)
-    return icons.Evil .. ' %2(' .. self.mode_names[self.mode] .. '%)'
+    return icons.Evil .. '%2(' .. self.mode_names[self.mode] .. '%)'
   end,
   -- Same goes for the highlight. Now the foreground will change according to the current mode.
   hl = function(self)
@@ -639,7 +639,7 @@ M.TablineCloseButton = {
 }
 
 -- The final touch!
-M.TablineBufferBlock = utils.surround({ '', '' }, function(self)
+M.TablineBufferBlock = utils.surround({ ' ', ' |' }, function(self)
   if self.is_active then
     return utils.get_highlight 'TabLineSel'.bg
   else
