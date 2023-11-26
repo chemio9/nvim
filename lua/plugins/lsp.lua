@@ -114,12 +114,12 @@ local plugin = {
 
   {
     'j-hui/fidget.nvim',
-    tag = 'legacy',
     event = 'User LspSetup',
     opts = {
-      window = {
-        -- make the fidget background transparent
-        blend = 0,
+      notification = {
+        window = {
+          winblend = 0,
+        },
       },
     },
   },
