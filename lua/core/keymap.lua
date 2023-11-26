@@ -1,5 +1,5 @@
 local has = require 'core.utils'.has
-local map = { i = {}, n = {}, v = {}, t = {},[''] = {} }
+local map = { i = {}, n = {}, v = {}, t = {}, [''] = {} }
 -- {{{
 map.n['<C-N>'] = { '<cmd>bnext<CR>', desc = 'Next buf' }
 map.n['<C-M>'] = { '<cmd>bprevious<CR>', desc = 'Prev buf' }
@@ -27,6 +27,14 @@ map.v['k'] = map.n.k
 -- run `nvim -V3log +quit` and search through the "Terminal info" in the `log` file for the correct keyname
 if has 'nvim-dap' then
   map.n['<leader>d'] = { desc = ' Debugger' }
+end
+
+if has 'neo-tree.nvim' then
+  map.n['<leader>F'] = { '<cmd>Neotree<CR>', desc = 'open Neotree' }
+end
+
+if has 'bufdelete.nvim' then
+  map.n['<leader>q'] = { '<cmd>Bwipeout<CR>', desc = 'Bwipeout' }
 end
 
 if has 'telescope.nvim' then
