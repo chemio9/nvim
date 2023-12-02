@@ -5,4 +5,4 @@ require 'core.autocmds'
 
 require 'core.package'
 
-require 'core.keymap'.setup()
+require('core.keymap').setup()

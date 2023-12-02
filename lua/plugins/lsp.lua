@@ -29,13 +29,13 @@ local plugin = {
       default_mappings = false,
       -- TODO: seems like auto advertising proper capabilities to lsp
       --      considering remove the manual way
-      capabilities = require 'module.lsp'.capabilities,
+      capabilities = require('module.lsp').capabilities,
       on_attach = function(client, bufnr)
         -- Support custom the on_attach function for global
         -- Formatting on save as default
         -- require 'lsp-setup.utils'.format_on_save(client)
 
-        require 'lsp_signature'.on_attach({
+        require('lsp_signature').on_attach({
           bind = true, -- This is mandatory, otherwise border config won't get registered.
           handler_opts = {
             border = 'rounded',
@@ -44,7 +44,7 @@ local plugin = {
 
         local lsp = require 'module.lsp'
         lsp.on_attach(client, bufnr)
-        require 'core.utils'.event 'LspSetup'
+        require('core.utils').event 'LspSetup'
       end,
       inlay_hints = {
         enabled = false,
@@ -80,7 +80,7 @@ local plugin = {
           return {
             settings = {
               json = {
-                schemas = require 'schemastore'.json.schemas(),
+                schemas = require('schemastore').json.schemas(),
                 validate = { enable = true },
               },
             },
@@ -97,7 +97,7 @@ local plugin = {
                   -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
                   url = '',
                 },
-                schemas = require 'schemastore'.yaml.schemas(),
+                schemas = require('schemastore').yaml.schemas(),
               },
             },
           }
@@ -105,10 +105,10 @@ local plugin = {
       },
     },
     config = function(_, opts)
-      require 'neodev'.setup()
+      require('neodev').setup()
       local lsp = require 'module.lsp'
       lsp.setup_diagnostics()
-      require 'lsp-setup'.setup(opts)
+      require('lsp-setup').setup(opts)
     end,
   },
 
@@ -154,9 +154,7 @@ local plugin = {
   {
     'stevearc/conform.nvim',
     opts = {
-      formatters_by_ft = {
-        lua = { 'stylua' },
-      },
+      formatters_by_ft = {},
     },
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },

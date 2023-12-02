@@ -38,7 +38,7 @@ local plugin = {
       require 'module.luasnip'
     end,
   },
-  
+
   {
     'windwp/nvim-autopairs',
     event = 'InsertEnter',

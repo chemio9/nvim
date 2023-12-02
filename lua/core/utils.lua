@@ -6,13 +6,13 @@ local M = {}
 ---@return any|nil result # the result of the function running or nil
 function M.conditional_func(func, condition, ...)
   -- if the condition is true or no condition is provided, evaluate the function with the rest of the parameters and return the result
-  if condition and type(func) == "function" then return func(...) end
+  if condition and type(func) == 'function' then return func(...) end
 end
 
 --- Register queued which-key mappings
 function M.which_key_register()
   if M.which_key_queue then
-    local wk_avail, wk = pcall(require, "which-key")
+    local wk_avail, wk = pcall(require, 'which-key')
     if wk_avail then
       for mode, registration in pairs(M.which_key_queue) do
         wk.register(registration, { mode = mode })
@@ -35,9 +35,9 @@ function M.setup_mappings(map_table, base)
       if options then
         local cmd = options
         local keymap_opts = base
-        if type(options) == "table" then
+        if type(options) == 'table' then
           cmd = options[1]
-          keymap_opts = vim.tbl_deep_extend("force", keymap_opts, options)
+          keymap_opts = vim.tbl_deep_extend('force', keymap_opts, options)
           keymap_opts[1] = nil
         end
         if not cmd or keymap_opts.name then -- if which-key mapping, queue it
@@ -53,7 +53,9 @@ function M.setup_mappings(map_table, base)
 end
 
 function M.event(ev)
-  vim.schedule(function() vim.api.nvim_exec_autocmds('User', { pattern = ev }) end)
+  vim.schedule(function()
+    vim.api.nvim_exec_autocmds('User', { pattern = ev })
+  end)
 end
 
 --- Run a shell command and capture the output and if the command succeeded or failed
@@ -80,7 +82,7 @@ function M.load_plugin_with_func(plugin, module, func_names)
     local old_func = module[func]
     module[func] = function(...)
       module[func] = old_func
-      require 'lazy'.load { plugins = { plugin } }
+      require('lazy').load { plugins = { plugin } }
       module[func](...)
     end
   end
@@ -90,7 +92,7 @@ end
 ---@param plugin string The plugin to search for
 ---@return boolean available # Whether the plugin is available
 function M.has(plugin)
-  local lazy_config_avail, lazy_config = pcall(require, "lazy.core.config")
+  local lazy_config_avail, lazy_config = pcall(require, 'lazy.core.config')
   return lazy_config_avail and lazy_config.plugins[plugin] ~= nil
 end
 

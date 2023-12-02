@@ -29,7 +29,7 @@ return {
         group = vim.api.nvim_create_augroup('MkdirRun', {}),
         pattern = '*',
         callback = function()
-          require 'mkdir'.run()
+          require('mkdir').run()
         end,
       })
     end,
@@ -49,22 +49,45 @@ return {
     event = 'VeryLazy',
     opts = {},
     keys = {
-      { 's', mode = { 'n', 'x', 'o' }, function() require 'flash'.jump() end,       desc = 'Flash' },
-      { 'S', mode = { 'n', 'x', 'o' }, function() require 'flash'.treesitter() end, desc = 'Flash Treesitter' },
-      { 'r', mode = 'o',               function() require 'flash'.remote() end,     desc = 'Remote Flash' },
+      {
+        's',
+        mode = { 'n', 'x', 'o' },
+        function()
+          require('flash').jump()
+        end,
+        desc = 'Flash',
+      },
+      {
+        'S',
+        mode = { 'n', 'x', 'o' },
+        function()
+          require('flash').treesitter()
+        end,
+        desc = 'Flash Treesitter',
+      },
+      {
+        'r',
+        mode = 'o',
+        function()
+          require('flash').remote()
+        end,
+        desc = 'Remote Flash',
+      },
       {
         'R',
         mode = { 'o', 'x' },
-        function() require 'flash'.treesitter_search() end,
-        desc =
-        'Treesitter Search',
+        function()
+          require('flash').treesitter_search()
+        end,
+        desc = 'Treesitter Search',
       },
       {
         '<c-s>',
         mode = { 'c' },
-        function() require 'flash'.toggle() end,
-        desc =
-        'Toggle Flash Search',
+        function()
+          require('flash').toggle()
+        end,
+        desc = 'Toggle Flash Search',
       },
     },
   },
@@ -96,9 +119,7 @@ return {
     },
     config = function()
       local status_ok, url_open = pcall(require, 'url-open')
-      if not status_ok then
-        return
-      end
+      if not status_ok then return end
       url_open.setup {}
     end,
   },
@@ -106,18 +127,66 @@ return {
   {
     'monaqa/dial.nvim',
     keys = {
-      { '<C-a>',  function() require 'dial.map'.manipulate('increment', 'normal') end,  mode = 'n' },
-      { '<C-x>',  function() require 'dial.map'.manipulate('decrement', 'normal') end,  mode = 'n' },
-      { 'g<C-a>', function() require 'dial.map'.manipulate('increment', 'gnormal') end, mode = 'n' },
-      { 'g<C-x>', function() require 'dial.map'.manipulate('decrement', 'gnormal') end, mode = 'n' },
-      { '<C-a>',  function() require 'dial.map'.manipulate('increment', 'visual') end,  mode = 'v' },
-      { '<C-x>',  function() require 'dial.map'.manipulate('decrement', 'visual') end,  mode = 'v' },
-      { 'g<C-a>', function() require 'dial.map'.manipulate('increment', 'gvisual') end, mode = 'v' },
-      { 'g<C-x>', function() require 'dial.map'.manipulate('decrement', 'gvisual') end, mode = 'v' },
+      {
+        '<C-a>',
+        function()
+          require('dial.map').manipulate('increment', 'normal')
+        end,
+        mode = 'n',
+      },
+      {
+        '<C-x>',
+        function()
+          require('dial.map').manipulate('decrement', 'normal')
+        end,
+        mode = 'n',
+      },
+      {
+        'g<C-a>',
+        function()
+          require('dial.map').manipulate('increment', 'gnormal')
+        end,
+        mode = 'n',
+      },
+      {
+        'g<C-x>',
+        function()
+          require('dial.map').manipulate('decrement', 'gnormal')
+        end,
+        mode = 'n',
+      },
+      {
+        '<C-a>',
+        function()
+          require('dial.map').manipulate('increment', 'visual')
+        end,
+        mode = 'v',
+      },
+      {
+        '<C-x>',
+        function()
+          require('dial.map').manipulate('decrement', 'visual')
+        end,
+        mode = 'v',
+      },
+      {
+        'g<C-a>',
+        function()
+          require('dial.map').manipulate('increment', 'gvisual')
+        end,
+        mode = 'v',
+      },
+      {
+        'g<C-x>',
+        function()
+          require('dial.map').manipulate('decrement', 'gvisual')
+        end,
+        mode = 'v',
+      },
     },
     config = function()
       local augend = require 'dial.augend'
-      require 'dial.config'.augends:register_group {
+      require('dial.config').augends:register_group {
         default = {
           augend.constant.alias.bool,
           augend.integer.alias.decimal,

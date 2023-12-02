@@ -2,7 +2,7 @@ return {
   {
     'rcarriga/nvim-notify',
     init = function()
-      require 'core.utils'.load_plugin_with_func('nvim-notify', vim, 'notify')
+      require('core.utils').load_plugin_with_func('nvim-notify', vim, 'notify')
     end,
     config = function()
       require 'module.notify'
@@ -12,7 +12,7 @@ return {
   {
     'stevearc/dressing.nvim',
     init = function()
-      require 'core.utils'.load_plugin_with_func('dressing.nvim', vim.ui, { 'input', 'select' })
+      require('core.utils').load_plugin_with_func('dressing.nvim', vim.ui, { 'input', 'select' })
     end,
     opts = {
       input = {
@@ -72,7 +72,7 @@ return {
     'folke/which-key.nvim',
     event = 'VeryLazy',
     config = function()
-      require 'which-key'.setup {
+      require('which-key').setup {
         operators = { gc = 'Comments', gb = 'Comments' },
         key_labels = {
           -- override the label used to display
@@ -109,30 +109,33 @@ return {
         ),
       })
 
-      wilder.set_option('renderer', wilder.renderer_mux {
-        [':'] = wilder.popupmenu_renderer {
-          empty_message = wilder.popupmenu_empty_message_with_spinner(),
-          highlighter = wilder.lua_fzy_highlighter(),
-          highlights = {
-            accent = wilder.make_hl('WilderAccent', 'CmpItemAbbrMatch'),
+      wilder.set_option(
+        'renderer',
+        wilder.renderer_mux {
+          [':'] = wilder.popupmenu_renderer {
+            empty_message = wilder.popupmenu_empty_message_with_spinner(),
+            highlighter = wilder.lua_fzy_highlighter(),
+            highlights = {
+              accent = wilder.make_hl('WilderAccent', 'CmpItemAbbrMatch'),
+            },
+            left = {
+              ' ',
+              wilder.popupmenu_devicons(),
+            },
+            right = {
+              ' ',
+              wilder.popupmenu_scrollbar(),
+            },
           },
-          left = {
-            ' ',
-            wilder.popupmenu_devicons(),
+          ['/'] = wilder.wildmenu_renderer {
+            highlighter = wilder.lua_fzy_highlighter(),
+            apply_incsearch_fix = true,
+            separator = ' | ',
+            left = { ' ', wilder.wildmenu_spinner(), ' ' },
+            right = { ' ', wilder.wildmenu_index() },
           },
-          right = {
-            ' ',
-            wilder.popupmenu_scrollbar(),
-          },
-        },
-        ['/'] = wilder.wildmenu_renderer {
-          highlighter = wilder.lua_fzy_highlighter(),
-          apply_incsearch_fix = true,
-          separator = ' | ',
-          left = { ' ', wilder.wildmenu_spinner(), ' ' },
-          right = { ' ', wilder.wildmenu_index() },
-        },
-      })
+        }
+      )
     end,
     dependencies = 'romgrk/fzy-lua-native',
   },

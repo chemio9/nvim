@@ -5,7 +5,6 @@ luasnip.config.setup {
   region_check_events = 'CursorMoved',
 }
 
-vim.tbl_map(
-  function(type) require('luasnip.loaders.from_' .. type).lazy_load() end,
-  { 'vscode', 'snipmate', 'lua' }
-)
+vim.tbl_map(function(type)
+  require('luasnip.loaders.from_' .. type).lazy_load()
+end, { 'vscode', 'snipmate', 'lua' })

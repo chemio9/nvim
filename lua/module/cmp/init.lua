@@ -1,6 +1,6 @@
 local cmp = require 'cmp'
-local lspkind = require 'lspkind'
 local icons = require 'nvim-web-devicons'
+local lspkind = require 'lspkind'
 local luasnip = require 'luasnip'
 
 local config = {}

@@ -1,6 +1,6 @@
-local telescope = require 'telescope'
 local actions = require 'telescope.actions'
 local icon = require 'core.icons'
+local telescope = require 'telescope'
 local opts = {
   defaults = {
     prompt_prefix = string.format('%s ', icon.Search),

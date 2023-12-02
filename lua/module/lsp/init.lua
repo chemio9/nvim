@@ -78,10 +78,15 @@ local on_attach = function(client, bufnr)
   local lmap = { i = {}, n = {}, v = {}, t = {}, [''] = {} }
 
   lmap.n['<leader>e'] = { desc = ' LSP' }
-  lmap.n['<leader>eD'] = { function() require 'telescope.builtin'.diagnostics() end, desc = 'Search diagnostics' }
+  lmap.n['<leader>eD'] = {
+    function()
+      require('telescope.builtin').diagnostics()
+    end,
+    desc = 'Search diagnostics',
+  }
   lmap.n['<leader>es'] = {
     function()
-      require 'telescope.builtin'.lsp_document_symbols()
+      require('telescope.builtin').lsp_document_symbols()
     end,
     desc = 'Search symbols',
   }
@@ -89,7 +94,7 @@ local on_attach = function(client, bufnr)
   -- Diagnsotics
   lmap.n['<leader>ed'] = {
     function()
-      require 'trouble'.open 'workspace_diagnostics'
+      require('trouble').open 'workspace_diagnostics'
     end,
     desc = 'Workspace Diagnostics',
   }
@@ -102,7 +107,9 @@ local on_attach = function(client, bufnr)
   lmap.n['<leader>ewa'] = { vim.lsp.buf.add_workspace_folder, desc = 'add workspace folder' }
   lmap.n['<leader>ewr'] = { vim.lsp.buf.remove_workspace_folder, desc = 'remove workspace folder' }
   lmap.n['<leader>ewl'] = {
-    function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+    function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end,
     desc = 'list workspace folders',
   }
 
@@ -114,7 +121,7 @@ local on_attach = function(client, bufnr)
   end
 
   if capabilities.codeLensProvider then
-    if not require 'core.utils'.has 'lsp-lens.nvim' then
+    if not require('core.utils').has 'lsp-lens.nvim' then
       add_buffer_autocmd('lsp_codelens_refresh', bufnr, {
         events = { 'InsertLeave', 'BufEnter' },
         callback = function()
@@ -122,8 +129,18 @@ local on_attach = function(client, bufnr)
         end,
       })
       vim.lsp.codelens.refresh()
-      lmap.n['<leader>el'] = { function() vim.lsp.codelens.refresh() end, desc = 'LSP CodeLens refresh' }
-      lmap.n['<leader>eL'] = { function() vim.lsp.codelens.run() end, desc = 'LSP CodeLens run' }
+      lmap.n['<leader>el'] = {
+        function()
+          vim.lsp.codelens.refresh()
+        end,
+        desc = 'LSP CodeLens refresh',
+      }
+      lmap.n['<leader>eL'] = {
+        function()
+          vim.lsp.codelens.run()
+        end,
+        desc = 'LSP CodeLens run',
+      }
     end
   end
 
@@ -142,7 +159,7 @@ local on_attach = function(client, bufnr)
   if capabilities.documentFormattingProvider then
     lmap.n['<leader>cf'] = {
       function()
-        require 'conform'.format { async = true, lsp_fallback = true }
+        require('conform').format { async = true, lsp_fallback = true }
       end,
       desc = 'format',
     }
@@ -151,14 +168,22 @@ local on_attach = function(client, bufnr)
 
   if capabilities.documentHighlightProvider then
     add_buffer_autocmd('lsp_document_highlight', bufnr, {
-      { events = { 'CursorHold', 'CursorHoldI' }, callback = function() vim.lsp.buf.document_highlight() end },
-      { events = 'CursorMoved',                   callback = function() vim.lsp.buf.clear_references() end },
+      {
+        events = { 'CursorHold', 'CursorHoldI' },
+        callback = function()
+          vim.lsp.buf.document_highlight()
+        end,
+      },
+      {
+        events = 'CursorMoved',
+        callback = function()
+          vim.lsp.buf.clear_references()
+        end,
+      },
     })
   end
 
-  if capabilities.hoverProvider then
-    lmap.n['K'] = { '<cmd>LspUI hover<CR>', desc = 'Hover symbol details' }
-  end
+  if capabilities.hoverProvider then lmap.n['K'] = { '<cmd>LspUI hover<CR>', desc = 'Hover symbol details' } end
 
   if capabilities.implementationProvider then
     lmap.n['gi'] = {
@@ -174,12 +199,15 @@ local on_attach = function(client, bufnr)
     }
   end
 
-  if capabilities.renameProvider then
-    lmap.n['<leader>cr'] = { '<cmd>LspUI rename<CR>', desc = 'rename symbols' }
-  end
+  if capabilities.renameProvider then lmap.n['<leader>cr'] = { '<cmd>LspUI rename<CR>', desc = 'rename symbols' } end
 
   if capabilities.signatureHelpProvider then
-    lmap.n['<leader>ch'] = { function() vim.lsp.buf.signature_help() end, desc = 'Signature help' }
+    lmap.n['<leader>ch'] = {
+      function()
+        vim.lsp.buf.signature_help()
+      end,
+      desc = 'Signature help',
+    }
   end
 
   if capabilities.typeDefinitionProvider then
@@ -194,7 +222,7 @@ local on_attach = function(client, bufnr)
     lmap.n['<leader>cG'] = {
       function()
         vim.ui.input({ prompt = 'Symbol Query: ' }, function(query)
-          if query then require 'telescope.builtin'.lsp_workspace_symbols { query = query } end
+          if query then require('telescope.builtin').lsp_workspace_symbols { query = query } end
         end)
       end,
       desc = 'Search workspace symbols',
@@ -205,9 +233,7 @@ local on_attach = function(client, bufnr)
     lmap.n['<leader>co'] = { '<cmd>Lspsaga outline<CR>', desc = 'symbols outline' }
   end
 
-  if capabilities.semanticTokensProvider then
-    vim.lsp.semantic_tokens.start(bufnr, client.id)
-  end
+  if capabilities.semanticTokensProvider then vim.lsp.semantic_tokens.start(bufnr, client.id) end
 
   --if capabilities.inlayHintsProvider then
   -- TODO

@@ -3,7 +3,7 @@ local M = {}
 
 function M.setup(c)
   -- TODO: cannot complete plugins
-  require 'neodev'.setup {
+  require('neodev').setup {
     settings = {
       Lua = {
         workspace = {

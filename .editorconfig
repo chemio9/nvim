@@ -1,4 +1,3 @@
-
 # see https://github.com/CppCXY/EmmyLuaCodeStyle
 [*.lua]
 # [basic]
@@ -36,7 +35,7 @@ align_function_define_params = false
 remove_expression_list_finish_comma = true
 
 # keep/remove/remove_table_only/remove_string_only/unambiguous_remove_string_only
-call_arg_parentheses = remove
+call_arg_parentheses = unambiguous_remove_string_only
 
 # [table]
 
@@ -109,8 +108,8 @@ keep_one_space_between_namedef_and_attribute = true
 
 # [row_layout]
 # The following configuration supports four expressions
-# minLine:${n} 
-# keepLine 
+# minLine:${n}
+# keepLine
 # keepLine:${n}
 # maxLine:${n}
 
