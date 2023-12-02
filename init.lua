@@ -6,4 +6,3 @@ require 'core.autocmds'
 require 'core.package'
 
 require 'core.keymap'.setup()
-vim.cmd.colorscheme 'onedark_vivid'
