@@ -150,5 +150,16 @@ local plugin = {
     event = 'User LspSetup',
     opts = {},
   },
+
+  {
+    'stevearc/conform.nvim',
+    opts = {
+      formatters_by_ft = {
+        lua = { 'stylua' },
+      },
+    },
+    event = { 'BufWritePre' },
+    cmd = { 'ConformInfo' },
+  },
 }
 return plugin

@@ -142,7 +142,7 @@ local on_attach = function(client, bufnr)
   if capabilities.documentFormattingProvider then
     lmap.n['<leader>cf'] = {
       function()
-        vim.lsp.buf.format { async = true }
+        require 'conform'.format { async = true, lsp_fallback = true }
       end,
       desc = 'format',
     }
