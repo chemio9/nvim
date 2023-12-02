@@ -1,5 +1,5 @@
 local luasnip = require 'luasnip'
-require 'luasnip'.config.setup {
+luasnip.config.setup {
   history = true,
   delete_check_events = 'TextChanged',
   region_check_events = 'CursorMoved',
