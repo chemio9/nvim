@@ -49,7 +49,6 @@ require('lazy').setup('plugins', {
         -- 'zipPlugin',
         -- 'tar',
         -- 'tarPlugin',
-        'man',
         'matchit',
         'matchparen',
         'netrwPlugin',
