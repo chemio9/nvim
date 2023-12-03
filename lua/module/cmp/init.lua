@@ -17,10 +17,11 @@ config.formatting = {
     --  e.g.
     --    |completion    Text [LSP]|
     local item = lspkind.cmp_format {
-      maxwidth = 60,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+      maxwidth = 55,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
       ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
       preset = 'codicons',
       mode = 'symbol_text',
+      symbol_map = { Codeium = '' },
       menu = {
         buffer = '[Buf]',
         nvim_lsp = '[LSP]',
@@ -28,6 +29,7 @@ config.formatting = {
         nvim_lua = '[Lua]',
         latex_symbols = '[Tex]',
         path = '[Path]',
+        Codeium = '[Code]',
       },
     } (entry, vim_item)
     if vim.tbl_contains({ 'path' }, entry.source.name) then
@@ -82,6 +84,7 @@ config.mapping = {
 
 config.sources = cmp.config.sources({
   { name = 'nvim_lsp', priority = 1000 },
+  { name = 'codeium',  priority = 1000 },
   { name = 'luasnip',  priority = 750 },
 }, {
   { name = 'path',   priority = 500 },
