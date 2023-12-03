@@ -21,6 +21,11 @@ map.n['k'] = { "v:count ? 'k' : 'gk'", expr = true, desc = 'Move cursor up' }
 map.v['j'] = map.n.j
 map.v['k'] = map.n.k
 
+map.n['J'] = { '6j' }
+map.n['K'] = { '6k' }
+map.n['H'] = { '0^' }
+map.n['L'] = { '$' }
+map.n['M'] = { 'J' }
 -- modified function keys found with `showkey -a` in the terminal to get key code
 -- run `nvim -V3log +quit` and search through the "Terminal info" in the `log` file for the correct keyname
 if has 'nvim-dap' then map.n['<leader>d'] = { desc = ' Debugger' } end
