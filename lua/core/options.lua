@@ -18,6 +18,8 @@ o.encoding = 'utf-8'
 o.number = true
 o.relativenumber = true
 
+o.laststatus = 3
+o.startofline = true
 o.ignorecase = true
 o.smartcase = true
 o.copyindent = true -- Copy the previous indentation on autoindenting
