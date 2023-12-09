@@ -4,6 +4,7 @@ local o = vim.opt
 local g = vim.g
 
 vim.scriptencoding = 'utf-8'
+o.iskeyword:append('-')
 o.fileencodings = {
   'utf-8',
   'ucs-bom',
