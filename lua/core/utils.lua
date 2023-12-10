@@ -1,4 +1,7 @@
-local M = {}
+local M = {
+  which_key_queue = nil,
+  opts = {},
+}
 
 --- Call function if a condition is met
 ---@param func function The function to run
@@ -22,34 +25,43 @@ function M.which_key_register()
   end
 end
 
---- Table based API for setting keybindings
----@param map_table table A nested table where the first key is the vim mode, the second key is the key to map, and the value is the function to set the mapping to
----@param base? table A base set of options to set on every keybinding
-function M.setup_mappings(map_table, base)
-  -- iterate over the first keys for each mode
-  base = base or {}
-  for mode, maps in pairs(map_table) do
-    -- iterate over each keybinding set in the current mode
-    for keymap, options in pairs(maps) do
-      -- build the options for the command accordingly
-      if options then
-        local cmd = options
-        local keymap_opts = base
-        if type(options) == 'table' then
-          cmd = options[1]
-          keymap_opts = vim.tbl_deep_extend('force', keymap_opts, options)
-          keymap_opts[1] = nil
-        end
-        if not cmd or keymap_opts.name then -- if which-key mapping, queue it
-          if not M.which_key_queue then M.which_key_queue = {} end
-          if not M.which_key_queue[mode] then M.which_key_queue[mode] = {} end
-          M.which_key_queue[mode][keymap] = keymap_opts
-        else -- if not which-key mapping, set it
-          vim.keymap.set(mode, keymap, cmd, keymap_opts)
-        end
+---@class KeyOpt
+---@field expr boolean?
+---@field silent boolean?
+---@field noremap boolean?
+---@field desc string? description
+---@field buffer number? buffer number
+---
+---@class KeyRecord: KeyOpt
+---@field [1] string|function? key to be mapped
+
+---map keys
+--- map('n', '<C-N>', { '<cmd>bnext<CR>', desc = 'Next buf' })
+---@param mode 'v'|'n'|'i'|'t'|table
+---@param key string
+---@param map KeyRecord
+function M.map(mode, key, map)
+  if map[1] then
+    local opts = vim.deepcopy(map)
+    opts[1] = nil
+    vim.keymap.set(mode, key, map[1], vim.tbl_deep_extend('force', M.opts, opts))
+  else
+    M.which_key_queue = M.which_key_queue or {}
+    M.which_key_queue[mode] = M.which_key_queue[mode] or {}
+    if type(mode) == 'table' then
+      for _, v in ipairs(mode) do
+        M.which_key_queue[v][key] = map
       end
+    else
+      M.which_key_queue[mode][key] = map
     end
   end
+end
+
+---set opts for the rest operations
+---@param opt KeyOpt
+function M.map_opt(opt)
+  M.opts = opt
 end
 
 function M.event(ev)
