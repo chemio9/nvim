@@ -36,7 +36,7 @@ if has 'bufdelete.nvim' then map('n', '<leader>q', { '<cmd>Bwipeout<CR>', desc =
 
 if has 'telescope.nvim' then
   map('n', '<leader>f', { desc = '󰍉 Find' })
-  map('n', '<leader>g', { desc = ' Git' })
+  map('n', '<leader>g', { desc = '󰊢 Git' })
   map('n', '<leader>gb', { function() require('telescope.builtin').git_branches() end, desc = 'Git branches' })
   map('n', '<leader>gc', { function() require('telescope.builtin').git_commits() end, desc = 'Git commits' })
   map('n', '<leader>gt', { function() require('telescope.builtin').git_status() end, desc = 'Git status' })
