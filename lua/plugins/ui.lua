@@ -2,7 +2,7 @@ return {
   {
     'rcarriga/nvim-notify',
     init = function()
-      require('core.utils').load_plugin_with_func('nvim-notify', vim, 'notify')
+      -- require('core.utils').load_plugin_with_func('nvim-notify', vim, 'notify')
     end,
     config = function()
       require 'module.notify'

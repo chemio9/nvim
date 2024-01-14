@@ -115,6 +115,9 @@ local plugin = {
   {
     'j-hui/fidget.nvim',
     event = 'User LspSetup',
+    init = function()
+      require('core.utils').load_plugin_with_func('fidget.nvim', vim, 'notify')
+    end,
     opts = {
       notification = {
         window = {
@@ -122,6 +125,10 @@ local plugin = {
         },
       },
     },
+    config = function(_, opts)
+      require('fidget').setup(opts)
+      vim.notify = require('fidget.notification').notify
+    end,
   },
 
   {
