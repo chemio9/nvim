@@ -1,6 +1,8 @@
 local plugin = {
   {
-    'junnplus/lsp-setup.nvim',
+    -- TODO: use my own fork of lsp-setup or just rewrite it
+    'chenrry666/lsp-setup.nvim',
+    branch = 'fix_inlay_hints',
     event = 'BufRead',
     dependencies = {
       'neovim/nvim-lspconfig',
@@ -17,6 +19,14 @@ local plugin = {
             download_url_template = 'https://ghproxy.net/github.com/%s/releases/download/%s/%s',
           },
         },
+        cmd = {
+          'Mason',
+          'MasonInstall',
+          'MasonUninstall',
+          'MasonUninstallAll',
+          'MasonLog',
+          'MasonUpdate',
+        },
       },
       'williamboman/mason-lspconfig.nvim',
 
@@ -25,10 +35,6 @@ local plugin = {
       'folke/neodev.nvim',
     },
     opts = {
-      -- map the keys on my own
-      default_mappings = false,
-      -- TODO: seems like auto advertising proper capabilities to lsp
-      --      considering remove the manual way
       capabilities = require('module.lsp').capabilities,
       on_attach = function(client, bufnr)
         -- Support custom the on_attach function for global
@@ -50,20 +56,24 @@ local plugin = {
         enabled = false,
       },
       servers = {
-        lua_ls = {
-          settings = {
-            Lua = {
-              hint = {
-                enable = true,
-                arrayIndex = 'Auto',
-                await = true,
-                paramName = 'All',
-                paramType = true,
-                semicolon = 'SameLine',
-                setType = false,
-              },
-            },
+        clangd = {
+          cmd = {
+            'clangd',
+            '--compile-commands-dir=build/',
+            '--clang-tidy',               -- 开启clang-tidy
+            '--all-scopes-completion',    -- 全代码库补全
+            '--completion-style=bundled', -- 详细补全
+            '--header-insertion=iwyu',
+            '--header-insertion-decorators',
+            '--pch-storage=disk',
+            '--log=error',
+            '--j=4', -- 后台线程数，可根据机器配置自行调整
+            '--background-index',
           },
+
+        },
+        lua_ls = {
+          settings = {},
         },
         zls = {
           settings = {
@@ -75,6 +85,13 @@ local plugin = {
               inlay_hints_hide_redundant_param_names_last_token = false,
             },
           },
+        },
+        gopls = {
+          analyses = {
+            unusedparams = true,
+          },
+          staticcheck = true,
+          gofumpt = true,
         },
         jsonls = function()
           return {
@@ -149,7 +166,13 @@ local plugin = {
     branch = 'main',
     event = 'User LspSetup',
     cmd = 'LspUI',
-    config = true,
+    --- @type LspUI_config
+    opts = {
+      inlay_hint = {
+        enable = false,
+        command_enable = false,
+      },
+    },
   },
 
   {
