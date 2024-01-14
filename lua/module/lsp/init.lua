@@ -84,7 +84,7 @@ local on_attach = function(client, bufnr)
 
   utils.map_opt({ noremap = true, silent = true, buffer = bufnr })
 
-  map('n','leadere',{ desc = ' LSP' })
+  map('n','<leader>e',{ desc = ' LSP' })
   map('n','<leader>eD',{ function() require('telescope.builtin').diagnostics() end, desc = 'Search diagnostics', })
   map('n','<leader>es',{ function() require('telescope.builtin').lsp_document_symbols() end, desc = 'Search symbols', })
 
