@@ -3,17 +3,19 @@ local has = utils.has
 local map = utils.map
 
 -- {{{
-map('n', '<C-N>', { '<cmd>bnext<CR>', desc = 'Next buf' })
-map('n', '<C-M>', { '<cmd>bprevious<CR>', desc = 'Prev buf' })
-map('n', '<C-M-N>', { '<cmd>tabnext<CR>', desc = 'Next tab' })
-map('n', '<C-M-M>', { '<cmd>tabprevious<CR>', desc = 'Prev tab' })
+map('n', '<leader>b', { desc = 'buffer' })
+map('n', '<leader>bn', { '<cmd>bnext<CR>', desc = 'Next buf' })
+map('n', '<leader>bp', { '<cmd>bprevious<CR>', desc = 'Prev buf' })
+map('n', '<leader>t', { desc = 'tab' })
+map('n', '<leader>tn', { '<cmd>tabnext<CR>', desc = 'Next tab' })
+map('n', '<leader>tp', { '<cmd>tabprevious<CR>', desc = 'Prev tab' })
 
 -- Terminal
 if has 'toggleterm.nvim' then map('n', '<leader>t', { desc = ' Terminal' }) end
 
 -- write files with sudo permission
 -- this is useful when you forget to use `sudo nvim foo`
-map('n', '<leader>S', { '<cmd>w !sudo tee % >/dev/null<CR>', desc = 'write current file with sudo permission' })
+map('n', '<leader>S', { '<cmd>w !sudo tee % >/dev/null<CR>', desc = 'sudo write' })
 
 -- use screen line by default
 map('n', 'gj', { 'j' })
