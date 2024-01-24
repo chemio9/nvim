@@ -139,4 +139,24 @@ return {
     end,
     dependencies = 'romgrk/fzy-lua-native',
   },
+
+  {
+    'folke/zen-mode.nvim',
+    cmd = {
+      'ZenMode',
+    },
+    opts = {
+      window = {
+        backdrop = 1,
+      },
+    },
+  },
+
+  {
+    'goolord/alpha-nvim',
+    cmd = 'Alpha',
+    config = function()
+      require 'module.alpha'
+    end,
+  },
 }
