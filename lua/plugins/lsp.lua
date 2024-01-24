@@ -1,3 +1,4 @@
+---@type LazySpec[]
 local plugin = {
   {
     -- TODO: use my own fork of lsp-setup or just rewrite it

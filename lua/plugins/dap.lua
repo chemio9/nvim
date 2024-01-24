@@ -1,3 +1,4 @@
+--- @type LazySpec
 return {
   'mfussenegger/nvim-dap',
   enabled = vim.fn.has 'win32' == 0,

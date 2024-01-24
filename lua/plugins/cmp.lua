@@ -1,3 +1,4 @@
+---@type LazySpec[]
 local plugin = {
   {
     'hrsh7th/nvim-cmp',
