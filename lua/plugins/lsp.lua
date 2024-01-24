@@ -50,7 +50,6 @@ local plugin = {
 
         local lsp = require 'module.lsp'
         lsp.on_attach(client, bufnr)
-        require('core.utils').event 'LspSetup'
       end,
       inlay_hints = {
         enabled = false,
@@ -131,7 +130,7 @@ local plugin = {
 
   {
     'j-hui/fidget.nvim',
-    event = 'User LspSetup',
+    event = 'LspAttach',
     init = function()
       require('core.utils').load_plugin_with_func('fidget.nvim', vim, 'notify')
     end,
@@ -164,7 +163,7 @@ local plugin = {
   {
     'jinzhongjia/LspUI.nvim',
     branch = 'main',
-    event = 'User LspSetup',
+    event = 'LspAttach',
     cmd = 'LspUI',
     --- @type LspUI_config
     opts = {
@@ -177,7 +176,7 @@ local plugin = {
 
   {
     'VidocqH/lsp-lens.nvim',
-    event = 'User LspSetup',
+    event = 'LspAttach',
     opts = {},
   },
 
