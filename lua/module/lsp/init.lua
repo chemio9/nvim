@@ -43,7 +43,7 @@ local setup_diagnostics = function()
   local diagnostics = {
     virtual_text = false,
     signs = { active = signs },
-    update_in_insert = true,
+    update_in_insert = false,
     underline = true,
     severity_sort = true,
     float = {
@@ -84,27 +84,65 @@ local on_attach = function(client, bufnr)
 
   utils.map_opt({ noremap = true, silent = true, buffer = bufnr })
 
-  map('n','<leader>e',{ desc = ' LSP' })
-  map('n','<leader>eD',{ function() require('telescope.builtin').diagnostics() end, desc = 'Search diagnostics', })
-  map('n','<leader>es',{ function() require('telescope.builtin').lsp_document_symbols() end, desc = 'Search symbols', })
+  map('n', '<leader>e', { desc = ' LSP' })
+  map('n', '<leader>eD', { function() require('telescope.builtin').diagnostics() end, desc = 'Search diagnostics' })
+  map('n', '<leader>es', { function() require('telescope.builtin').lsp_document_symbols() end, desc = 'Search symbols' })
 
   -- Diagnsotics
-  map('n','<leader>ed',{ function() require('trouble').open 'workspace_diagnostics' end, desc = 'Workspace Diagnostics', })
+  map('n', '<leader>ed', {
+    function()
+      require('trouble').open 'workspace_diagnostics'
+    end,
+    desc = 'Workspace Diagnostics',
+  })
 
   -- Diagnsotic jump can use `<c-o>` to jump back
-  map('n','[e',{ '<cmd>LspUI diagnostic prev<CR>', desc = 'previous diagnostic' })
-  map('n',']e',{ '<cmd>LspUI diagnostic next<CR>', desc = 'next diagnostic' })
+  map('n', '[e', { '<cmd>LspUI diagnostic prev<CR>', desc = 'previous diagnostic' })
+  map('n', ']e', { '<cmd>LspUI diagnostic next<CR>', desc = 'next diagnostic' })
 
-  map('n','<leader>ew',{ desc = 'Workspaces' })
-  map('n','<leader>ewa',{ vim.lsp.buf.add_workspace_folder, desc = 'add workspace folder' })
-  map('n','<leader>ewr',{ vim.lsp.buf.remove_workspace_folder, desc = 'remove workspace folder' })
-  map('n','<leader>ewl',{ function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = 'list workspace folders', })
+  map('n', '<leader>ew', { desc = 'Workspaces' })
+  map('n', '<leader>ewa', { vim.lsp.buf.add_workspace_folder, desc = 'add workspace folder' })
+  map('n', '<leader>ewr', { vim.lsp.buf.remove_workspace_folder, desc = 'remove workspace folder' })
+  map('n', '<leader>ewl',
+    { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = 'list workspace folders' })
 
-  map('n','<leader>c',{ desc = 'Code' })
-  if capabilities.codeActionProvider then
-    -- Code action
-    map({ 'n','v' },'<leader>ca',{ '<cmd>LspUI code_action<CR>', desc = 'run code action' })
+  map('n', '<leader>c', { desc = 'Code' })
+  -- Code action
+  map({ 'n', 'v' }, '<leader>ca', { '<cmd>LspUI code_action<CR>', desc = 'run code action' })
+
+  map('n', 'gD', { '<cmd>LspUI declaration<CR>', desc = 'Declaration of current symbol' })
+
+  map('n', 'gd', { '<cmd>LspUI definition<CR>', desc = 'Show the definition of current symbol' })
+  -- TODO: glances.nvim or goto-preview
+  -- map('n','gp',{ '<cmd>LspUI peek_definition<CR>', desc = 'peek definition' })
+  -- if capabilities.documentSymbolProvider then
+  --   -- map('n','<leader>co',{ '<cmd>Lspsaga outline<CR>', desc = 'symbols outline' })
+  -- end
+
+  map({ 'n', 'v' }, '<leader>cf',
+    { function() require('conform').format { async = true, lsp_fallback = true } end, desc = 'format' })
+
+  map('n', '<leader>ch', { '<cmd>LspUI hover<CR>', desc = 'Hover symbol details' })
+  map('n', 'gi', { '<cmd>LspUI implementation<CR>', desc = 'Implementation of current symbol' })
+  map('n', 'gr', { '<cmd>LspUI reference<CR>', desc = 'find references' })
+  map('n', '<leader>cr', { '<cmd>LspUI rename<CR>', desc = 'rename symbols' })
+  map('n', '<leader>cs', { function() vim.lsp.buf.signature_help() end, desc = 'Signature help' })
+  map('n', 'gt', { '<cmd>LspUI type_definition<CR>', desc = 'Definition of current type' })
+
+  if capabilities.workspaceSymbolProvider then
+    --@diagnostic disable-next-line: missing-parameter
+    map('n', '<leader>cG',
+      {
+        function()
+          vim.ui.input({ prompt = 'Symbol Query: ' },
+            function(query) if query then require('telescope.builtin').lsp_workspace_symbols { query = query } end end)
+        end,
+        desc =
+        'Search workspace symbols',
+      })
   end
+
+  if capabilities.semanticTokensProvider then vim.lsp.semantic_tokens.start(bufnr, client.id) end
 
   if capabilities.codeLensProvider then
     if not require('core.utils').has 'lsp-lens.nvim' then
@@ -115,22 +153,9 @@ local on_attach = function(client, bufnr)
         end,
       })
       vim.lsp.codelens.refresh()
-      map('n','<leader>el',{ function() vim.lsp.codelens.refresh() end, desc = 'LSP CodeLens refresh', })
-      map('n','<leader>eL',{ function() vim.lsp.codelens.run() end, desc = 'LSP CodeLens run', })
+      map('n', '<leader>el', { function() vim.lsp.codelens.refresh() end, desc = 'LSP CodeLens refresh' })
+      map('n', '<leader>eL', { function() vim.lsp.codelens.run() end, desc = 'LSP CodeLens run' })
     end
-  end
-
-  if capabilities.declarationProvider then
-    map('n','gD',{ '<cmd>LspUI declaration<CR>', desc = 'Declaration of current symbol' })
-  end
-
-  if capabilities.definitionProvider then
-    map('n','gd',{ '<cmd>LspUI definition<CR>', desc = 'Show the definition of current symbol', })
-    -- map('n','gp',{ '<cmd>LspUI peek_definition<CR>', desc = 'peek definition' })
-  end
-
-  if capabilities.documentFormattingProvider then
-    map({ 'n','v' },'<leader>cf',{ function() require('conform').format { async = true, lsp_fallback = true } end, desc = 'format', })
   end
 
   if false and capabilities.documentHighlightProvider then
@@ -149,37 +174,6 @@ local on_attach = function(client, bufnr)
       },
     })
   end
-
-  if capabilities.hoverProvider then map('n','ch',{ '<cmd>LspUI hover<CR>', desc = 'Hover symbol details' }) end
-
-  if capabilities.implementationProvider then
-    map('n','gi',{ '<cmd>LspUI implementation<CR>', desc = 'Implementation of current symbol', })
-  end
-
-  if capabilities.referencesProvider then
-    map('n','gr',{ '<cmd>LspUI reference<CR>', desc = 'find references', })
-  end
-
-  if capabilities.renameProvider then map('n','<leader>cr',{ '<cmd>LspUI rename<CR>', desc = 'rename symbols' }) end
-
-  if capabilities.signatureHelpProvider then
-    map('n','<leader>cs',{ function() vim.lsp.buf.signature_help() end, desc = 'Signature help', })
-  end
-
-  if capabilities.typeDefinitionProvider then
-    map('n','gt',{ '<cmd>LspUI type_definition<CR>', desc = 'Definition of current type', })
-  end
-
-  if capabilities.workspaceSymbolProvider then
-    --@diagnostic disable-next-line: missing-parameter
-    map('n','<leader>cG',{ function() vim.ui.input({ prompt = 'Symbol Query: ' }, function(query) if query then require('telescope.builtin').lsp_workspace_symbols { query = query } end end) end, desc = 'Search workspace symbols', })
-  end
-
-  if capabilities.documentSymbolProvider then
-    -- map('n','<leader>co',{ '<cmd>Lspsaga outline<CR>', desc = 'symbols outline' })
-  end
-
-  if capabilities.semanticTokensProvider then vim.lsp.semantic_tokens.start(bufnr, client.id) end
 
   --if capabilities.inlayHintsProvider then
   -- TODO
