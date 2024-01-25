@@ -4,9 +4,12 @@ local lspkind = require 'lspkind'
 local luasnip = require 'luasnip'
 local smartTab = require 'smart-tab'
 
-local function is_blank_line()
-  local line, _col = unpack(vim.api.nvim_win_get_cursor(0))
-  return vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:match('%S') == nil
+local function jumpable()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local cur_line = vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
+  -- before cursor is blank
+  -- when you need to insert tab before text. avoid smartTab take you outside
+  return cur_line:sub(1, col):match('%S') ~= nil
 end
 ---@type cmp.ConfigSchema
 local config = {}
@@ -72,7 +75,9 @@ config.mapping = {
       cmp.select_next_item()
     elseif luasnip.expand_or_jumpable() then
       luasnip.expand_or_jump()
-    elseif is_blank_line() or not smartTab.smart_tab() then
+    elseif jumpable() then
+      smartTab.smart_tab()
+    else
       fallback()
     end
   end, { 'i', 's' }),
