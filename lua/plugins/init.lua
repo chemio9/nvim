@@ -97,10 +97,70 @@ return {
     },
   },
 
-  -- {
-  --   's1n7ax/nvim-window-picker',
-  --   opts = {
-  --     use_winbar = 'smart',
-  --   },
-  -- },
+  {
+    'rolv-apneseth/tfm.nvim',
+    cmd = {
+      'Tfm',
+      'TfmSplit',
+      'TfmVsplit',
+      'TfmTabedit',
+    },
+    opts = {
+      -- Possible choices: "ranger" | "nnn" | "lf" | "yazi" (default)
+      file_manager = 'yazi',
+      -- leave to Neo-tree
+      replace_netrw = false,
+      enable_cmds = true,
+      -- Custom keybindings only applied within the TFM buffer
+      keybindings = {
+        ['<ESC>'] = 'q',
+      },
+      -- Customise UI. The below options are the default
+      ui = {
+        border = 'rounded',
+        height = 1,
+        width = 1,
+        x = 0.5,
+        y = 0.5,
+      },
+    },
+    keys = {
+      {
+        '<leader>mo',
+        function() require('tfm').open() end,
+        desc = 'TFM'
+      },
+      {
+        '<leader>mh',
+        function()
+          local tfm = require('tfm')
+          tfm.open(nil, tfm.OPEN_MODE.split)
+        end,
+        desc = 'TFM - horizonal split'
+      },
+      {
+        '<leader>mv',
+        function()
+          local tfm = require('tfm')
+          tfm.open(nil, tfm.OPEN_MODE.vsplit)
+        end,
+        desc = 'TFM - vertical split'
+      },
+      {
+        '<leader>mt',
+        function()
+          local tfm = require('tfm')
+          tfm.open(nil, tfm.OPEN_MODE.tabedit)
+        end,
+        desc = 'TFM - new tab'
+      },
+    },
+  },
+
+  {
+    's1n7ax/nvim-window-picker',
+    opts = {
+      use_winbar = 'smart',
+    },
+  },
 }
