@@ -172,8 +172,8 @@ local plugin = {
     'jinzhongjia/LspUI.nvim',
     branch = 'main',
     event = 'LspAttach',
+    enabled = vim.fn.has("nvim-0.10") == 1,
     cmd = 'LspUI',
-    --- @type LspUI_config
     opts = {
       inlay_hint = {
         enable = false,
