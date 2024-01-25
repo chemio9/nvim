@@ -38,10 +38,6 @@ local plugin = {
     opts = {
       capabilities = require('module.lsp').capabilities,
       on_attach = function(client, bufnr)
-        -- Support custom the on_attach function for global
-        -- Formatting on save as default
-        -- require 'lsp-setup.utils'.format_on_save(client)
-
         require('lsp_signature').on_attach({
           bind = true, -- This is mandatory, otherwise border config won't get registered.
           handler_opts = {
@@ -60,28 +56,25 @@ local plugin = {
           cmd = {
             'clangd',
             '--compile-commands-dir=build/',
-            '--clang-tidy',               -- 开启clang-tidy
-            '--all-scopes-completion',    -- 全代码库补全
-            '--completion-style=bundled', -- 详细补全
+            '--clang-tidy',
+            '--all-scopes-completion',
+            '--completion-style=bundled',
             '--header-insertion=iwyu',
             '--header-insertion-decorators',
             '--pch-storage=disk',
             '--log=error',
-            '--j=4', -- 后台线程数，可根据机器配置自行调整
+            '--j=4',
             '--background-index',
           },
-
         },
-        lua_ls = {
-          settings = {},
-        },
+        lua_ls = {},
         zls = {
           settings = {
             zls = {
               enable_inlay_hints = true,
               inlay_hints_show_builtin = true,
               inlay_hints_exclude_single_argument = true,
-              inlay_hints_hide_redundant_param_names = false,
+              inlay_hints_hide_redundant_param_names = true,
               inlay_hints_hide_redundant_param_names_last_token = false,
             },
           },
