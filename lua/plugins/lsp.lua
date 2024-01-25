@@ -189,6 +189,12 @@ local plugin = {
   },
 
   {
+    'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+    event = 'LspAttach',
+    config = true,
+  },
+
+  {
     'stevearc/conform.nvim',
     opts = {
       formatters_by_ft = {},
