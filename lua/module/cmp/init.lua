@@ -61,15 +61,15 @@ config.snippet = {
 config.mapping = {
   ['<Up>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
   ['<Down>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
-  ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-  ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+  -- ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+  -- ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
   -- ['<C-j>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
   -- ['<C-k>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
   ['<C-y>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
   ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
   ['<C-e>'] = cmp.mapping { i = cmp.mapping.abort(), c = cmp.mapping.close() },
   ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-  ['<CR>'] = cmp.mapping.confirm { select = true },
+  ['<CR>'] = cmp.mapping.confirm {},
   ['<Tab>'] = cmp.mapping(function(fallback)
     if cmp.visible() then
       cmp.select_next_item()
@@ -95,7 +95,7 @@ config.mapping = {
 
 config.sources = cmp.config.sources({
   { name = 'nvim_lsp', priority = 1000 },
-  { name = 'codeium',  priority = 1000 },
+  { name = 'codeium',  priority = 999 },
   { name = 'luasnip',  priority = 750 },
 }, {
   { name = 'path',   priority = 1200 },
@@ -112,10 +112,35 @@ config.preselect = cmp.PreselectMode.None
 cmp.setup(config)
 -- Set configuration for specific filetype.
 
+cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' },
+  },
+})
+-- `:` cmdline setup.
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' },
+  }, {
+    {
+      name = 'cmdline',
+      option = {
+        ignore_cmds = { 'Man', '!' },
+      },
+    },
+  }),
+})
+
 cmp.setup.filetype('gitcommit', {
   sources = cmp.config.sources({
     { name = 'cmp_git' }, -- TODO: You can specify the `cmp_git` source if you were installed it.
   }, {
     { name = 'buffer' },
   }),
+})
+
+cmp.setup.filetype('neorg', {
+  sources = { name = 'neorg' },
 })
