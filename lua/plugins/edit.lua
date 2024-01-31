@@ -315,4 +315,11 @@ return {
       },
     },
   },
+
+  {
+    'echasnovski/mini.align',
+    version = '*',
+    keys = { { 'ga', mode = { 'n', 'v' } }, { 'gA', mode = { 'n', 'v' } } },
+    config = true,
+  },
 }
