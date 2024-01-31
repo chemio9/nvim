@@ -96,7 +96,7 @@ return {
 
   {
     'cappyzawa/trim.nvim',
-    event = 'User File',
+    event = 'BufWritePre',
     cmd = { 'Trim', 'TrimToggle' },
     opts = {
       ft_blocklist = {},
