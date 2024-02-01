@@ -322,4 +322,10 @@ return {
     keys = { { 'ga', mode = { 'n', 'v' } }, { 'gA', mode = { 'n', 'v' } } },
     config = true,
   },
+
+  {
+    'ellisonleao/glow.nvim',
+    config = true,
+    cmd = 'Glow',
+  },
 }
