@@ -30,7 +30,7 @@ map('n', 'M', { 'J' })
 -- run `nvim -V3log +quit` and search through the "Terminal info" in the `log` file for the correct keyname
 if has 'nvim-dap' then map('n', '<leader>d', { desc = ' Debugger' }) end
 
-if has 'neo-tree.nvim' then map('n', '<leader>F', { '<cmd>Neotree<CR>', desc = 'open Neotree' }) end
+if has 'neo-tree.nvim' then map('n', '<leader>F', { '<cmd>Neotree toggle<CR>', desc = 'open Neotree' }) end
 
 if has 'bufdelete.nvim' then map('n', '<leader>q', { '<cmd>Bwipeout<CR>', desc = 'Bwipeout' }) end
 
