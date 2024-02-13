@@ -72,7 +72,7 @@ o.foldexpr = 'nvim_treesitter#foldexpr()'
 o.foldnestmax = 5      -- max fold nest
 
 -- Clipboard
-o.clipboard.append 'unnamedplus'
+o.clipboard:append 'unnamedplus'
 
 o.completeopt = { 'menu', 'menuone', 'noselect' }
 
