@@ -180,9 +180,6 @@ local on_attach = function(client, bufnr)
   --end
 
   utils.which_key_register()
-  -- Enable completion triggered by <c-x><c-o>
-  ---@diagnostic disable-next-line: deprecated
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 end
 
 return {
