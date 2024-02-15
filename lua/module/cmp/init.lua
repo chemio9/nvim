@@ -1,6 +1,7 @@
 local module = {}
-table.insert(module, require "module.cmp.pairs")
-table.insert(module, require "module.cmp.luasnip")
+table.insert(module, require 'module.cmp.pairs')
+table.insert(module, require 'module.cmp.luasnip')
+table.insert(module, require 'module.cmp.comment')
 
 local plugin = {
   'hrsh7th/nvim-cmp',
@@ -122,5 +123,5 @@ function plugin.config()
   })
 end
 
-table.insert(module, plugin) 
+table.insert(module, plugin)
 return module
