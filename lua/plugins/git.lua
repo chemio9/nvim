@@ -4,7 +4,7 @@ return {
     'lewis6991/gitsigns.nvim',
     enabled = vim.fn.executable 'git' == 1,
     ft = 'gitcommit',
-    event = 'User GitFile',
+    event = 'User File',
     cmd = 'Gitsigns',
     opts = {
       trouble = true,
