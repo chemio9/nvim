@@ -13,7 +13,8 @@ if has 'toggleterm.nvim' then map('n', '<leader>t', { desc = ' Terminal' }) e
 -- write files with sudo permission
 -- this is useful when you forget to use `sudo nvim foo`
 -- TODO: replace with suda.nvim
-map('n', '<leader>S', { '<cmd>w !sudo tee % >/dev/null<CR>', desc = 'sudo write' })
+-- map('n', '<leader>S', { '<cmd>w !sudo tee % >/dev/null<CR>', desc = 'sudo write' })
+vim.cmd.cabbrev('w!!', 'w !sudo tee > /dev/null %')
 
 -- use screen line by default
 map('n', 'gj', { 'j' })
@@ -21,11 +22,9 @@ map('n', 'gk', { 'k' })
 map({ 'n', 'v' }, 'j', { "v:count ? 'j' : 'gj'", expr = true, desc = 'Move cursor down' })
 map({ 'n', 'v' }, 'k', { "v:count ? 'k' : 'gk'", expr = true, desc = 'Move cursor up' })
 
-map('n', 'J', { '6j' })
-map('n', 'K', { '6k' })
 map('n', 'H', { '0^' })
 map('n', 'L', { '$' })
-map('n', 'M', { 'J' })
+--
 -- modified function keys found with `showkey -a` in the terminal to get key code
 -- run `nvim -V3log +quit` and search through the "Terminal info" in the `log` file for the correct keyname
 if has 'nvim-dap' then map('n', '<leader>d', { desc = ' Debugger' }) end
