@@ -1,4 +1,21 @@
+-- vim: fdm=marker:foldlevel=0
 local dap = require 'dap'
+
+-- neovim lua {{{
+dap.adapters.nlua = function(callback, config)
+  callback({ type = 'server', host = config.host or '127.0.0.1', port = config.port or 8086 })
+end
+
+dap.configurations.lua = {
+  {
+    type = 'nlua',
+    request = 'attach',
+    name = 'Attach to running Neovim instance',
+  },
+}
+-- }}}
+
+-- lldb for rust c cpp {{{
 dap.adapters.lldb = {
   type = 'executable',
   -- must be absolute path
@@ -12,7 +29,6 @@ dap.configurations.cpp = {
     type = 'lldb',
     request = 'launch',
     program = function()
-      ---@diagnostic disable: redundant-parameter, param-type-mismatch
       return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
     end,
     cwd = '${workspaceFolder}',
@@ -36,3 +52,4 @@ dap.configurations.cpp = {
 
 dap.configurations.c = dap.configurations.cpp
 dap.configurations.rust = dap.configurations.cpp
+-- }}}
