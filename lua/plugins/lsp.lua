@@ -32,7 +32,21 @@ local plugin = {
       'williamboman/mason-lspconfig.nvim',
 
       'b0o/schemastore.nvim',
-      'folke/neodev.nvim',
+
+      {
+        'folke/neodev.nvim',
+        opts = {
+          library = {
+            types = true,
+            plugins = false,
+          },
+          -- for lazy loading
+          -- see before_init
+          lspconfig = false,
+          setup_jsonls = true,
+          pathStrict = true,
+        },
+      },
     },
     opts = {
       capabilities = require('module.lsp').capabilities,
@@ -59,7 +73,11 @@ local plugin = {
             '--background-index',
           },
         },
-        lua_ls = {},
+        lua_ls = {
+          before_init = function(...)
+            require('neodev.lsp').before_init(...)
+          end,
+        },
         zls = {
           settings = {
             zls = {
@@ -107,21 +125,6 @@ local plugin = {
       },
     },
     config = function(_, opts)
-      require('neodev').setup({
-        library = {
-          enabled = true, -- when not enabled, neodev will not change any settings to the LSP server
-          runtime = true, -- runtime path
-          types = true,   -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
-          ---@type boolean|string[]
-          plugins = true, -- installed opt or start plugins in packpath
-          -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
-        },
-        setup_jsonls = true,
-        lspconfig = true,
-        -- faster. needs lua-language-server >= 3.6.0
-        pathStrict = true,
-        debug = false,
-      })
       local lsp = require 'module.lsp'
       lsp.setup_diagnostics()
       require('lsp-setup').setup(opts)
