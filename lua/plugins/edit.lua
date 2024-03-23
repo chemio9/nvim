@@ -131,58 +131,38 @@ return {
     keys = {
       {
         '<C-a>',
-        function()
-          require('dial.map').manipulate('increment', 'normal')
-        end,
-        mode = 'n',
+        function() require('dial.map').manipulate('increment', 'normal') end,
       },
       {
         '<C-x>',
-        function()
-          require('dial.map').manipulate('decrement', 'normal')
-        end,
-        mode = 'n',
+        function() require('dial.map').manipulate('decrement', 'normal') end,
       },
       {
         'g<C-a>',
-        function()
-          require('dial.map').manipulate('increment', 'gnormal')
-        end,
-        mode = 'n',
+        function() require('dial.map').manipulate('increment', 'gnormal') end,
       },
       {
         'g<C-x>',
-        function()
-          require('dial.map').manipulate('decrement', 'gnormal')
-        end,
-        mode = 'n',
+        function() require('dial.map').manipulate('decrement', 'gnormal') end,
       },
       {
         '<C-a>',
-        function()
-          require('dial.map').manipulate('increment', 'visual')
-        end,
+        function() require('dial.map').manipulate('increment', 'visual') end,
         mode = 'v',
       },
       {
         '<C-x>',
-        function()
-          require('dial.map').manipulate('decrement', 'visual')
-        end,
+        function() require('dial.map').manipulate('decrement', 'visual') end,
         mode = 'v',
       },
       {
         'g<C-a>',
-        function()
-          require('dial.map').manipulate('increment', 'gvisual')
-        end,
+        function() require('dial.map').manipulate('increment', 'gvisual') end,
         mode = 'v',
       },
       {
         'g<C-x>',
-        function()
-          require('dial.map').manipulate('decrement', 'gvisual')
-        end,
+        function() require('dial.map').manipulate('decrement', 'gvisual') end,
         mode = 'v',
       },
     },
@@ -238,6 +218,12 @@ return {
   {
     'folke/todo-comments.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
+    cmd = {
+      'TodoLocList',
+      'TodoLocTrouble',
+      'TodoLocTelescope',
+      'TodoLocQuickFix',
+    },
     opts = {
       -- your configuration comes here
       -- or leave it empty to use the default settings
@@ -261,58 +247,42 @@ return {
     keys = {
       {
         '<C-h>',
-        function()
-          require('smart-splits').move_cursor_left()
-        end,
+        function() require('smart-splits').move_cursor_left() end,
         desc = 'Move to left split',
       },
       {
         '<C-j>',
-        function()
-          require('smart-splits').move_cursor_down()
-        end,
+        function() require('smart-splits').move_cursor_down() end,
         desc = 'Move to below split',
       },
       {
         '<C-k>',
-        function()
-          require('smart-splits').move_cursor_up()
-        end,
+        function() require('smart-splits').move_cursor_up() end,
         desc = 'Move to above split',
       },
       {
         '<C-l>',
-        function()
-          require('smart-splits').move_cursor_right()
-        end,
+        function() require('smart-splits').move_cursor_right() end,
         desc = 'Move to right split',
       },
       {
         '<C-Up>',
-        function()
-          require('smart-splits').resize_up()
-        end,
+        function() require('smart-splits').resize_up() end,
         desc = 'Resize split up',
       },
       {
         '<C-Down>',
-        function()
-          require('smart-splits').resize_down()
-        end,
+        function() require('smart-splits').resize_down() end,
         desc = 'Resize split down',
       },
       {
         '<C-Left>',
-        function()
-          require('smart-splits').resize_left()
-        end,
+        function() require('smart-splits').resize_left() end,
         desc = 'Resize split left',
       },
       {
         '<C-Right>',
-        function()
-          require('smart-splits').resize_right()
-        end,
+        function() require('smart-splits').resize_right() end,
         desc = 'Resize split right',
       },
     },

@@ -1,11 +1,9 @@
 ---@diagnostic disable: assign-type-mismatch, undefined-field
 -- to ignore assigning a value to vim.opt
-local o = vim.opt
-local g = vim.g
 
 vim.scriptencoding = 'utf-8'
-o.iskeyword:append('-')
-o.fileencodings = {
+vim.opt.iskeyword:append('-')
+vim.opt.fileencodings = {
   'utf-8',
   'ucs-bom',
   'gb18030',
@@ -14,92 +12,92 @@ o.fileencodings = {
   'cp936',
   'latin1',
 }
-o.encoding = 'utf-8'
+vim.opt.encoding = 'utf-8'
 
-o.number = true
-o.relativenumber = true
+vim.opt.number = true
+vim.opt.relativenumber = true
 
-o.laststatus = 3
-o.startofline = true
-o.ignorecase = true
-o.smartcase = true
-o.copyindent = true -- Copy the previous indentation on autoindenting
+vim.opt.laststatus = 3
+vim.opt.startofline = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.copyindent = true -- Copy the previous indentation on autoindenting
 
-o.splitbelow = true
-o.splitright = true
-o.splitkeep = 'screen'
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.opt.splitkeep = 'screen'
 
-o.linebreak = true
+vim.opt.linebreak = true
 
-o.undofile = false
-o.swapfile = false
+vim.opt.undofile = false
+vim.opt.swapfile = false
 
-o.scrolloff = 10
-o.sidescrolloff = 10
+vim.opt.scrolloff = 10
+vim.opt.sidescrolloff = 10
 
-o.signcolumn = 'auto:1-2'
+vim.opt.signcolumn = 'auto:1-2'
 
-o.maxmempattern = 2000 -- max match pattern
+vim.opt.maxmempattern = 2000 -- max match pattern
 -- o.autochdir = true -- auto change directory to current file
-o.autoread = true
-o.lazyredraw = true -- true will speed up in macro repeat
-o.ttyfast = true    -- true maybe as lazyredraw ? TODO
+vim.opt.autoread = true
+vim.opt.lazyredraw = false -- true will speed up in macro repeat
+vim.opt.ttyfast = true     -- true maybe as lazyredraw ? TODO
 
-o.wrap = false
-o.mouse = 'a'
-o.hidden = true
-o.termguicolors = true
+vim.opt.wrap = false
+vim.opt.mouse = 'a'
+vim.opt.hidden = true
+vim.opt.termguicolors = true
 
 -- useful when editing my neovim config :P
-o.path:prepend './lua/**'
-o.path:append './**'
+vim.opt.path:prepend './lua/**'
+vim.opt.path:append './**'
 
-o.tabstop = 2 -- replace tab as white space
-o.expandtab = true
-o.shiftwidth = 2
-o.softtabstop = 2
+vim.opt.tabstop = 2 -- replace tab as white space
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
 
-o.cursorline = true
+vim.opt.cursorline = true
 
-o.conceallevel = 2
-o.concealcursor = 'nc' -- char will always fold except in insert mode
+vim.opt.conceallevel = 2
+vim.opt.concealcursor = 'nc' -- char will always fold except in insert mode
 
-o.foldenable = true
-o.foldcolumn = '1'    -- '0' is not bad
-o.foldlevel = 99      -- disable fold for opened file
-o.foldlevelstart = 99
-o.foldminlines = 2    -- 0 means even the child is only one line fold always works
-o.foldmethod = 'expr' -- for most filetype fold by syntax
-o.foldexpr = 'nvim_treesitter#foldexpr()'
-o.foldnestmax = 5     -- max fold nest
+vim.opt.foldenable = true
+vim.opt.foldcolumn = '1'    -- '0' is not bad
+vim.opt.foldlevel = 99      -- disable fold for opened file
+vim.opt.foldlevelstart = 99
+vim.opt.foldminlines = 2    -- 0 means even the child is only one line fold always works
+vim.opt.foldmethod = 'expr' -- for most filetype fold by syntax
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldnestmax = 5     -- max fold nest
 
 -- Clipboard
-o.clipboard:append 'unnamedplus'
+vim.opt.clipboard:append 'unnamedplus'
 
-o.completeopt = { 'menu', 'menuone', 'noselect' }
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 
-o.updatetime = 300
+vim.opt.updatetime = 300
 
-o.shortmess:append { s = true, I = true }
-o.backspace:append { 'nostop' }
-o.diffopt:append 'linematch:60'
+vim.opt.shortmess:append { s = true, I = true }
+vim.opt.backspace:append { 'nostop' }
+vim.opt.diffopt:append 'linematch:60'
 
-o.fillchars = {
+vim.opt.fillchars = {
   eob = ' ',
   fold = ' ',
   foldopen = '',
   foldsep = ' ',
   foldclose = ''
 } -- Disable `~` on nonexistent lines
-o.history = 100 -- Number of commands to remember in a history table
+vim.opt.history = 100 -- Number of commands to remember in a history table
 
 -- Leader/local leader
-g.mapleader = [[ ]]
-g.maplocalleader = [[,]]
+vim.g.mapleader = [[ ]]
+vim.g.maplocalleader = [[,]]
 
 -- skip remote provider loading
-g.loaded_python3_provider = 0
-g.loaded_node_provider = 0
-g.loaded_perl_provider = 0
-g.loaded_ruby_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
 

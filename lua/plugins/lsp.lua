@@ -1,7 +1,6 @@
 ---@type LazySpec[]
 local plugin = {
   {
-    -- TODO: use my own fork of lsp-setup or just rewrite it
     'chenrry666/lsp-setup.nvim',
     branch = 'fix_inlay_hints',
     event = 'BufRead',
@@ -11,12 +10,6 @@ local plugin = {
         'williamboman/mason.nvim',
         opts = {
           github = {
-            ---@since 1.0.0
-            -- The template URL to use when downloading assets from GitHub.
-            -- The placeholders are the following (in order):
-            -- 1. The repository (e.g. "rust-lang/rust-analyzer")
-            -- 2. The release version (e.g. "v0.3.0")
-            -- 3. The asset name (e.g. "rust-analyzer-v0.3.0-x86_64-unknown-linux-gnu.tar.gz")
             download_url_template = 'https://ghproxy.net/github.com/%s/releases/download/%s/%s',
           },
         },
@@ -58,6 +51,7 @@ local plugin = {
         enabled = false,
       },
       servers = {
+        -- {{{
         clangd = {
           cmd = {
             'clangd',
@@ -122,6 +116,9 @@ local plugin = {
             },
           }
         end,
+        tsserver = {},
+        emmet_ls = {},
+        -- }}}
       },
     },
     config = function(_, opts)
@@ -148,7 +145,7 @@ local plugin = {
     'jinzhongjia/LspUI.nvim',
     branch = 'main',
     event = 'LspAttach',
-    enabled = vim.fn.has("nvim-0.10") == 1,
+    enabled = vim.fn.has('nvim-0.10') == 1,
     cmd = 'LspUI',
     opts = {
       inlay_hint = {
@@ -166,6 +163,7 @@ local plugin = {
 
   {
     'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+    enabled = false,
     event = 'LspAttach',
     config = true,
   },
@@ -180,3 +178,4 @@ local plugin = {
   },
 }
 return plugin
+-- vim: fdm=marker:foldlevel=0

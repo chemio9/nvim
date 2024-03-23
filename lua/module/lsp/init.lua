@@ -6,17 +6,6 @@ local map = utils.map
 ---@return lsp.ClientCapabilities
 local function make_capabilities()
   local cap = vim.lsp.protocol.make_client_capabilities()
-  local cItem = cap.textDocument.completion.completionItem
-  cItem.documentationFormat = { 'markdown', 'plaintext' }
-  cItem.snippetSupport = true
-  cItem.preselectSupport = true
-  cItem.insertReplaceSupport = true
-  cItem.labelDetailsSupport = true
-  cItem.deprecatedSupport = true
-  cItem.commitCharactersSupport = true
-  cItem.tagSupport = { valueSet = { 1 } }
-  cItem.resolveSupport = {
-    properties = { 'documentation', 'detail', 'additionalTextEdits' },
 
   -- for nvim-ufo
   cap.textDocument.foldingRange = {
@@ -24,6 +13,19 @@ local function make_capabilities()
     lineFoldingOnly = true,
   }
 
+  cap.textDocument.completion.completionItem = {
+    documentationFormat = { 'markdown', 'plaintext' },
+    snippetSupport = true,
+    preselectSupport = true,
+    insertReplaceSupport = true,
+    labelDetailsSupport = true,
+    deprecatedSupport = true,
+    commitCharactersSupport = true,
+    tagSupport = { valueSet = { 1 } },
+    resolveSupport = {
+      properties = { 'documentation', 'detail', 'additionalTextEdits' },
+    },
+  }
   return cap
 end
 
@@ -90,11 +92,10 @@ local on_attach = function(client, bufnr)
 
   utils.map_opt({ noremap = true, silent = true, buffer = bufnr })
 
-  map('n', '<leader>e', { desc = ' LSP' })
+  -- Diagnsotics
+  map('n', '<leader>e', { desc = 'Diagnostics' })
   map('n', '<leader>eD', { function() require('telescope.builtin').diagnostics() end, desc = 'Search diagnostics' })
   map('n', '<leader>es', { function() require('telescope.builtin').lsp_document_symbols() end, desc = 'Search symbols' })
-
-  -- Diagnsotics
   map('n', '<leader>ed', {
     function()
       require('trouble').open 'workspace_diagnostics'
@@ -112,14 +113,14 @@ local on_attach = function(client, bufnr)
   map('n', '<leader>ewl',
     { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = 'list workspace folders' })
 
-  map('n', '<leader>c', { desc = 'Code' })
+  map('n', '<leader>c', { desc = ' LSP' })
   -- Code action
   map({ 'n', 'v' }, '<leader>ca', { '<cmd>LspUI code_action<CR>', desc = 'run code action' })
 
   map('n', 'gD', { '<cmd>LspUI declaration<CR>', desc = 'Declaration of current symbol' })
 
   map('n', 'gd', { '<cmd>LspUI definition<CR>', desc = 'Show the definition of current symbol' })
-  -- TODO: glances.nvim or goto-preview
+  -- TODO  glances.nvim or goto-preview
   -- map('n','gp',{ '<cmd>LspUI peek_definition<CR>', desc = 'peek definition' })
   -- if capabilities.documentSymbolProvider then
   --   -- map('n','<leader>co',{ '<cmd>Lspsaga outline<CR>', desc = 'symbols outline' })
@@ -133,7 +134,7 @@ local on_attach = function(client, bufnr)
   map('n', 'gr', { '<cmd>LspUI reference<CR>', desc = 'find references' })
   map('n', '<leader>cr', { '<cmd>LspUI rename<CR>', desc = 'rename symbols' })
   map('n', '<leader>cs', { function() vim.lsp.buf.signature_help() end, desc = 'Signature help' })
-  map('n', 'gt', { '<cmd>LspUI type_definition<CR>', desc = 'Definition of current type' })
+  map('n', 'gy', { '<cmd>LspUI type_definition<CR>', desc = 'Definition of current type' })
 
   if capabilities.workspaceSymbolProvider then
     --@diagnostic disable-next-line: missing-parameter
@@ -182,7 +183,7 @@ local on_attach = function(client, bufnr)
   end
 
   --if capabilities.inlayHintsProvider then
-  -- TODO
+  -- TODO looking for a better implementation
   --end
 
   utils.which_key_register()

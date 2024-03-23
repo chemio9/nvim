@@ -83,6 +83,7 @@ return {
   {
     'gelguy/wilder.nvim',
     -- TODO: load it at a proper time TOO SLOW! Damn
+    enabled = false,
     config = function()
       local wilder = require 'wilder'
       wilder.setup { modes = { ':', '/', '?' } }

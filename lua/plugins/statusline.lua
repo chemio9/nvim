@@ -6,7 +6,7 @@ return {
     dependencies = {
       'nvim-tree/nvim-web-devicons',
     },
-    event = 'BufEnter',
+    event = 'VimEnter',
     opts = {
       -- on_attach = function(create_update_group) end
 
@@ -15,8 +15,8 @@ return {
       statusline_color = 'StatusLine',
       disabled = {
         filetypes = {
-          -- "NvimTree",
-          -- "lazy",
+          'neo-tree',
+          'lazy',
         },
         buftypes = {
           'terminal',
