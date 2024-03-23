@@ -31,20 +31,12 @@ local plugin = {
       },
       'williamboman/mason-lspconfig.nvim',
 
-      'ray-x/lsp_signature.nvim',
       'b0o/schemastore.nvim',
       'folke/neodev.nvim',
     },
     opts = {
       capabilities = require('module.lsp').capabilities,
       on_attach = function(client, bufnr)
-        require('lsp_signature').on_attach({
-          bind = true, -- This is mandatory, otherwise border config won't get registered.
-          handler_opts = {
-            border = 'rounded',
-          },
-        }, bufnr)
-
         local lsp = require 'module.lsp'
         lsp.on_attach(client, bufnr)
       end,
@@ -133,25 +125,6 @@ local plugin = {
       local lsp = require 'module.lsp'
       lsp.setup_diagnostics()
       require('lsp-setup').setup(opts)
-    end,
-  },
-
-  {
-    'j-hui/fidget.nvim',
-    event = 'LspAttach',
-    init = function()
-      require('core.utils').load_plugin_with_func('fidget.nvim', vim, 'notify')
-    end,
-    opts = {
-      notification = {
-        window = {
-          winblend = 0,
-        },
-      },
-    },
-    config = function(_, opts)
-      require('fidget').setup(opts)
-      vim.notify = require('fidget.notification').notify
     end,
   },
 
