@@ -26,7 +26,10 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath .. '/lazy.nvim')
 
-require('lazy').setup('plugins', {
+require('lazy').setup({
+  { import = 'plugins' },
+  { import = 'plugins.filetype' },
+}, {
   root = lazypath, -- directory where plugins will be installed
   lockfile = lazypath .. '/lazy-lock.json',
   defaults = { lazy = true },
