@@ -33,10 +33,24 @@ local plugin = {
     build = vim.fn.has 'win32' == 0
         and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build\n'; make install_jsregexp"
         or nil,
-    dependencies = { 'rafamadriz/friendly-snippets' },
+    dependencies = {
+      -- 'rafamadriz/friendly-snippets',
+    },
     main = 'luasnip',
     config = function()
-      require 'module.luasnip'
+      local luasnip = require 'luasnip'
+      luasnip.config.setup {
+        history = true,
+        delete_check_events = 'TextChanged',
+        region_check_events = 'CursorMoved',
+
+        -- for luasnip-latex-snippets.nvim
+        enable_autosnippets = true,
+      }
+
+      vim.tbl_map(function(type)
+        require('luasnip.loaders.from_' .. type).lazy_load()
+      end, { 'vscode', 'snipmate', 'lua' })
     end,
   },
 
