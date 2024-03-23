@@ -76,6 +76,15 @@ map('n', '<leader>fW',
     desc = 'Find words in all files',
   })
 
+map('n', 'K', { function()
+  local winid = require('ufo').peekFoldedLinesUnderCursor()
+  if not winid then
+    vim.lsp.buf.hover()
+  end
+end,
+  desc = "Preview fold or hover"
+})
+
 local M = {}
 function M.setup()
   utils.which_key_register()

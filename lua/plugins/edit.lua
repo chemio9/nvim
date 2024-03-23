@@ -325,4 +325,17 @@ return {
     config = true,
   },
 
+  {
+    'kevinhwang91/nvim-ufo',
+    dependencies = 'kevinhwang91/promise-async',
+    config = function()
+      require("ufo").setup()
+    end,
+    keys = {
+      { 'zR', function() require('ufo').openAllFolds() end },
+      { 'zM', function() require('ufo').closeAllFolds() end },
+      { 'zr', function() require('ufo').openFoldsExceptKinds() end },
+      { 'zm', function() require('ufo').closeFoldsWith() end }, -- closeAllFolds == closeFoldsWith(0)
+    },
+  },
 }

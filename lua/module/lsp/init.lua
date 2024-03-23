@@ -17,7 +17,13 @@ local function make_capabilities()
   cItem.tagSupport = { valueSet = { 1 } }
   cItem.resolveSupport = {
     properties = { 'documentation', 'detail', 'additionalTextEdits' },
+
+  -- for nvim-ufo
+  cap.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true,
   }
+
   return cap
 end
 
