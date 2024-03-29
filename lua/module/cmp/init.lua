@@ -3,6 +3,7 @@ local icons = require 'nvim-web-devicons'
 local lspkind = require 'lspkind'
 local luasnip = require 'luasnip'
 local smartTab = require 'smart-tab'
+local cmp_under_comparator = require 'cmp-under-comparator'.under
 
 local function jumpable()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -103,6 +104,19 @@ config.sources = cmp.config.sources({
 
 config.view = {
   entries = { name = 'custom', selection_order = 'near_cursor' },
+}
+
+config.sorting = {
+  comparators = {
+    cmp.config.compare.offset,
+    cmp.config.compare.exact,
+    cmp.config.compare.score,
+    cmp_under_comparator,
+    cmp.config.compare.kind,
+    cmp.config.compare.sort_text,
+    cmp.config.compare.length,
+    cmp.config.compare.order,
+  },
 }
 
 config.preselect = cmp.PreselectMode.None

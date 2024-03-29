@@ -13,6 +13,8 @@ local plugin = {
       'hrsh7th/cmp-omni',
       'saadparwaiz1/cmp_luasnip',
 
+      'lukas-reineke/cmp-under-comparator',
+
       'onsails/lspkind.nvim',
     },
     config = function()
