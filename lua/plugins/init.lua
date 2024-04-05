@@ -128,7 +128,7 @@ return {
       {
         '<leader>mo',
         function() require('tfm').open() end,
-        desc = 'TFM'
+        desc = 'TFM',
       },
       {
         '<leader>mh',
@@ -136,7 +136,7 @@ return {
           local tfm = require('tfm')
           tfm.open(nil, tfm.OPEN_MODE.split)
         end,
-        desc = 'TFM - horizonal split'
+        desc = 'TFM - horizonal split',
       },
       {
         '<leader>mv',
@@ -144,7 +144,7 @@ return {
           local tfm = require('tfm')
           tfm.open(nil, tfm.OPEN_MODE.vsplit)
         end,
-        desc = 'TFM - vertical split'
+        desc = 'TFM - vertical split',
       },
       {
         '<leader>mt',
@@ -152,7 +152,7 @@ return {
           local tfm = require('tfm')
           tfm.open(nil, tfm.OPEN_MODE.tabedit)
         end,
-        desc = 'TFM - new tab'
+        desc = 'TFM - new tab',
       },
     },
   },
