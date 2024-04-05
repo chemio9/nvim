@@ -93,12 +93,22 @@ config.mapping = {
 }
 
 config.sources = cmp.config.sources({
-  { name = 'nvim_lsp', priority = 1000 },
-  { name = 'codeium',  priority = 999 },
-  { name = 'luasnip',  priority = 750 },
+  { name = 'nvim_lsp' },
+  { name = 'luasnip_choice' },
+  { name = 'luasnip' },
+  { name = 'omni' },
+  {
+    name = 'spell',
+    option = {
+      keep_all_entries = false,
+      enable_in_context = function()
+        return false
+      end,
+    },
+  },
 }, {
-  { name = 'path',   priority = 1200 },
-  { name = 'buffer', priority = 500 },
+  { name = 'path' },
+  { name = 'buffer' },
   { name = 'calc' },
 })
 
@@ -147,7 +157,7 @@ cmp.setup.cmdline(':', {
 
 cmp.setup.filetype('gitcommit', {
   sources = cmp.config.sources({
-    { name = 'cmp_git' }, -- TODO: You can specify the `cmp_git` source if you were installed it.
+    { name = 'cmp_git' },
   }, {
     { name = 'buffer' },
   }),

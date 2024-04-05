@@ -11,7 +11,9 @@ local plugin = {
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-calc',
       'hrsh7th/cmp-omni',
+      'f3fora/cmp-spell',
       'saadparwaiz1/cmp_luasnip',
+      'doxnit/cmp-luasnip-choice',
 
       'lukas-reineke/cmp-under-comparator',
 
