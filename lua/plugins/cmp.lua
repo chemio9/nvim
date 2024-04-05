@@ -41,16 +41,14 @@ local plugin = {
       -- 'rafamadriz/friendly-snippets',
     },
     main = 'luasnip',
-    config = function()
+    opts = {
+      history = true,
+      delete_check_events = 'TextChanged',
+      region_check_events = 'CursorMoved',
+    },
+    config = function(_, opts)
       local luasnip = require 'luasnip'
-      luasnip.config.setup {
-        history = true,
-        delete_check_events = 'TextChanged',
-        region_check_events = 'CursorMoved',
-
-        -- for luasnip-latex-snippets.nvim
-        enable_autosnippets = true,
-      }
+      luasnip.config.setup(opts)
 
       vim.tbl_map(function(type)
         require('luasnip.loaders.from_' .. type).lazy_load()

@@ -23,6 +23,14 @@ return {
   },
 
   {
+    'L3MON4D3/LuaSnip',
+    opts = {
+      -- for luasnip-latex-snippets.nvim
+      enable_autosnippets = true,
+    },
+  },
+
+  {
     'iurimateus/luasnip-latex-snippets.nvim',
     -- vimtex isn't required if using treesitter
     dependencies = { 'lervag/vimtex' },
