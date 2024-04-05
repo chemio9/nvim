@@ -32,22 +32,7 @@ end
 ---setup diagnostics for vim
 local setup_diagnostics = function()
   local icons = require 'core.icons'
-  local signs = {
-    { name = 'DiagnosticSignError',    text = icons.DiagnosticError,        texthl = 'DiagnosticSignError' },
-    { name = 'DiagnosticSignWarn',     text = icons.DiagnosticWarn,         texthl = 'DiagnosticSignWarn' },
-    { name = 'DiagnosticSignHint',     text = icons.DiagnosticHint,         texthl = 'DiagnosticSignHint' },
-    { name = 'DiagnosticSignInfo',     text = icons.DiagnosticInfo,         texthl = 'DiagnosticSignInfo' },
-    { name = 'DapStopped',             text = icons.DapStopped,             texthl = 'DiagnosticWarn' },
-    { name = 'DapBreakpoint',          text = icons.DapBreakpoint,          texthl = 'DiagnosticInfo' },
-    { name = 'DapBreakpointRejected',  text = icons.DapBreakpointRejected,  texthl = 'DiagnosticError' },
-    { name = 'DapBreakpointCondition', text = icons.DapBreakpointCondition, texthl = 'DiagnosticInfo' },
-    { name = 'DapLogPoint',            text = icons.DapLogPoint,            texthl = 'DiagnosticInfo' },
-  }
-
-  for _, sign in ipairs(signs) do
-    vim.fn.sign_define(sign.name, sign)
-  end
-
+  ---@type vim.diagnostic.Opts
   local diagnostics = {
     virtual_text = false,
     signs = { active = signs },
@@ -61,6 +46,15 @@ local setup_diagnostics = function()
       source = 'always',
       header = '',
       prefix = '',
+    },
+    signs = {
+      text = {
+        [vim.diagnostic.severity.INFO] = icons.DiagnosticInfo,
+        [vim.diagnostic.severity.WARN] = icons.DiagnosticWarn,
+        [vim.diagnostic.severity.ERROR] = icons.DiagnosticError,
+        [vim.diagnostic.severity.HINT] = icons.DiagnosticHint,
+
+      },
     },
   }
 

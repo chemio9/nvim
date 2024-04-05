@@ -1,6 +1,19 @@
 -- vim: fdm=marker:foldlevel=0
 local dap = require 'dap'
 
+local icons = require 'core.icons'
+local signs = {
+  { name = 'DapStopped',             text = icons.DapStopped,             texthl = 'DiagnosticWarn' },
+  { name = 'DapBreakpoint',          text = icons.DapBreakpoint,          texthl = 'DiagnosticInfo' },
+  { name = 'DapBreakpointRejected',  text = icons.DapBreakpointRejected,  texthl = 'DiagnosticError' },
+  { name = 'DapBreakpointCondition', text = icons.DapBreakpointCondition, texthl = 'DiagnosticInfo' },
+  { name = 'DapLogPoint',            text = icons.DapLogPoint,            texthl = 'DiagnosticInfo' },
+}
+
+for _, sign in ipairs(signs) do
+  vim.fn.sign_define(sign.name, sign)
+end
+
 -- neovim lua {{{
 dap.adapters.nlua = function(callback, config)
   callback({ type = 'server', host = config.host or '127.0.0.1', port = config.port or 8086 })
