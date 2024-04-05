@@ -24,8 +24,6 @@ local plugin = {
       },
       'williamboman/mason-lspconfig.nvim',
 
-      'b0o/schemastore.nvim',
-
       {
         'folke/neodev.nvim',
         opts = {
@@ -90,32 +88,6 @@ local plugin = {
           staticcheck = true,
           gofumpt = true,
         },
-        jsonls = function()
-          return {
-            settings = {
-              json = {
-                schemas = require('schemastore').json.schemas(),
-                validate = { enable = true },
-              },
-            },
-          }
-        end,
-        yamlls = function()
-          return {
-            settings = {
-              yaml = {
-                schemaStore = {
-                  -- You must disable built-in schemaStore support if you want to use
-                  -- this plugin and its advanced options like `ignore`.
-                  enable = false,
-                  -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-                  url = '',
-                },
-                schemas = require('schemastore').yaml.schemas(),
-              },
-            },
-          }
-        end,
         tsserver = {},
         emmet_ls = {},
         -- }}}
@@ -126,6 +98,46 @@ local plugin = {
       lsp.setup_diagnostics()
       require('lsp-setup').setup(opts)
     end,
+  },
+
+  {
+    'b0o/schemastore.nvim',
+    dependencies = {
+      {
+        'chenrry666/lsp-setup.nvim',
+        opts = {
+          servers = {
+            -- {{{
+            jsonls = function()
+              return {
+                settings = {
+                  json = {
+                    schemas = require('schemastore').json.schemas(),
+                    validate = { enable = true },
+                  },
+                },
+              }
+            end,
+            yamlls = function()
+              return {
+                settings = {
+                  yaml = {
+                    schemaStore = {
+                      -- You must disable built-in schemaStore support if you want to use
+                      -- this plugin and its advanced options like `ignore`.
+                      enable = false,
+                      -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+                      url = '',
+                    },
+                    schemas = require('schemastore').yaml.schemas(),
+                  },
+                },
+              }
+            end,
+            -- }}}
+          },
+        },
+      } },
   },
 
   {
