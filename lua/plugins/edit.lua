@@ -308,4 +308,12 @@ return {
       { 'zm', function() require('ufo').closeFoldsWith() end }, -- closeAllFolds == closeFoldsWith(0)
     },
   },
+
+  {
+    'keaising/im-select.nvim',
+    event = 'BufEnter',
+    config = function()
+      require('im_select').setup({})
+    end,
+  },
 }
