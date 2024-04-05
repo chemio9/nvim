@@ -220,9 +220,9 @@ return {
     dependencies = { 'nvim-lua/plenary.nvim' },
     cmd = {
       'TodoLocList',
-      'TodoLocTrouble',
-      'TodoLocTelescope',
-      'TodoLocQuickFix',
+      'TodoTrouble',
+      'TodoTelescope',
+      'TodoQuickFix',
     },
     opts = {
       -- your configuration comes here
