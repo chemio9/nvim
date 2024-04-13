@@ -18,9 +18,21 @@ return {
   },
 
   {
-    'NvChad/nvim-colorizer.lua',
+    'uga-rosa/ccc.nvim',
     event = 'BufRead',
-    opts = { user_default_options = { names = false } },
+    cmd = {
+      'CccPick',
+      'CccConvert',
+      'CccHighlighterEnable',
+      'CccHighlighterDisable',
+      'CccHighlighterToggle',
+    },
+    opts = {
+      highlighter = {
+        auto_enable = true,
+        lsp = true,
+      },
+    },
   },
 
   {
