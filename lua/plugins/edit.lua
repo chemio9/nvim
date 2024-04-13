@@ -94,17 +94,23 @@ return {
   },
 
   {
-    'sontungexpt/url-open',
+    'chrishrb/gx.nvim',
     event = 'VeryLazy',
-    cmd = 'URLOpenUnderCursor',
-    keys = {
-      { 'gx', '<cmd>URLOpenUnderCursor<CR>', desc = 'open url under cursor' },
-    },
-    config = function()
-      local status_ok, url_open = pcall(require, 'url-open')
-      if not status_ok then return end
-      url_open.setup {}
+    init = function()
+      vim.g.netrw_nogx = 1 -- disable netrw gx
     end,
+    keys = {
+      { 'gx', function() vim.cmd.Browse() end, mode = { 'n', 'x' } },
+    },
+    cmd = {
+      'Browse',
+    },
+    opts = {
+      handler_options = {
+        search_engine = 'bing',
+        select_for_search = false,
+      },
+    },
   },
 
   {
