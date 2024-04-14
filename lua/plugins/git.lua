@@ -12,14 +12,22 @@ return {
         add = { text = '▎' },
         change = { text = '▎' },
         delete = { text = '▎' },
-        topdelete = { text = '▎' },
-        changedelete = { text = '▎' },
+        topdelete = { text = '‾' },
+        changedelete = { text = '~' },
         untracked = { text = '▎' },
       },
-      signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-      numhl = false,     -- Toggle with `:Gitsigns toggle_numhl`
-      linehl = false,    -- Toggle with `:Gitsigns toggle_linehl`
-      word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
+      signcolumn = true,
+      numhl = false,
+      linehl = false,
+      word_diff = false,
+    },
+    keys = {
+      { '<leader>ga', function() require('gitsigns.actions').stage_hunk() end,      desc = 'stage hunk' },
+      { '<leader>gd', function() require('gitsigns.actions').preview_hunk() end,    desc = 'preview hunk' },
+      { '<leader>gA', function() require('gitsigns.actions').undo_stage_hunk() end, desc = 'undo stage hunk' },
+      { '<leader>gn', function() require('gitsigns.actions').next_hunk() end,       desc = 'next hunk' },
+      { '<leader>gp', function() require('gitsigns.actions').prev_hunk() end,       desc = 'prev hunk' },
+      { '<leader>gr', function() require('gitsigns.actions').reset_hunk() end,      desc = 'prev hunk' },
     },
   },
 }
