@@ -189,20 +189,6 @@ return {
   },
 
   {
-    'boltlessengineer/smart-tab.nvim',
-    opts = {
-      -- default options:
-      -- list of tree-sitter node types to filter
-      skips = { 'string_content' },
-      -- map manually in lsp complete section
-      ---@source ../module/cmp/init.lua:64
-      mapping = false,
-      -- filetypes to exclude
-      exclude_filetypes = {},
-    },
-  },
-
-  {
     'folke/todo-comments.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
     cmd = {

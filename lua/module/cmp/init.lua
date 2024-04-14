@@ -2,16 +2,8 @@ local cmp = require 'cmp'
 local icons = require 'nvim-web-devicons'
 local lspkind = require 'lspkind'
 local luasnip = require 'luasnip'
-local smartTab = require 'smart-tab'
 local cmp_under_comparator = require 'cmp-under-comparator'.under
 
-local function jumpable()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local cur_line = vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
-  -- before cursor is blank
-  -- when you need to insert tab before text. avoid smartTab take you outside
-  return cur_line:sub(1, col):match('%S') ~= nil
-end
 ---@type cmp.ConfigSchema
 local config = {}
 
@@ -31,7 +23,7 @@ config.formatting = {
       ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
       preset = 'codicons',
       mode = 'symbol',
-      symbol_map = { Codeium = '' },
+      symbol_map = { Codeium = ' ' },
       menu = {
         buffer = '[Buf]',
         nvim_lsp = '[LSP]',
@@ -62,11 +54,7 @@ config.snippet = {
 config.mapping = {
   ['<Up>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
   ['<Down>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
-  -- ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-  -- ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-  -- ['<C-j>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-  -- ['<C-k>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-  ['<C-e>'] = cmp.mapping { i = cmp.mapping.abort(), c = cmp.mapping.close() },
+  ['<C-x>'] = cmp.mapping { i = cmp.mapping.abort(), c = cmp.mapping.close() },
   ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
   ['<CR>'] = cmp.mapping.confirm {},
   ['<Tab>'] = cmp.mapping(function(fallback)
@@ -74,8 +62,6 @@ config.mapping = {
       cmp.select_next_item()
     elseif luasnip.expand_or_jumpable() then
       luasnip.expand_or_jump()
-    elseif jumpable() then
-      smartTab.smart_tab()
     else
       fallback()
     end
