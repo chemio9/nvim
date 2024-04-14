@@ -289,4 +289,14 @@ return {
       require('im_select').setup({})
     end,
   },
+
+  {
+    'tiagovla/scope.nvim',
+    event = 'WinEnter',
+    cmd = {
+      'ScopeMoveBuf',
+    },
+    config = true,
+    -- TODO: config when add a session manager
+  },
 }
