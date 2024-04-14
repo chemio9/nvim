@@ -2,7 +2,7 @@
 local plugin = {
   {
     'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
+    event = { 'InsertEnter', --[[ 'CmdlineEnter'  ]]},
     dependencies = {
       -- Completion sources
       'hrsh7th/cmp-nvim-lsp',
@@ -49,6 +49,12 @@ local plugin = {
     config = function(_, opts)
       local luasnip = require 'luasnip'
       luasnip.config.setup(opts)
+      -- require('module.luasnip')
+
+      luasnip.filetype_extend('cpp', { 'c' })
+      luasnip.filetype_extend('javascriptreact', { 'javascript' })
+      luasnip.filetype_extend('typescript', { 'javascript' })
+      luasnip.filetype_extend('typescriptreact', { 'javascript', 'javascriptreact' })
 
       vim.tbl_map(function(type)
         require('luasnip.loaders.from_' .. type).lazy_load()
