@@ -6,7 +6,7 @@ return {
     dependencies = {
       'nvim-tree/nvim-web-devicons',
     },
-    event = 'VimEnter',
+    event = 'VeryLazy',
     opts = {
       -- on_attach = function(create_update_group) end
 
@@ -44,7 +44,7 @@ return {
 
   {
     'nanozuki/tabby.nvim',
-    event = 'VimEnter',
+    event = 'VeryLazy',
     dependencies = 'nvim-tree/nvim-web-devicons',
     keys = {
       { '<leader>ta',  ':$tabnew<CR>',  noremap = true, desc = 'New Tab' },
@@ -57,7 +57,6 @@ return {
     },
     config = function()
       vim.o.showtabline = 2
-      vim.opt.sessionoptions = 'curdir,folds,globals,help,tabpages,terminal,winsize'
 
       local theme = {
         fill = 'TabLineFill',
@@ -110,12 +109,12 @@ return {
 
   {
     'luukvbaal/statuscol.nvim',
-    event = 'VimEnter',
+    event = 'VeryLazy',
     config = function()
       local builtin = require('statuscol.builtin')
       require('statuscol').setup({
         bt_ignore = { 'terminal' },
-        ft_ignore = { 'neo-tree', 'lazy' },
+        ft_ignore = { 'lazy' },
         relculright = true,
         segments = {
           {
