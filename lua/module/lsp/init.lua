@@ -13,6 +13,7 @@ local function make_capabilities()
     lineFoldingOnly = true,
   }
 
+  cap.textDocument.hover.contentFormat = { 'markdown', 'plaintext' }
   cap.textDocument.completion.completionItem = {
     documentationFormat = { 'markdown', 'plaintext' },
     snippetSupport = true,
@@ -68,7 +69,7 @@ end
 local on_attach = function(client, bufnr)
   ---@diagnostic disable-next-line: redefined-local
   local function add_buffer_autocmd(augroup, bufnr, autocmds)
-    if not vim.tbl_islist(autocmds) then autocmds = { autocmds } end
+    if not vim.islist(autocmds) then autocmds = { autocmds } end
     local cmds_found, cmds = pcall(vim.api.nvim_get_autocmds, { group = augroup, buffer = bufnr })
     if not cmds_found or vim.tbl_isempty(cmds) then
       vim.api.nvim_create_augroup(augroup, { clear = false })
@@ -98,37 +99,36 @@ local on_attach = function(client, bufnr)
   })
 
   -- Diagnsotic jump can use `<c-o>` to jump back
-  map('n', '[e', { '<cmd>LspUI diagnostic prev<CR>', desc = 'previous diagnostic' })
-  map('n', ']e', { '<cmd>LspUI diagnostic next<CR>', desc = 'next diagnostic' })
+  map('n', '[e', { vim.diagnostic.goto_prev, desc = 'Previous diagnostic' })
+  map('n', ']e', { vim.diagnostic.goto_next, desc = 'Next diagnostic' })
 
   map('n', '<leader>ew', { desc = 'Workspaces' })
-  map('n', '<leader>ewa', { vim.lsp.buf.add_workspace_folder, desc = 'add workspace folder' })
-  map('n', '<leader>ewr', { vim.lsp.buf.remove_workspace_folder, desc = 'remove workspace folder' })
+  map('n', '<leader>ewa', { vim.lsp.buf.add_workspace_folder, desc = 'Add workspace folder' })
+  map('n', '<leader>ewr', { vim.lsp.buf.remove_workspace_folder, desc = 'Remove workspace folder' })
   map('n', '<leader>ewl',
-    { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = 'list workspace folders' })
+    { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = 'List workspace folders' })
 
   map('n', '<leader>c', { desc = ' LSP' })
-  -- Code action
-  map({ 'n', 'v' }, '<leader>ca', { '<cmd>LspUI code_action<CR>', desc = 'run code action' })
 
-  map('n', 'gD', { '<cmd>LspUI declaration<CR>', desc = 'Declaration of current symbol' })
+  map('n', 'gD', { vim.lsp.buf.declaration, desc = 'Declaration' })
+  map('n', 'gd', { vim.lsp.buf.definition, desc = 'Definition' })
 
-  map('n', 'gd', { '<cmd>LspUI definition<CR>', desc = 'Show the definition of current symbol' })
   -- TODO  glances.nvim or goto-preview
   -- map('n','gp',{ '<cmd>LspUI peek_definition<CR>', desc = 'peek definition' })
   -- if capabilities.documentSymbolProvider then
   --   -- map('n','<leader>co',{ '<cmd>Lspsaga outline<CR>', desc = 'symbols outline' })
   -- end
 
-  map({ 'n', 'v' }, '<leader>cf',
+  map({ 'n', 'v' }, 'grq',
     { function() require('conform').format { async = true, lsp_fallback = true } end, desc = 'format' })
+  map('n', 'gra', { vim.lsp.buf.code_action, desc = 'Code action' })
 
-  map('n', '<leader>ch', { '<cmd>LspUI hover<CR>', desc = 'Hover symbol details' })
-  map('n', 'gi', { '<cmd>LspUI implementation<CR>', desc = 'Implementation of current symbol' })
-  map('n', 'gr', { '<cmd>LspUI reference<CR>', desc = 'find references' })
-  map('n', '<leader>cr', { '<cmd>LspUI rename<CR>', desc = 'rename symbols' })
-  map('n', '<leader>cs', { function() vim.lsp.buf.signature_help() end, desc = 'Signature help' })
-  map('n', 'gy', { '<cmd>LspUI type_definition<CR>', desc = 'Definition of current type' })
+  map('n', 'grh', { vim.lsp.buf.hover, desc = 'Hover details' })
+  map('n', 'gri', { vim.lsp.buf.implementation, desc = 'Implementation' })
+  map('n', 'grr', { vim.lsp.buf.references, desc = 'References' })
+  map('n', 'grn', { vim.lsp.buf.rename, desc = 'Rename' })
+  map('n', 'gry', { vim.lsp.buf.type_definition, desc = 'Type Definition' })
+  map('n', '<leader>cs', { vim.lsp.buf.signature_help, desc = 'Signature help' })
 
   if capabilities.workspaceSymbolProvider then
     --@diagnostic disable-next-line: missing-parameter
@@ -159,7 +159,7 @@ local on_attach = function(client, bufnr)
     end
   end
 
-  if false and capabilities.documentHighlightProvider then
+  if capabilities.documentHighlightProvider then
     add_buffer_autocmd('lsp_document_highlight', bufnr, {
       {
         events = { 'CursorHold', 'CursorHoldI' },

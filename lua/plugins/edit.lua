@@ -31,7 +31,6 @@ return {
 
   {
     'utilyre/sentiment.nvim',
-    version = '*',
     event = 'User File', -- keep for lazy loading
     config = true,
     init = function()
@@ -263,7 +262,6 @@ return {
 
   {
     'echasnovski/mini.align',
-    version = '*',
     keys = { { 'ga', mode = { 'n', 'v' } }, { 'gA', mode = { 'n', 'v' } } },
     config = true,
   },
