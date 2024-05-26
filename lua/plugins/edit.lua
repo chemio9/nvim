@@ -301,4 +301,17 @@ return {
     config = true,
     -- TODO: config when add a session manager
   },
+
+  {
+    'NMAC427/guess-indent.nvim',
+    config = true,
+    event = 'User File',
+  },
+
+  {
+    'vidocqh/auto-indent.nvim',
+    keys = { '<tab>', mode = 'i' },
+    event = 'User File',
+    opts = {},
+  },
 }
