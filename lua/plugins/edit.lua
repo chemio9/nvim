@@ -94,16 +94,15 @@ return {
 
   {
     'chrishrb/gx.nvim',
-    event = 'VeryLazy',
     init = function()
       vim.g.netrw_nogx = 1 -- disable netrw gx
     end,
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    submodules = false,
     keys = {
       { 'gx', function() vim.cmd.Browse() end, mode = { 'n', 'x' } },
     },
-    cmd = {
-      'Browse',
-    },
+    cmd = { 'Browse' },
     opts = {
       handler_options = {
         search_engine = 'bing',
