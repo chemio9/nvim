@@ -3,13 +3,10 @@ local has = utils.has
 local map = utils.map
 
 utils.map_opt({ silent = true })
-map('n', '<leader>b', { desc = 'buffer' })
 map('n', '<leader>bn', { '<cmd>bnext<CR>', desc = 'Next buf' })
 map('n', '<leader>bp', { '<cmd>bprevious<CR>', desc = 'Prev buf' })
 
 -- Terminal
-if has 'toggleterm.nvim' then map('n', '<leader>t', { desc = ' Terminal' }) end
-
 -- write files with sudo permission
 -- this is useful when you forget to use `sudo nvim foo`
 -- TODO: replace with suda.nvim
@@ -24,16 +21,9 @@ map({ 'n', 'v' }, 'k', { "v:count ? 'k' : 'gk'", expr = true, desc = 'Move curso
 
 map('n', 'H', { '0^' })
 map('n', 'L', { '$' })
---
--- modified function keys found with `showkey -a` in the terminal to get key code
--- run `nvim -V3log +quit` and search through the "Terminal info" in the `log` file for the correct keyname
-if has 'nvim-dap' then map('n', '<leader>d', { desc = ' Debugger' }) end
-
-if has 'neo-tree.nvim' then map('n', '<leader>F', { '<cmd>Neotree toggle<CR>', desc = 'open Neotree' }) end
 
 if has 'bufdelete.nvim' then map('n', '<leader>q', { '<cmd>Bwipeout<CR>', desc = 'Bwipeout' }) end
 
-map('n', '<leader>g', { desc = '󰊢 Git' })
 map('n', '<leader>gB', { function() require('telescope.builtin').git_branches() end, desc = 'Git branches' })
 map('n', '<leader>gC', { function() require('telescope.builtin').git_commits() end, desc = 'Git commits' })
 map('n', '<leader>gs', { function() require('telescope.builtin').git_status() end, desc = 'Git status' })
@@ -79,10 +69,3 @@ map('n', 'K', { function()
 end,
   desc = "Preview fold or hover"
 })
-
-local M = {}
-function M.setup()
-  utils.which_key_register()
-end
-
-return M

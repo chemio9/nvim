@@ -41,13 +41,6 @@ return {
         desc = 'End profiling',
       },
     },
-    config = function()
-      require('which-key').register({
-        ['hp'] = {
-          name = '+profile',
-        },
-      }, { prefix = '<leader>' })
-    end,
   },
 
   {

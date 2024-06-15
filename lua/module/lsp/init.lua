@@ -36,7 +36,6 @@ local setup_diagnostics = function()
   ---@type vim.diagnostic.Opts
   local diagnostics = {
     virtual_text = false,
-    signs = { active = signs },
     update_in_insert = false,
     underline = true,
     severity_sort = true,
@@ -50,11 +49,10 @@ local setup_diagnostics = function()
     },
     signs = {
       text = {
+        [vim.diagnostic.severity.HINT] = icons.DiagnosticHint,
         [vim.diagnostic.severity.INFO] = icons.DiagnosticInfo,
         [vim.diagnostic.severity.WARN] = icons.DiagnosticWarn,
         [vim.diagnostic.severity.ERROR] = icons.DiagnosticError,
-        [vim.diagnostic.severity.HINT] = icons.DiagnosticHint,
-
       },
     },
   }
@@ -88,7 +86,6 @@ local on_attach = function(client, bufnr)
   utils.map_opt({ noremap = true, silent = true, buffer = bufnr })
 
   -- Diagnsotics
-  map('n', '<leader>e', { desc = 'Diagnostics' })
   map('n', '<leader>eD', { function() require('telescope.builtin').diagnostics() end, desc = 'Search diagnostics' })
   map('n', '<leader>es', { function() require('telescope.builtin').lsp_document_symbols() end, desc = 'Search symbols' })
   map('n', '<leader>ed', {
@@ -102,13 +99,10 @@ local on_attach = function(client, bufnr)
   map('n', '[e', { vim.diagnostic.goto_prev, desc = 'Previous diagnostic' })
   map('n', ']e', { vim.diagnostic.goto_next, desc = 'Next diagnostic' })
 
-  map('n', '<leader>ew', { desc = 'Workspaces' })
   map('n', '<leader>ewa', { vim.lsp.buf.add_workspace_folder, desc = 'Add workspace folder' })
   map('n', '<leader>ewr', { vim.lsp.buf.remove_workspace_folder, desc = 'Remove workspace folder' })
   map('n', '<leader>ewl',
     { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = 'List workspace folders' })
-
-  map('n', '<leader>c', { desc = ' LSP' })
 
   map('n', 'gD', { vim.lsp.buf.declaration, desc = 'Declaration' })
   map('n', 'gd', { vim.lsp.buf.definition, desc = 'Definition' })
@@ -180,7 +174,6 @@ local on_attach = function(client, bufnr)
   -- TODO looking for a better implementation
   --end
 
-  utils.which_key_register()
 end
 
 return {

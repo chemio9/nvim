@@ -1,5 +1,4 @@
 local M = {
-  which_key_queue = nil,
   opts = {},
 }
 
@@ -12,27 +11,7 @@ function M.conditional_func(func, condition, ...)
   if condition and type(func) == 'function' then return func(...) end
 end
 
---- Register queued which-key mappings
-function M.which_key_register()
-  if M.which_key_queue then
-    local wk_avail, wk = pcall(require, 'which-key')
-    if wk_avail then
-      for mode, registration in pairs(M.which_key_queue) do
-        wk.register(registration, { mode = mode })
-      end
-      M.which_key_queue = nil
-    end
-  end
-end
-
----@class KeyOpt
----@field expr boolean?
----@field silent boolean?
----@field noremap boolean?
----@field desc string? description
----@field buffer number? buffer number
----
----@class KeyRecord: KeyOpt
+---@class KeyRecord: vim.keymap.set.Opts
 ---@field [1] string|function? key to be mapped
 
 ---map keys
@@ -46,20 +25,12 @@ function M.map(mode, key, map)
     opts[1] = nil
     vim.keymap.set(mode, key, map[1], vim.tbl_deep_extend('force', M.opts, opts))
   else
-    M.which_key_queue = M.which_key_queue or {}
-    M.which_key_queue[mode] = M.which_key_queue[mode] or {}
-    if type(mode) == 'table' then
-      for _, v in ipairs(mode) do
-        M.which_key_queue[v][key] = map
-      end
-    else
-      M.which_key_queue[mode][key] = map
-    end
+    vim.notify_once('Mapping which key with map() is deprecated', vim.log.levels.ERROR)
   end
 end
 
 ---set opts for the rest operations
----@param opt KeyOpt
+---@param opt vim.keymap.set.Opts
 function M.map_opt(opt)
   M.opts = opt
 end
