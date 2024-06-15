@@ -171,6 +171,13 @@ local plugin = {
   },
 
   {
+    'ravibrock/spellwarn.nvim',
+    event = 'VeryLazy',
+    cmd = "Spellwarn",
+    config = true,
+  },
+
+  {
     'jinzhongjia/LspUI.nvim',
     branch = 'main',
     event = 'LspAttach',
