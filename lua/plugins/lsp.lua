@@ -25,17 +25,22 @@ local plugin = {
       'williamboman/mason-lspconfig.nvim',
 
       {
-        'folke/neodev.nvim',
+        'folke/lazydev.nvim',
+        ft = 'lua', -- only load on lua files
+        cmd = 'LazyDev',
         opts = {
           library = {
-            types = true,
-            plugins = false,
+            'lazy.nvim',
+
+            -- See the configuration section for more details
+            -- Load luvit types when the `vim.uv` word is found
+            { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+            { path = 'wezterm-types',      mods = { 'wezterm' } },
           },
-          -- for lazy loading
-          -- see before_init
-          lspconfig = false,
-          setup_jsonls = true,
-          pathStrict = true,
+        },
+        dependencies = {
+          { 'Bilal2453/luvit-meta',        lazy = true }, -- `vim.uv` typings,
+          { 'justinsgithub/wezterm-types', enabled = vim.fn.executable('wezterm') == 1 },
         },
       },
     },
@@ -65,11 +70,7 @@ local plugin = {
             '--background-index',
           },
         },
-        lua_ls = {
-          before_init = function(...)
-            require('neodev.lsp').before_init(...)
-          end,
-        },
+        lua_ls = {},
         zls = {
           settings = {
             zls = {
