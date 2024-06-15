@@ -27,7 +27,7 @@ return {
     },
     config = function()
       require 'module.dap'
-      require('overseer').patch_dap(true)
+      require('overseer').enable_dap(true)
       require('dap.ext.vscode').json_decode = require('overseer.json').decode
     end,
     keys = {
@@ -127,7 +127,7 @@ return {
 
   {
     'jbyuki/one-small-step-for-vimkind',
-    event = "BufEnter",
+    event = 'BufEnter',
     config = function()
       local map = require('core.utils').map
       map('n', '<F5>', { function() require 'osv'.launch({ port = 8086 }) end })
