@@ -13,16 +13,11 @@ map('n', '<leader>bp', { '<cmd>bprevious<CR>', desc = 'Prev buf' })
 -- map('n', '<leader>S', { '<cmd>w !sudo tee % >/dev/null<CR>', desc = 'sudo write' })
 vim.cmd.cabbrev('w!!', 'w !sudo tee > /dev/null %')
 
--- use screen line by default
-map('n', 'gj', { 'j' })
-map('n', 'gk', { 'k' })
 map({ 'n', 'v' }, 'j', { "v:count ? 'j' : 'gj'", expr = true, desc = 'Move cursor down' })
 map({ 'n', 'v' }, 'k', { "v:count ? 'k' : 'gk'", expr = true, desc = 'Move cursor up' })
 
 map('n', 'H', { '0^' })
 map('n', 'L', { '$' })
-
-if has 'bufdelete.nvim' then map('n', '<leader>q', { '<cmd>Bwipeout<CR>', desc = 'Bwipeout' }) end
 
 map('n', '<leader>gB', { function() require('telescope.builtin').git_branches() end, desc = 'Git branches' })
 map('n', '<leader>gC', { function() require('telescope.builtin').git_commits() end, desc = 'Git commits' })

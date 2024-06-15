@@ -56,8 +56,10 @@ return {
     'rainbowhxch/accelerated-jk.nvim',
     event = 'CursorMoved',
     keys = {
-      { 'j', '<Plug>(accelerated_jk_gj)' },
-      { 'k', '<Plug>(accelerated_jk_gk)' },
+      { 'j',  '<Plug>(accelerated_jk_gj)' },
+      { 'k',  '<Plug>(accelerated_jk_gk)' },
+      { 'gj', '<Plug>(accelerated_jk_j)' },
+      { 'gk', '<Plug>(accelerated_jk_k)' },
     },
   },
 
@@ -74,7 +76,14 @@ return {
     },
   },
 
-  { 'famiu/bufdelete.nvim', cmd = { 'Bdelete', 'Bwipeout' } },
+  {
+    'famiu/bufdelete.nvim',
+    cmd = { 'Bdelete', 'Bwipeout' },
+    keys = {
+      { '<leader>bw', '<cmd>Bwipeout<CR>', desc = 'Bwipeout' },
+      { '<leader>bd', '<cmd>Bdelete<CR>',  desc = 'Bdelete' },
+    }
+  },
 
   {
     'cappyzawa/trim.nvim',
@@ -106,7 +115,7 @@ return {
     opts = {
       handler_options = {
         search_engine = 'bing',
-        select_for_search = false,
+        select_for_search = true,
       },
     },
   },
@@ -188,6 +197,7 @@ return {
 
   {
     'folke/todo-comments.nvim',
+    event = 'User File',
     dependencies = { 'nvim-lua/plenary.nvim' },
     cmd = {
       'TodoLocList',
@@ -286,6 +296,7 @@ return {
 
   {
     'keaising/im-select.nvim',
+    enabled = vim.fn.executable('fcitx5-remote') == 1,
     event = 'BufEnter',
     config = function()
       require('im_select').setup({})
