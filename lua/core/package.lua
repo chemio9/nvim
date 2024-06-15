@@ -33,6 +33,12 @@ require('lazy').setup({
   root = lazypath, -- directory where plugins will be installed
   lockfile = lazypath .. '/lazy-lock.json',
   defaults = { lazy = true },
+  git = {
+    timeout = 600,
+  },
+  change_detection = {
+    notify = false,
+  },
   performance = {
     cache = {
       disable_events = { 'UIEnter', 'BufReadPre' },
@@ -71,5 +77,12 @@ require('lazy').setup({
     ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
     patterns = {},
     fallback = true, -- Fallback to git when local plugin doesn't exist
+  },
+  profiling = {
+    -- Enables extra stats on the debug tab related to the loader cache.
+    -- Additionally gathers stats about all package.loaders
+    loader = true,
+    -- Track each new require in the Lazy profiling tab
+    require = true,
   },
 })
