@@ -79,6 +79,10 @@ config.mapping = {
 }
 
 config.sources = cmp.config.sources({
+  {
+    name = 'lazydev', -- for module path completion
+  },
+}, {
   { name = 'nvim_lsp' },
   { name = 'luasnip_choice' },
   { name = 'luasnip' },
