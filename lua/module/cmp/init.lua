@@ -97,7 +97,7 @@ config.sources = cmp.config.sources({
     },
   },
 }, {
-  { name = 'path' },
+  { name = 'async_path' },
   { name = 'buffer' },
   { name = 'calc' },
 })
@@ -108,9 +108,9 @@ config.view = {
 
 config.sorting = {
   comparators = {
-    cmp.config.compare.offset,
-    cmp.config.compare.exact,
     cmp.config.compare.score,
+    cmp.config.compare.exact,
+    cmp.config.compare.offset,
     cmp_under_comparator,
     cmp.config.compare.kind,
     cmp.config.compare.sort_text,
@@ -134,7 +134,7 @@ cmp.setup.cmdline('/', {
 cmp.setup.cmdline(':', {
   mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
-    { name = 'path' },
+    { name = 'async_path' },
   }, {
     {
       name = 'cmdline',
