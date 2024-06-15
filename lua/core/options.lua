@@ -57,7 +57,7 @@ vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
 
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 
 vim.opt.conceallevel = 2
 vim.opt.concealcursor = 'nc' -- char will always fold except in insert mode
@@ -91,6 +91,11 @@ vim.opt.fillchars = {
 } -- Disable `~` on nonexistent lines
 vim.opt.history = 100 -- Number of commands to remember in a history table
 
+vim.opt.viewoptions = { 'folds', 'slash', 'unix' }
+vim.opt.sessionoptions = { 'buffers', 'curdir', 'tabpages', 'winsize' }
+
+vim.opt.jumpoptions = { 'stack', 'view' }
+
 -- Leader/local leader
 vim.g.mapleader = [[ ]]
 vim.g.maplocalleader = [[,]]
@@ -101,3 +106,11 @@ vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
+vim.filetype.add {
+  extension = {
+    mdx = 'mdx',
+    tsx = 'typescriptreact',
+    jsx = 'javascriptreact',
+    webc = 'html',
+  },
+}
