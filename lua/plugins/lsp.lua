@@ -174,7 +174,7 @@ local plugin = {
     'jinzhongjia/LspUI.nvim',
     branch = 'main',
     event = 'LspAttach',
-    enabled = vim.fn.has('nvim-0.10') == 1,
+    enabled = vim.fn.has('nvim-0.10') == 1 and false,
     cmd = 'LspUI',
     opts = {
       inlay_hint = {
@@ -186,6 +186,7 @@ local plugin = {
 
   {
     'VidocqH/lsp-lens.nvim',
+    enabled = false,
     event = 'LspAttach',
     opts = {},
   },
