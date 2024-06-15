@@ -42,7 +42,16 @@ dap.configurations.cpp = {
     type = 'lldb',
     request = 'launch',
     program = function()
-      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+      return coroutine.create(function(dap_run_co)
+        local current = vim.fn.expand('%:p:h')
+        -- if err~=nil then
+        --   vim.notify("DAP ERROR:"..msg,vim.log.levels.ERROR)
+        --   coroutine.resume(dap_run_co, dap.ABORT)
+        -- end
+        vim.ui.input({ prompt = 'file>', completion = 'file', default = current }, function(choice)
+          coroutine.resume(dap_run_co, choice)
+        end)
+      end)
     end,
     cwd = '${workspaceFolder}',
     stopOnEntry = true,

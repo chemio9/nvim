@@ -23,9 +23,12 @@ return {
           'nvim-neotest/nvim-nio',
         },
       },
+      'stevearc/overseer.nvim',
     },
     config = function()
       require 'module.dap'
+      require('overseer').patch_dap(true)
+      require('dap.ext.vscode').json_decode = require('overseer.json').decode
     end,
     keys = {
       {
@@ -131,4 +134,104 @@ return {
       map('n', '<F6>', { function() require 'osv'.run_this() end })
     end,
   },
+
+  {
+    'stevearc/overseer.nvim',
+    opts = function()
+      return {
+        strategy = {
+          'toggleterm',
+          direction = 'tab',
+          quit_on_exit = 'never', -- or 'always', 'success'
+          open_on_start = true,
+        },
+        dap = false, -- disable automatic loading dap, as we load it manually in dap.config
+        form = {
+          border = 'rounded',
+        },
+        confirm = {
+          border = 'rounded',
+        },
+        task_win = {
+          border = 'rounded',
+        },
+        component_aliases = {
+          default = {
+            { 'display_duration', detail_level = 2 },
+            'on_output_summarize',
+            'on_exit_set_status',
+            'on_complete_notify',
+            'on_complete_dispose',
+            'unique',
+          },
+        },
+      }
+    end,
+    config = function(_, opts)
+      local overseer = require 'overseer'
+
+      overseer.setup(opts)
+
+      local templates = {
+        {
+          name = 'C++ build single file',
+          builder = function()
+            return {
+              cmd = { 'c++' },
+              args = {
+                '-g',
+                vim.fn.expand '%:p',     -- full path
+                '-o',
+                vim.fn.expand '%:p:t:r', -- tail path, removed one extension
+              },
+            }
+          end,
+          condition = {
+            filetype = { 'cpp' },
+          },
+        },
+        {
+          name = 'Xmake build project',
+          builder = function()
+            return {
+              cmd = { 'xmake' },
+              args = {
+                'build',
+              },
+            }
+          end,
+          condition = {
+            filetype = { 'cpp', 'c' },
+          },
+        },
+      }
+      for _, template in ipairs(templates) do
+        overseer.register_template(template)
+      end
+    end,
+    keys = {
+      { '<leader>rr', '<cmd>OverseerRun<CR>',        desc = 'Run' },
+      { '<leader>rl', '<cmd>OverseerToggle<CR>',     desc = 'List' },
+      { '<leader>rn', '<cmd>OverseerBuild<CR>',      desc = 'New' },
+      { '<leader>ra', '<cmd>OverseerTaskAction<CR>', desc = 'Action' },
+      { '<leader>ri', '<cmd>OverseerInfo<CR>',       desc = 'Info' },
+      { '<leader>rc', '<cmd>OverseerClearCache<CR>', desc = 'Clear cache' },
+    },
+    cmd = {
+      'OverseerOpen',
+      'OverseerClose',
+      'OverseerToggle',
+      'OverseerSaveBundle',
+      'OverseerLoadBundle',
+      'OverseerDeleteBundle',
+      'OverseerRunCmd',
+      'OverseerRun',
+      'OverseerInfo',
+      'OverseerBuild',
+      'OverseerQuickAction',
+      'OverseerTaskAction',
+      'OverseerClearCache',
+    },
+  },
+
 }
