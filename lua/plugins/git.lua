@@ -30,4 +30,13 @@ return {
       { '<leader>gr', function() require('gitsigns.actions').reset_hunk() end,      desc = 'prev hunk' },
     },
   },
+
+  {
+    'moyiz/git-dev.nvim',
+    lazy = true,
+    cmd = { 'GitDevOpen', 'GitDevCleanAll' },
+    opts = {
+      read_only = false,
+    },
+  },
 }
