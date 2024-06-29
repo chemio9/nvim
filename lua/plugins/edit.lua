@@ -7,9 +7,9 @@ return {
 
   {
     'gbprod/substitute.nvim',
-    config = function()
-      require('substitute').setup()
-    end,
+    opts = {
+      on_substitute = function() require('yanky.integration').substitute() end,
+    },
     keys = {
       { 's',   function() require('substitute').operator() end,          mode = 'n', { noremap = true } },
       { 'ss',  function() require('substitute').line() end,              mode = 'n', { noremap = true } },
@@ -20,6 +20,42 @@ return {
       { 'sxx', function() require('substitute.exchange').line() end,     mode = 'n', { noremap = true } },
       { 'X',   function() require('substitute.exchange').visual() end,   mode = 'x', { noremap = true } },
       { 'sxc', function() require('substitute.exchange').cancel() end,   mode = 'n', { noremap = true } },
+    },
+  },
+
+  {
+    'gbprod/yanky.nvim',
+    dependencies = {
+      { 'kkharji/sqlite.lua' },
+    },
+    opts = {
+      ring = { storage = 'sqlite' },
+    },
+    keys = {
+      {
+        '<leader>p',
+        function()
+          require('telescope').extensions.yank_history.yank_history({})
+        end,
+        desc = 'Open Yank History',
+      },
+      { 'y',     '<Plug>(YankyYank)',                      desc = 'Yank text',                                 mode = { 'n', 'x' } },
+      { 'p',     '<Plug>(YankyPutAfter)',                  desc = 'Put yanked text after cursor',              mode = { 'n', 'x' } },
+      { 'P',     '<Plug>(YankyPutBefore)',                 desc = 'Put yanked text before cursor',             mode = { 'n', 'x' } },
+      { 'gp',    '<Plug>(YankyGPutAfter)',                 desc = 'Put yanked text after selection',           mode = { 'n', 'x' } },
+      { 'gP',    '<Plug>(YankyGPutBefore)',                desc = 'Put yanked text before selection',          mode = { 'n', 'x' } },
+      { '<c-p>', '<Plug>(YankyPreviousEntry)',             desc = 'Select previous entry through yank history' },
+      { '<c-n>', '<Plug>(YankyNextEntry)',                 desc = 'Select next entry through yank history' },
+      { ']p',    '<Plug>(YankyPutIndentAfterLinewise)',    desc = 'Put indented after cursor (linewise)' },
+      { '[p',    '<Plug>(YankyPutIndentBeforeLinewise)',   desc = 'Put indented before cursor (linewise)' },
+      { ']P',    '<Plug>(YankyPutIndentAfterLinewise)',    desc = 'Put indented after cursor (linewise)' },
+      { '[P',    '<Plug>(YankyPutIndentBeforeLinewise)',   desc = 'Put indented before cursor (linewise)' },
+      { '>p',    '<Plug>(YankyPutIndentAfterShiftRight)',  desc = 'Put and indent right' },
+      { '<p',    '<Plug>(YankyPutIndentAfterShiftLeft)',   desc = 'Put and indent left' },
+      { '>P',    '<Plug>(YankyPutIndentBeforeShiftRight)', desc = 'Put before and indent right' },
+      { '<P',    '<Plug>(YankyPutIndentBeforeShiftLeft)',  desc = 'Put before and indent left' },
+      { '=p',    '<Plug>(YankyPutAfterFilter)',            desc = 'Put after applying a filter' },
+      { '=P',    '<Plug>(YankyPutBeforeFilter)',           desc = 'Put before applying a filter' },
     },
   },
 
@@ -40,21 +76,7 @@ return {
   },
 
   {
-    'jghauser/mkdir.nvim',
-    init = function()
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        group = vim.api.nvim_create_augroup('MkdirRun', {}),
-        pattern = '*',
-        callback = function()
-          require('mkdir').run()
-        end,
-      })
-    end,
-  },
-
-  {
     'rainbowhxch/accelerated-jk.nvim',
-    event = 'CursorMoved',
     keys = {
       { 'j',  '<Plug>(accelerated_jk_gj)' },
       { 'k',  '<Plug>(accelerated_jk_gk)' },
@@ -82,7 +104,7 @@ return {
     keys = {
       { '<leader>bw', '<cmd>Bwipeout<CR>', desc = 'Bwipeout' },
       { '<leader>bd', '<cmd>Bdelete<CR>',  desc = 'Bdelete' },
-    }
+    },
   },
 
   {
@@ -205,11 +227,7 @@ return {
       'TodoTelescope',
       'TodoQuickFix',
     },
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
+    opts = {},
   },
 
   -- window managing
@@ -224,54 +242,24 @@ return {
       },
       ignored_buftypes = { 'nofile' },
     },
-
     keys = {
-      {
-        '<C-h>',
-        function() require('smart-splits').move_cursor_left() end,
-        desc = 'Move to left split',
-      },
-      {
-        '<C-j>',
-        function() require('smart-splits').move_cursor_down() end,
-        desc = 'Move to below split',
-      },
-      {
-        '<C-k>',
-        function() require('smart-splits').move_cursor_up() end,
-        desc = 'Move to above split',
-      },
-      {
-        '<C-l>',
-        function() require('smart-splits').move_cursor_right() end,
-        desc = 'Move to right split',
-      },
-      {
-        '<C-Up>',
-        function() require('smart-splits').resize_up() end,
-        desc = 'Resize split up',
-      },
-      {
-        '<C-Down>',
-        function() require('smart-splits').resize_down() end,
-        desc = 'Resize split down',
-      },
-      {
-        '<C-Left>',
-        function() require('smart-splits').resize_left() end,
-        desc = 'Resize split left',
-      },
-      {
-        '<C-Right>',
-        function() require('smart-splits').resize_right() end,
-        desc = 'Resize split right',
-      },
+      { '<C-h>',     function() require('smart-splits').move_cursor_left() end,  desc = 'Move to left split' },
+      { '<C-j>',     function() require('smart-splits').move_cursor_down() end,  desc = 'Move to below split' },
+      { '<C-k>',     function() require('smart-splits').move_cursor_up() end,    desc = 'Move to above split' },
+      { '<C-l>',     function() require('smart-splits').move_cursor_right() end, desc = 'Move to right split' },
+      { '<C-Up>',    function() require('smart-splits').resize_up() end,         desc = 'Resize split up' },
+      { '<C-Down>',  function() require('smart-splits').resize_down() end,       desc = 'Resize split down' },
+      { '<C-Left>',  function() require('smart-splits').resize_left() end,       desc = 'Resize split left' },
+      { '<C-Right>', function() require('smart-splits').resize_right() end,      desc = 'Resize split right' },
     },
   },
 
   {
     'echasnovski/mini.align',
-    keys = { { 'ga', mode = { 'n', 'v' } }, { 'gA', mode = { 'n', 'v' } } },
+    keys = {
+      { 'ga', mode = { 'n', 'v' } },
+      { 'gA', mode = { 'n', 'v' } },
+    },
     config = true,
   },
 
@@ -338,14 +326,9 @@ return {
 
   {
     'NMAC427/guess-indent.nvim',
+    cmd = 'GuessIndent',
     config = true,
-    event = 'User File',
+    event = { 'BufNew', 'BufReadPre' },
   },
 
-  {
-    'vidocqh/auto-indent.nvim',
-    keys = { '<tab>', mode = 'i' },
-    event = 'User File',
-    opts = {},
-  },
 }
