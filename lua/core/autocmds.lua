@@ -2,6 +2,25 @@ local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 local utils = require 'core.utils'
 
+autocmd('BufWritePre', {
+  group = augroup('Mkdir', { clear = true }),
+  desc = 'auto create dir when not exists',
+  pattern = '*',
+  callback = function()
+    local fn = vim.fn
+    local dir = fn.expand('<afile>:p:h')
+
+    -- This handles URLs using netrw. See ':help netrw-transparent' for details.
+    if dir:find('%l+://') == 1 then
+      return
+    end
+
+    if fn.isdirectory(dir) == 0 then
+      fn.mkdir(dir, 'p')
+    end
+  end,
+})
+
 autocmd('BufWinEnter', {
   desc = 'Make q close help, man, quickfix, dap floats',
   group = augroup('q_close_windows', { clear = true }),
