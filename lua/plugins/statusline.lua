@@ -30,7 +30,7 @@ return {
         'git-diff',
         '%=',
         'diagnostics',
-        'lsps-formatters',
+        -- 'lsps-formatters',
         'indent',
         'encoding',
         'pos-cursor',
@@ -125,7 +125,7 @@ return {
             },
             click = 'v:lua.ScSa',
           },
-          { text = { builtin.foldfunc },      click = 'v:lua.ScFa' },
+          { text = { builtin.foldfunc }, click = 'v:lua.ScFa' },
           {
             sign = {
               name = { '.*' },
@@ -136,7 +136,11 @@ return {
             },
             click = 'v:lua.ScSa',
           },
-          { text = { builtin.lnumfunc, ' ' }, click = 'v:lua.ScLa' },
+          {
+            text = { builtin.lnumfunc, ' ' },
+            condition = { true, builtin.not_empty },
+            click = 'v:lua.ScLa'
+          },
         },
       })
     end,
