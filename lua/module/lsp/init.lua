@@ -90,9 +90,9 @@ local on_attach = function(client, bufnr)
   map('n', '<leader>es', { function() require('telescope.builtin').lsp_document_symbols() end, desc = 'Search symbols' })
   map('n', '<leader>ed', {
     function()
-      require('trouble').open 'workspace_diagnostics'
+      require('trouble').open 'diagnostics'
     end,
-    desc = 'Workspace Diagnostics',
+    desc = 'Diagnostics',
   })
 
   -- Diagnsotic jump can use `<c-o>` to jump back
