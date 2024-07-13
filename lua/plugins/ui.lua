@@ -64,20 +64,6 @@ return {
     end,
   },
 
-  -- {
-  --   'folke/which-key.nvim',
-  --   event = 'VeryLazy',
-  --   config = function()
-  --     require('which-key').setup {
-  --       operators = { gc = 'Comments', gb = 'Comments' },
-  --       key_labels = {
-  --         -- override the label used to display
-  --         ['<space>'] = 'SPC',
-  --         ['<leader>'] = 'LDR',
-  --       },
-  --     }
-  --   end,
-  -- },
   {
     'echasnovski/mini.clue',
     version = false,
@@ -89,6 +75,7 @@ return {
           -- Leader triggers
           { mode = 'n', keys = '<Leader>' },
           { mode = 'x', keys = '<Leader>' },
+          { mode = 'n', keys = '<Localleader>' },
 
           -- Built-in completion
           { mode = 'i', keys = '<C-x>' },
@@ -96,6 +83,9 @@ return {
           -- `g` key
           { mode = 'n', keys = 'g' },
           { mode = 'x', keys = 'g' },
+
+          { mode = 'n', keys = '[' },
+          { mode = 'n', keys = ']' },
 
           -- Marks
           { mode = 'n', keys = "'" },
@@ -126,16 +116,16 @@ return {
           miniclue.gen_clues.z(),
 
           -- custom keymaps
-          { mode = 'n', keys = '<leader>b', desc = '+Buffer' },
-          { mode = 'n', keys = '<leader>c', desc = '+LSP' },
-          { mode = 'n', keys = '<leader>d', desc = '+Debugger' },
-          { mode = 'n', keys = '<leader>e', desc = '+Diagnostics' },
+          { mode = 'n', keys = '<leader>b',  desc = '+Buffer' },
+          { mode = 'n', keys = '<leader>c',  desc = '+LSP' },
+          { mode = 'n', keys = '<leader>d',  desc = '+Debugger' },
+          { mode = 'n', keys = '<leader>e',  desc = '+Diagnostics' },
           { mode = 'n', keys = '<leader>ew', desc = '+Workspaces' },
-          { mode = 'n', keys = '<leader>g', desc = '+Git' },
-          { mode = 'n', keys = '<leader>t', desc = '+Terminal' },
-          { mode = 'n', keys = '<leader>s', desc = '+Session' },
-          { mode = 'n', keys = '<leader>r', desc = '+Runner' },
-          { mode = 'n', keys = '<leader>f', desc = '+File Manager' },
+          { mode = 'n', keys = '<leader>g',  desc = '+Git' },
+          { mode = 'n', keys = '<leader>t',  desc = '+Terminal' },
+          { mode = 'n', keys = '<leader>s',  desc = '+Session' },
+          { mode = 'n', keys = '<leader>r',  desc = '+Runner' },
+          { mode = 'n', keys = '<leader>f',  desc = '+File Manager' },
         },
 
         window = {
@@ -249,7 +239,7 @@ return {
     },
     ---@type YaziConfig
     opts = {
-      open_for_directories = false,
+      open_for_directories = true,
     },
   },
 

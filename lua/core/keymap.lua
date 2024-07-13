@@ -31,11 +31,12 @@ map('n', '<leader>gB', { function() require('fzf-lua').git_branches() end, desc 
 map('n', '<leader>gC', { function() require('fzf-lua').git_commits() end, desc = 'Git commits' })
 map('n', '<leader>gs', { function() require('fzf-lua').git_status() end, desc = 'Git status' })
 
-map('n', 'K', { function()
-  local winid = require('ufo').peekFoldedLinesUnderCursor()
-  if not winid then
-    vim.lsp.buf.hover()
-  end
-end,
-  desc = "Preview fold or hover"
+map('n', 'K', {
+  function()
+    local winid = require('ufo').peekFoldedLinesUnderCursor()
+    if not winid then
+      vim.lsp.buf.hover()
+    end
+  end,
+  desc = 'Preview fold or hover',
 })

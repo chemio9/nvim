@@ -25,7 +25,7 @@ function M.map(mode, key, map)
     opts[1] = nil
     vim.keymap.set(mode, key, map[1], vim.tbl_deep_extend('force', M.opts, opts))
   else
-    vim.notify_once('Mapping which key with map() is deprecated', vim.log.levels.ERROR)
+    vim.notify(mode .. ' ' .. key, vim.log.levels.ERROR)
   end
 end
 

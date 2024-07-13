@@ -75,11 +75,13 @@ return {
 
   {
     'rainbowhxch/accelerated-jk.nvim',
+    event = { 'CursorMoved', 'CursorMovedI' },
+    opt = {
+      enable_deceleration = true,
+    },
     keys = {
-      { 'j',  '<Plug>(accelerated_jk_gj)' },
-      { 'k',  '<Plug>(accelerated_jk_gk)' },
-      { 'gj', '<Plug>(accelerated_jk_j)' },
-      { 'gk', '<Plug>(accelerated_jk_k)' },
+      { 'j', '<Plug>(accelerated_jk_gj)' },
+      { 'k', '<Plug>(accelerated_jk_gk)' },
     },
   },
 

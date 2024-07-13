@@ -83,12 +83,12 @@ vim.opt.backspace:append { 'nostop' }
 vim.opt.diffopt:append 'linematch:60'
 
 vim.opt.fillchars = {
-  eob = ' ',
+  eob = ' ', -- Disable `~` on nonexistent lines
   fold = ' ',
   foldopen = '',
   foldsep = ' ',
-  foldclose = ''
-} -- Disable `~` on nonexistent lines
+  foldclose = '',
+}
 vim.opt.history = 100 -- Number of commands to remember in a history table
 
 vim.opt.viewoptions = { 'folds', 'slash', 'unix' }

@@ -50,9 +50,6 @@ local plugin = {
         local lsp = require 'module.lsp'
         lsp.on_attach(client, bufnr)
       end,
-      inlay_hints = {
-        enabled = false,
-      },
       servers = {
         -- {{{
         clangd = {
