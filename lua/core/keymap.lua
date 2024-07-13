@@ -16,6 +16,14 @@ vim.cmd.cabbrev('w!!', 'w !sudo tee > /dev/null %')
 map({ 'n', 'v' }, 'j', { "v:count ? 'j' : 'gj'", expr = true, desc = 'Move cursor down' })
 map({ 'n', 'v' }, 'k', { "v:count ? 'k' : 'gk'", expr = true, desc = 'Move cursor up' })
 
+local orig_conceallevel = vim.opt.conceallevel:get()
+map('n', '<leader>cc', {
+  function()
+    vim.opt.conceallevel = vim.opt.conceallevel:get() == orig_conceallevel and 0 or orig_conceallevel
+  end,
+  desc = 'toggle conceal'
+})
+
 map('n', 'H', { '0^' })
 map('n', 'L', { '$' })
 

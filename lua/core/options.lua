@@ -60,7 +60,7 @@ vim.opt.softtabstop = 2
 vim.opt.cursorline = false
 
 vim.opt.conceallevel = 2
-vim.opt.concealcursor = 'nc' -- char will always fold except in insert mode
+vim.opt.concealcursor = '' -- never conceal the current line
 
 vim.opt.foldenable = true
 vim.opt.foldcolumn = '1'    -- '0' is not bad
