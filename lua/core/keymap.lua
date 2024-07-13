@@ -19,9 +19,9 @@ map({ 'n', 'v' }, 'k', { "v:count ? 'k' : 'gk'", expr = true, desc = 'Move curso
 map('n', 'H', { '0^' })
 map('n', 'L', { '$' })
 
-map('n', '<leader>gB', { function() require('telescope.builtin').git_branches() end, desc = 'Git branches' })
-map('n', '<leader>gC', { function() require('telescope.builtin').git_commits() end, desc = 'Git commits' })
-map('n', '<leader>gs', { function() require('telescope.builtin').git_status() end, desc = 'Git status' })
+map('n', '<leader>gB', { function() require('fzf-lua').git_branches() end, desc = 'Git branches' })
+map('n', '<leader>gC', { function() require('fzf-lua').git_commits() end, desc = 'Git commits' })
+map('n', '<leader>gs', { function() require('fzf-lua').git_status() end, desc = 'Git status' })
 
 map('n', 'K', { function()
   local winid = require('ufo').peekFoldedLinesUnderCursor()

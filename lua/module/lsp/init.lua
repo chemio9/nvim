@@ -35,7 +35,7 @@ local setup_diagnostics = function()
   local icons = require 'core.icons'
   ---@type vim.diagnostic.Opts
   local diagnostics = {
-    virtual_text = false,
+    virtual_text = true,
     update_in_insert = false,
     underline = true,
     severity_sort = true,
@@ -43,7 +43,7 @@ local setup_diagnostics = function()
       focused = false,
       style = 'minimal',
       border = 'rounded',
-      source = 'always',
+      source = true,
       header = '',
       prefix = '',
     },
@@ -86,8 +86,8 @@ local on_attach = function(client, bufnr)
   utils.map_opt({ noremap = true, silent = true, buffer = bufnr })
 
   -- Diagnsotics
-  map('n', '<leader>eD', { function() require('telescope.builtin').diagnostics() end, desc = 'Search diagnostics' })
-  map('n', '<leader>es', { function() require('telescope.builtin').lsp_document_symbols() end, desc = 'Search symbols' })
+  map('n', '<leader>eD', { function() require('fzf-lua').diagnostics_workspace() end, desc = 'Search diagnostics' })
+  map('n', '<leader>es', { function() require('fzf-lua').lsp_document_symbols() end, desc = 'Search symbols' })
   map('n', '<leader>ed', {
     function()
       require('trouble').open 'diagnostics'
@@ -173,7 +173,6 @@ local on_attach = function(client, bufnr)
   --if capabilities.inlayHintsProvider then
   -- TODO looking for a better implementation
   --end
-
 end
 
 return {

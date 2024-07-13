@@ -11,7 +11,7 @@ return {
         win_options = { winhighlight = 'normal:normal,normalnc:normal' },
       },
       select = {
-        backend = { 'telescope', 'builtin' },
+        backend = { 'fzf_lua', 'builtin' },
         builtin = { win_options = { winhighlight = 'normal:normal,normalnc:normal' } },
       },
     },
