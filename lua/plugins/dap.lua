@@ -130,8 +130,8 @@ return {
     event = 'BufEnter',
     config = function()
       local map = require('core.utils').map
-      map('n', '<F5>', { function() require 'osv'.launch({ port = 8086 }) end })
-      map('n', '<F6>', { function() require 'osv'.run_this() end })
+      map('n', '<F5>', function() require 'osv'.launch({ port = 8086 }) end)
+      map('n', '<F6>', function() require 'osv'.run_this() end)
     end,
   },
 

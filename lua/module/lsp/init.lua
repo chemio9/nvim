@@ -86,52 +86,49 @@ local on_attach = function(client, bufnr)
   utils.map_opt({ noremap = true, silent = true, buffer = bufnr })
 
   -- Diagnsotics
-  map('n', '<leader>eD', { function() require('fzf-lua').diagnostics_workspace() end, desc = 'Search diagnostics' })
-  map('n', '<leader>es', { function() require('fzf-lua').lsp_document_symbols() end, desc = 'Search symbols' })
-  map('n', '<leader>ed', {
+  map('n', '<leader>eD', function() require('fzf-lua').diagnostics_workspace() end, { desc = 'Search diagnostics' })
+  map('n', '<leader>es', function() require('fzf-lua').lsp_document_symbols() end, { desc = 'Search symbols' })
+  map('n', '<leader>ed',
     function()
       require('trouble').open 'diagnostics'
-    end,
-    desc = 'Diagnostics',
-  })
+    end, { desc = 'Diagnostics' })
 
   -- Diagnsotic jump can use `<c-o>` to jump back
-  map('n', '[e', { vim.diagnostic.goto_prev, desc = 'Previous diagnostic' })
-  map('n', ']e', { vim.diagnostic.goto_next, desc = 'Next diagnostic' })
+  map('n', '[e', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
+  map('n', ']e', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
 
-  map('n', '<leader>ewa', { vim.lsp.buf.add_workspace_folder, desc = 'Add workspace folder' })
-  map('n', '<leader>ewr', { vim.lsp.buf.remove_workspace_folder, desc = 'Remove workspace folder' })
+  map('n', '<leader>ewa', vim.lsp.buf.add_workspace_folder, { desc = 'Add workspace folder' })
+  map('n', '<leader>ewr', vim.lsp.buf.remove_workspace_folder, { desc = 'Remove workspace folder' })
   map('n', '<leader>ewl',
-    { function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = 'List workspace folders' })
+    function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, { desc = 'List workspace folders' })
 
-  map('n', 'gD', { vim.lsp.buf.declaration, desc = 'Declaration' })
-  map('n', 'gd', { vim.lsp.buf.definition, desc = 'Definition' })
+  map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Declaration' })
+  map('n', 'gd', vim.lsp.buf.definition, { desc = 'Definition' })
 
   -- TODO  glances.nvim or goto-preview
-  -- map('n','gp',{ '<cmd>LspUI peek_definition<CR>', desc = 'peek definition' })
+  -- map('n','gp', '<cmd>LspUI peek_definition<CR>',{ desc = 'peek definition' })
   -- if capabilities.documentSymbolProvider then
-  --   -- map('n','<leader>co',{ '<cmd>Lspsaga outline<CR>', desc = 'symbols outline' })
+  --   -- map('n','<leader>co', '<cmd>Lspsaga outline<CR>',{ desc = 'symbols outline' })
   -- end
 
-  map({ 'n', 'v' }, 'grq',
-    { function() require('conform').format { async = true, lsp_fallback = true } end, desc = 'format' })
-  map('n', 'gra', { vim.lsp.buf.code_action, desc = 'Code action' })
+  map({ 'n', 'v' }, 'grq', function() require('conform').format { async = true, lsp_fallback = true } end,
+    { desc = 'format' })
+  map('n', 'gra', vim.lsp.buf.code_action, { desc = 'Code action' })
 
-  map('n', 'grh', { vim.lsp.buf.hover, desc = 'Hover details' })
-  map('n', 'gri', { vim.lsp.buf.implementation, desc = 'Implementation' })
-  map('n', 'grr', { vim.lsp.buf.references, desc = 'References' })
-  map('n', 'grn', { vim.lsp.buf.rename, desc = 'Rename' })
-  map('n', 'gry', { vim.lsp.buf.type_definition, desc = 'Type Definition' })
-  map('n', '<leader>cs', { vim.lsp.buf.signature_help, desc = 'Signature help' })
+  map('n', 'grh', vim.lsp.buf.hover, { desc = 'Hover details' })
+  map('n', 'gri', vim.lsp.buf.implementation, { desc = 'Implementation' })
+  map('n', 'grr', vim.lsp.buf.references, { desc = 'References' })
+  map('n', 'grn', vim.lsp.buf.rename, { desc = 'Rename' })
+  map('n', 'gry', vim.lsp.buf.type_definition, { desc = 'Type Definition' })
+  map('n', '<leader>cs', vim.lsp.buf.signature_help, { desc = 'Signature help' })
 
   if capabilities.workspaceSymbolProvider then
     --@diagnostic disable-next-line: missing-parameter
     map('n', '<leader>cG',
-      {
-        function()
-          vim.ui.input({ prompt = 'Symbol Query: ' },
-            function(query) if query then require('telescope.builtin').lsp_workspace_symbols { query = query } end end)
-        end,
+      function()
+        vim.ui.input({ prompt = 'Symbol Query: ' },
+          function(query) if query then require('telescope.builtin').lsp_workspace_symbols { query = query } end end)
+      end, {
         desc =
         'Search workspace symbols',
       })
@@ -148,8 +145,8 @@ local on_attach = function(client, bufnr)
         end,
       })
       vim.lsp.codelens.refresh()
-      map('n', '<leader>el', { function() vim.lsp.codelens.refresh() end, desc = 'LSP CodeLens refresh' })
-      map('n', '<leader>eL', { function() vim.lsp.codelens.run() end, desc = 'LSP CodeLens run' })
+      map('n', '<leader>el', function() vim.lsp.codelens.refresh() end, { desc = 'LSP CodeLens refresh' })
+      map('n', '<leader>eL', function() vim.lsp.codelens.run() end, { desc = 'LSP CodeLens run' })
     end
   end
 

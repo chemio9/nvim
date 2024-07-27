@@ -11,22 +11,15 @@ function M.conditional_func(func, condition, ...)
   if condition and type(func) == 'function' then return func(...) end
 end
 
----@class KeyRecord: vim.keymap.set.Opts
----@field [1] string|function? key to be mapped
-
 ---map keys
---- map('n', '<C-N>', { '<cmd>bnext<CR>', desc = 'Next buf' })
----@param mode 'v'|'n'|'i'|'t'|'c'|table
----@param key string
----@param map KeyRecord
-function M.map(mode, key, map)
-  if map[1] then
-    local opts = vim.deepcopy(map)
-    opts[1] = nil
-    vim.keymap.set(mode, key, map[1], vim.tbl_deep_extend('force', M.opts, opts))
-  else
-    vim.notify(mode .. ' ' .. key, vim.log.levels.ERROR)
-  end
+---@example
+---  map('n', '<C-N>', '<cmd>bnext<CR>', { desc = 'Next buf' })
+---@param mode 'v'|'n'|'i'|'t'|'c'|'x'|'o'|table
+---@param lhs string
+---@param rhs any
+---@param opts? vim.keymap.set.Opts
+function M.map(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, rhs, vim.tbl_deep_extend('force', M.opts, opts or {}))
 end
 
 ---set opts for the rest operations
@@ -61,6 +54,14 @@ end
 function M.has(plugin)
   local lazy_config_avail, lazy_config = pcall(require, 'lazy.core.config')
   return lazy_config_avail and lazy_config.plugins[plugin] ~= nil
+end
+
+function M.augroup(name)
+  vim.api.nvim_create_augroup('User' .. name, { clear = true })
+end
+
+function M.autocmd(...)
+  vim.api.nvim_create_autocmd(...)
 end
 
 return M

@@ -1,6 +1,6 @@
+local dashboard = require 'alpha.themes.dashboard'
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
-local dashboard = require 'alpha.themes.dashboard'
 local if_nil = vim.F.if_nil
 
 autocmd('User', {
@@ -9,14 +9,32 @@ autocmd('User', {
   callback = function()
     local stats = require('lazy').stats()
     local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
-    dashboard.section.footer.val = { ' ', ' ', ' ', 'Loaded ' .. stats.count .. ' plugins  in ' .. ms .. 'ms' }
-    dashboard.section.footer.opts.hl = 'DashboardFooter'
+    dashboard.section.footer.val = {
+      'Neovim Loaded ' ..
+      stats.loaded .. '/' .. stats.count ..
+      ' plugins   in ' .. ms .. 'ms',
+    }
+    pcall(vim.cmd.AlphaRedraw)
   end,
 })
 
-local leader = 'LDR'
+local logo = [[
+ ███▄    █ ▓█████  ▒█████   ██▒   █▓ ██▓ ███▄ ▄███▓
+ ██ ▀█   █ ▓█   ▀ ▒██▒  ██▒▓██░   █▒ ██▒ ██▒▀█▀ ██▒
+▓██  ▀█ ██ ▒███   ▒██░  ██▒ ▓██  █▒░ ██▒ ██    ▓██░
+▓██▒  ▐▌██ ▒██  ▄ ▒██   ██░  ▒██ █░░░██░▒██    ▒██
+▒██░   ▓██░░█████▒░ ████▓▒░   ▒▀█░  ░██░▒██▒   ░██▒
+░ ▒░   ▒ ▒ ░░ ▒░ ░░ ▒░▒░▒░    ░ ▐░  ░▓  ░ ▒░   ░  ░
+░ ░░   ░ ▒░ ░ ░  ░  ░ ▒ ▒░    ░ ░░   ▒ ░░  ░   ░  ░
+   ░   ░      ░     ░ ░ ▒       ░░   ▒ ░░
+                      ░ ░        ░   ░
+]]
+
+dashboard.section.header.val = vim.split(logo, '\n')
+
+local LEADER = 'LDR'
 local function button(sc, txt, keybind, keybind_opts)
-  local sc_ = sc:gsub('%s', ''):gsub(leader, '<leader>')
+  local sc_ = sc:gsub(LEADER, '<leader>'):gsub('%s', '')
 
   local opts = {
     position = 'center',
@@ -45,17 +63,17 @@ local function button(sc, txt, keybind, keybind_opts)
     opts = opts,
   }
 end
-
 dashboard.section.buttons.val = {
   button('e', '  New File  ', '<cmd>ene <CR>'),
-  button('LDR f f', '  Find File  '),
-  button('LDR f o', '󱂬  Recents  '),
-  button('LDR f w', '󰈭  Find Word  '),
-  button("LDR f '", '  Bookmarks  '),
+  button('LDR f f', '  File Finder '),
+  button('LDR f b', '󱂬  Buffers'),
+  button('LDR f g', '󰈭  Find Word  '),
+  button(';', '  Bookmarks  '),
   -- button('LDR S l', '  Last Session  '),
 }
 
 dashboard.config.layout[1].val = vim.fn.max { 2, vim.fn.floor(vim.fn.winheight(0) * 0.2) }
 dashboard.config.layout[3].val = 5
 dashboard.config.opts.noautocmd = true
+dashboard.section.footer.opts.hl = 'DashboardFooter'
 require('alpha').setup(dashboard.config)
