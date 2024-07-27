@@ -1,21 +1,18 @@
-local augroup = vim.api.nvim_create_augroup
-local autocmd = vim.api.nvim_create_autocmd
-autocmd('FileType', {
-  pattern = 'markdown',
-  group = augroup('FtLocalKeymaps', {}),
-  callback = function(ev)
-    vim.keymap.set('n', '<localleader>p', '<cmd>Glow<CR>',
-      { noremap = true, desc = 'Preview markdown', buffer = ev.buf })
-    vim.keymap.set('n', '<localleader>t', '<cmd>Markview toggleAll<CR>',
-      { noremap = true, desc = 'Toggle Markview', buffer = ev.buf })
-  end,
-})
-
 ---@type LazySpec[]
 return {
   {
     'ellisonleao/glow.nvim',
     ft = 'markdown',
+    keys = {
+      {
+        '<localleader>p',
+        '<cmd>Glow<CR>',
+        noremap = true,
+        silent = true,
+        desc = 'Preview markdown',
+        ft = 'markdown',
+      },
+    },
     config = true,
   },
 
@@ -23,6 +20,16 @@ return {
     'OXY2DEV/markview.nvim',
     ft = 'markdown',
     cmd = 'Markview',
+    keys = {
+      {
+        '<localleader>t',
+        '<cmd>Markview toggleAll<CR>',
+        noremap = true,
+        silent = true,
+        desc = 'Toggle Markview',
+        ft = 'markdown',
+      },
+    },
     opts = {
       buf_ignore = { 'nofile' },
       modes = { 'n', 'no' },
