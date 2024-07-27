@@ -19,8 +19,5 @@ return {
         },
       },
     },
-    init = function()
-      vim.cmd.colorscheme [[nightfox]]
-    end,
   },
 }
