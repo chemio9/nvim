@@ -34,7 +34,7 @@ return {
     keys = {
       {
         '<leader>p',
-        "<cmd>YankyRingHistory<CR>",
+        '<cmd>YankyRingHistory<CR>',
         desc = 'Open Yank History',
       },
       { 'y',     '<Plug>(YankyYank)',                      desc = 'Yank text',                                 mode = { 'n', 'x' } },
@@ -305,6 +305,22 @@ return {
     cmd = 'GuessIndent',
     config = true,
     event = { 'BufNew', 'BufReadPre' },
+  },
+
+  {
+    'otavioschwanck/arrow.nvim',
+    opts = {
+      show_icons = true,
+      leader_key = ';',        -- Recommended to be a single key
+      buffer_leader_key = 'm', -- Per Buffer Mappings
+      window = {
+        border = 'rounded',
+      },
+    },
+    keys = {
+      { ';' },
+      { 'm' },
+    },
   },
 
 }
