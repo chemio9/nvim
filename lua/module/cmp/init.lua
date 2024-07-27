@@ -1,7 +1,6 @@
 local cmp = require 'cmp'
 local icons = require 'nvim-web-devicons'
 local lspkind = require 'lspkind'
-local luasnip = require 'luasnip'
 local cmp_under_comparator = require 'cmp-under-comparator'.under
 
 ---@type cmp.ConfigSchema
@@ -25,13 +24,14 @@ config.formatting = {
       mode = 'symbol',
       symbol_map = { Codeium = ' ' },
       menu = {
-        buffer = '[Buf]',
-        nvim_lsp = '[LSP]',
-        luasnip = '[Snip]',
-        nvim_lua = '[Lua]',
+        buffer        = '[Buf]',
+        nvim_lsp      = '[LSP]',
+        snippets      = '[Snip]',
+        tesoura       = '[Snip]',
+        nvim_lua      = '[Lua]',
         latex_symbols = '[Tex]',
-        path = '[Path]',
-        codeium = '[Code]',
+        path          = '[Path]',
+        codeium       = '[Code]',
       },
     } (entry, vim_item)
     if vim.tbl_contains({ 'path' }, entry.source.name) then
@@ -47,7 +47,7 @@ config.formatting = {
 
 config.snippet = {
   expand = function(args)
-    luasnip.lsp_expand(args.body)
+    vim.snippet.expand(args.body)
   end,
 }
 
@@ -60,8 +60,8 @@ config.mapping = {
   ['<Tab>'] = cmp.mapping(function(fallback)
     if cmp.visible() then
       cmp.select_next_item()
-    elseif luasnip.expand_or_locally_jumpable() then
-      luasnip.expand_or_jump()
+    elseif vim.snippet.active({ direction = 1 }) then
+      vim.snippet.jump(1)
     else
       fallback()
     end
@@ -70,8 +70,8 @@ config.mapping = {
   ['<S-Tab>'] = cmp.mapping(function(fallback)
     if cmp.visible() then
       cmp.select_prev_item()
-    elseif luasnip.jumpable(-1) then
-      luasnip.jump(-1)
+    elseif vim.snippet.active({ direction = -1 }) then
+      vim.snippet.jump(-1)
     else
       fallback()
     end
@@ -84,8 +84,8 @@ config.sources = cmp.config.sources({
   },
 }, {
   { name = 'nvim_lsp' },
-  { name = 'luasnip_choice' },
-  { name = 'luasnip' },
+  { name = 'tesoura' },
+  { name = 'snippets' },
   { name = 'omni' },
   {
     name = 'spell',
