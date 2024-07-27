@@ -169,8 +169,8 @@ local plugin = {
 
   {
     'ravibrock/spellwarn.nvim',
-    event = 'VeryLazy',
-    cmd = "Spellwarn",
+    event = 'User File',
+    cmd = 'Spellwarn',
     config = true,
   },
 

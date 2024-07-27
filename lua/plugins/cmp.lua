@@ -2,7 +2,10 @@
 local plugin = {
   {
     'hrsh7th/nvim-cmp',
-    event = { 'InsertEnter', --[[ 'CmdlineEnter'  ]]},
+    event = {
+      'InsertEnter',
+      -- 'CmdlineEnter',
+    },
     dependencies = {
       -- Completion sources
       'hrsh7th/cmp-nvim-lsp',

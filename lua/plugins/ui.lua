@@ -19,7 +19,7 @@ return {
 
   {
     'uga-rosa/ccc.nvim',
-    event = 'BufRead',
+    event = 'User File',
     cmd = {
       'CccPick',
       'CccConvert',
@@ -37,7 +37,8 @@ return {
 
   {
     'HiPhish/rainbow-delimiters.nvim',
-    event = 'BufRead',
+    enabled = false,
+    event = 'User File',
     config = function()
       -- This module contains a number of default definitions
       local rainbow_delimiters = require 'rainbow-delimiters'
@@ -137,7 +138,7 @@ return {
 
   {
     'nvimdev/hlsearch.nvim',
-    event = 'BufRead',
+    event = 'VeryLazy',
     config = true,
   },
 
@@ -270,7 +271,7 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim',
     },
-    -- event = 'VeryLazy',
+    event = 'BufAdd',
     keys = {
       -- 👇 in this section, choose your own keymappings!
       {

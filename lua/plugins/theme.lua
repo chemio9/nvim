@@ -3,8 +3,6 @@ return {
   {
     'EdenEast/nightfox.nvim',
     priority = 1000,
-    enabled = true,
-    lazy = false,
     opts = {
       options = {
         styles = {             -- Style to be applied to different syntax groups
