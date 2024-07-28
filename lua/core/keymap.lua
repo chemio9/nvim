@@ -1,8 +1,19 @@
 local utils = require 'core.utils'
-local has = utils.has
 local map = utils.map
 
-utils.map_opt({ silent = true })
+utils.map_opt({ silent = true, noremap = true })
+
+-- Diagnsotics
+map('n', '<leader>eD', function() require('fzf-lua').diagnostics_workspace() end, { desc = 'Search diagnostics' })
+map('n', '<leader>es', function() require('fzf-lua').lsp_document_symbols() end, { desc = 'Search symbols' })
+map('n', '<leader>ed',
+  function()
+    require('trouble').open 'diagnostics'
+  end, { desc = 'Diagnostics' })
+
+-- Diagnsotic jump can use `<c-o>` to jump back
+map('n', '[e', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
+map('n', ']e', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
 map('n', '[b', '<cmd>bprevious<CR>', { desc = 'Prev buf' })
 map('n', ']b', '<cmd>bnext<CR>', { desc = 'Next buf' })
 

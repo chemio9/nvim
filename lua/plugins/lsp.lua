@@ -2,7 +2,6 @@
 local plugin = {
   {
     'chenrry666/lsp-setup.nvim',
-    branch = 'fix_inlay_hints',
     event = 'BufRead',
     dependencies = {
       'neovim/nvim-lspconfig',
@@ -45,11 +44,7 @@ local plugin = {
       },
     },
     opts = {
-      capabilities = require('module.lsp').capabilities,
-      on_attach = function(client, bufnr)
-        local lsp = require 'module.lsp'
-        lsp.on_attach(client, bufnr)
-      end,
+      capabilities = require('module.lsp').make_capabilities(),
       servers = {
         -- {{{
         clangd = {
@@ -67,7 +62,28 @@ local plugin = {
             '--background-index',
           },
         },
-        lua_ls = {},
+        lua_ls = {
+          workspace = {
+            checkThirdParty = false,
+          },
+          codeLens = {
+            enable = true,
+          },
+          completion = {
+            callSnippet = 'Replace',
+          },
+          doc = {
+            privateName = { '^_' },
+          },
+          hint = {
+            enable = true,
+            setType = false,
+            paramType = true,
+            paramName = 'Disable',
+            semicolon = 'Disable',
+            arrayIndex = 'Disable',
+          },
+        },
         zls = {
           settings = {
             zls = {
@@ -99,43 +115,45 @@ local plugin = {
   },
 
   {
-    'b0o/schemastore.nvim',
-    dependencies = {
-      {
-        'chenrry666/lsp-setup.nvim',
-        opts = {
-          servers = {
-            -- {{{
-            jsonls = function()
-              return {
-                settings = {
-                  json = {
-                    schemas = require('schemastore').json.schemas(),
-                    validate = { enable = true },
-                  },
+    {
+      'b0o/schemastore.nvim',
+    },
+
+    {
+      'chenrry666/lsp-setup.nvim',
+      opts = {
+        servers = {
+          -- {{{
+          jsonls = function()
+            return {
+              settings = {
+                json = {
+                  schemas = require('schemastore').json.schemas(),
+                  validate = { enable = true },
                 },
-              }
-            end,
-            yamlls = function()
-              return {
-                settings = {
-                  yaml = {
-                    schemaStore = {
-                      -- You must disable built-in schemaStore support if you want to use
-                      -- this plugin and its advanced options like `ignore`.
-                      enable = false,
-                      -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-                      url = '',
-                    },
-                    schemas = require('schemastore').yaml.schemas(),
+              },
+            }
+          end,
+          yamlls = function()
+            return {
+              settings = {
+                yaml = {
+                  schemaStore = {
+                    -- You must disable built-in schemaStore support if you want to use
+                    -- this plugin and its advanced options like `ignore`.
+                    enable = false,
+                    -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+                    url = '',
                   },
+                  schemas = require('schemastore').yaml.schemas(),
                 },
-              }
-            end,
-            -- }}}
-          },
+              },
+            }
+          end,
+          -- }}}
         },
-      } },
+      },
+    },
   },
 
   {

@@ -61,7 +61,6 @@ local setup_diagnostics = function()
 end
 
 ---attach function for lsp
----TODO: use LSPAttach and LSPDetach
 ---@param client lsp.Client
 ---@param bufnr number
 local on_attach = function(client, bufnr)
@@ -84,18 +83,6 @@ local on_attach = function(client, bufnr)
   local capabilities = client.server_capabilities
 
   utils.map_opt({ noremap = true, silent = true, buffer = bufnr })
-
-  -- Diagnsotics
-  map('n', '<leader>eD', function() require('fzf-lua').diagnostics_workspace() end, { desc = 'Search diagnostics' })
-  map('n', '<leader>es', function() require('fzf-lua').lsp_document_symbols() end, { desc = 'Search symbols' })
-  map('n', '<leader>ed',
-    function()
-      require('trouble').open 'diagnostics'
-    end, { desc = 'Diagnostics' })
-
-  -- Diagnsotic jump can use `<c-o>` to jump back
-  map('n', '[e', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
-  map('n', ']e', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
 
   map('n', '<leader>ewa', vim.lsp.buf.add_workspace_folder, { desc = 'Add workspace folder' })
   map('n', '<leader>ewr', vim.lsp.buf.remove_workspace_folder, { desc = 'Remove workspace folder' })
@@ -172,8 +159,15 @@ local on_attach = function(client, bufnr)
   --end
 end
 
+utils.autocmd("LspAttach",{
+  group = utils.augroup("user_lsp"),
+  callback = function (event)
+    ---@diagnostic disable-next-line: param-type-mismatch
+    on_attach(vim.lsp.get_client_by_id(event.data.client_id), event.buf)
+  end
+})
+
 return {
-  on_attach = on_attach,
-  capabilities = make_capabilities(),
+  make_capabilities = make_capabilities,
   setup_diagnostics = setup_diagnostics,
 }
