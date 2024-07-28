@@ -32,7 +32,7 @@ dap.configurations.lua = {
 dap.adapters.lldb = {
   type = 'executable',
   -- must be absolute path
-  command = '/usr/bin/lldb-vscode',
+  command = '/usr/bin/lldb-dap',
   name = 'lldb',
 }
 
