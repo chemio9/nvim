@@ -30,25 +30,31 @@ return {
         ft = 'markdown',
       },
     },
-    opts = {
-      buf_ignore = { 'nofile' },
-      modes = { 'n', 'no' },
-      -- options = {
-      --   on_enable = {},
-      --   on_disable = {},
-      -- },
-      -- block_quotes = {},
-      -- checkboxes = {},
-      -- code_blocks = {},
-      -- headings = {},
-      -- horizontal_rules = {},
-      -- inline_codes = {},
-      -- links = {},
-      -- list_items = {},
-      -- tables = {},
-    },
+    config = function()
+      local presets = require('markview.presets');
 
-    dependencies = {
+      require('markview').setup({
+        modes = { 'n', 'no' },
+        buf_ignore = { 'nofile' },
+
+        tables = {
+          enable = true,
+          use_virt_lines = false,
+
+          text = {},
+          hl = {},
+        },
+
+        html = {
+          enable = true,
+
+          tags = { enable = true },
+          entities = { enable = true },
+        },
+        headings = presets.headings.glow_labels,
+      });
+    end,
+    specs = {
       -- You may not need this if you don't lazy load
       -- Or if the parsers are in your $RUNTIMEPATH
       'nvim-treesitter/nvim-treesitter',
