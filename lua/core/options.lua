@@ -1,8 +1,8 @@
 ---@diagnostic disable: assign-type-mismatch, undefined-field
 -- to ignore assigning a value to vim.opt
 
--- 10kb
-vim.g.bigfile_size = 10 * 1024
+-- 1MB
+vim.g.bigfile_size = 1024 * 1024
 
 vim.scriptencoding = 'utf-8'
 vim.opt.iskeyword:append('-')
