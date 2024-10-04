@@ -1,15 +1,4 @@
-local augroup = vim.api.nvim_create_augroup
-local autocmd = vim.api.nvim_create_autocmd
-autocmd('FileType', {
-  pattern = 'http',
-  group = augroup('FtLocalKeymaps', {}),
-  callback = function(ev)
-    vim.keymap.set('n', '<localleader>p', function() require('kulala').jump_prev() end, { noremap = true, silent = true })
-    vim.keymap.set('n', '<localleader>n', function() require('kulala').jump_next() end, { noremap = true, silent = true })
-    vim.keymap.set('n', '<localleader>r', function() require('kulala').run() end, { noremap = true, silent = true })
-  end,
-})
-
+---@type LazySpec[]|LazySpec
 return {
   {
     'mistweaverco/kulala.nvim',
@@ -21,6 +10,11 @@ return {
         },
       }
     end,
+    keys = {
+      { '<localleader>p', function() require('kulala').jump_prev() end, noremap = true, silent = true,  ft = 'http' },
+      { '<localleader>n', function() require('kulala').jump_next() end, noremap = true, silent = true,  ft = 'http' },
+      { '<localleader>r', function() require('kulala').run() end,       noremap = true, silent = true,  ft = 'http' },
+    },
     config = function()
       -- Setup is required, even if you don't pass any options
       require('kulala').setup({
