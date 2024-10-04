@@ -17,49 +17,38 @@ return {
   },
 
   {
-    'OXY2DEV/markview.nvim',
+    'MeanderingProgrammer/render-markdown.nvim',
     ft = 'markdown',
-    cmd = 'Markview',
     keys = {
       {
         '<localleader>t',
-        '<cmd>Markview toggleAll<CR>',
+        '<cmd>RenderMarkdown toggle<CR>',
         noremap = true,
         silent = true,
-        desc = 'Toggle Markview',
+        desc = 'Toggle Markdown Preview',
         ft = 'markdown',
       },
     },
-    config = function()
-      local presets = require('markview.presets');
-
-      require('markview').setup({
-        modes = { 'n', 'no' },
-        buf_ignore = { 'nofile' },
-
-        tables = {
-          enable = true,
-          use_virt_lines = false,
-
-          text = {},
-          hl = {},
-        },
-
-        html = {
-          enable = true,
-
-          tags = { enable = true },
-          entities = { enable = true },
-        },
-        headings = presets.headings.glow_labels,
-      });
-    end,
-    specs = {
-      -- You may not need this if you don't lazy load
-      -- Or if the parsers are in your $RUNTIMEPATH
-      'nvim-treesitter/nvim-treesitter',
-
-      'nvim-tree/nvim-web-devicons',
+    opts = {
+      anti_conceal = {
+        -- This enables hiding any added text on the line the cursor is on
+        enabled = true,
+        -- Number of lines above cursor to show
+        above = 2,
+        -- Number of lines below cursor to show
+        below = 2,
+      },
+      code = {
+        width = 'block',
+      },
+      dash = {
+        width = 80,
+      },
+      pipe_table = {
+        style = 'normal',
+      },
     },
+    specs = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
   },
+
 }
