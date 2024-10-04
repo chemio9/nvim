@@ -298,4 +298,15 @@ return {
 
   { 'kevinhwang91/nvim-bqf', ft = 'qf' },
 
+  {
+    'AlejandroSuero/freeze-code.nvim',
+    opts = {
+      copy = true,
+      dir = vim.fs.normalize('~/usr/Pictures/屏幕截图'),
+    },
+    keys = {
+      { mode = 'n', '<leader>fz', function() require('freeze-code.utils.api').freeze() end },
+      { mode = 'v', '<leader>fz', function() require('freeze-code.utils.api').freeze(vim.fn.line("'<"), vim.fn.line("'>")) end },
+    },
+  },
 }

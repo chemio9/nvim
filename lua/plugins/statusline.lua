@@ -59,13 +59,13 @@ return {
       vim.o.showtabline = 2
 
       local theme = {
-        fill = 'TabLineFill',
+        fill = 'WinBar',
         -- Also you can do this: fill = { fg='#f2e9de', bg='#907aa9', style='italic' }
-        head = 'TabLine',
-        current_tab = 'TabLineSel',
+        head = 'WinBar',
+        current_tab = 'WinBar',
         tab = 'TabLine',
-        win = 'TabLine',
-        tail = 'TabLine',
+        win = 'WinBar',
+        tail = 'WinBar',
       }
       require('tabby.tabline').set(function(line)
         return {
