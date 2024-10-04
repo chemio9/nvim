@@ -102,7 +102,7 @@ local plugin = {
           staticcheck = true,
           gofumpt = true,
         },
-        tsserver = {},
+        ts_ls = {},
         emmet_ls = {},
         -- }}}
       },
