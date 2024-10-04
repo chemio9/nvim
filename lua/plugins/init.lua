@@ -10,9 +10,10 @@ return {
       'ToggleTermSendVisualSelection',
     },
     keys = {
-      { '<leader>tf', '<cmd>ToggleTerm direction=float<cr>',              desc = 'ToggleTerm float' },
-      { '<leader>th', '<cmd>ToggleTerm size=10 direction=horizontal<cr>', desc = 'ToggleTerm horizontal split' },
-      { '<leader>tv', '<cmd>ToggleTerm size=80 direction=vertical<cr>',   desc = 'ToggleTerm vertical split' },
+      { '<leader>tf', '<cmd>ToggleTerm direction=float<cr>',              desc = 'Term float' },
+      { '<leader>th', '<cmd>ToggleTerm size=10 direction=horizontal<cr>', desc = 'Term horizontal split' },
+      { '<leader>tv', '<cmd>ToggleTerm size=80 direction=vertical<cr>',   desc = 'Term vertical split' },
+      { '<leader>tl', '<cmd>ToggleTerm direction=float lazygit<cr>',   desc = "LazyGit" },
       {
         '<F7>',
         '<cmd>ToggleTerm<cr>',
