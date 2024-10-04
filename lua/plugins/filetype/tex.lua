@@ -94,7 +94,7 @@ return {
   },
 
   {
-    'chenrry666/lsp-setup.nvim',
+    'neovim/nvim-lspconfig',
     opts = {
       servers = {
         ltex = {

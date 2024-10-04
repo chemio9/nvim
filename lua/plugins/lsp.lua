@@ -1,10 +1,9 @@
 ---@type LazySpec[]
 local plugin = {
   {
-    'chenrry666/lsp-setup.nvim',
+    'neovim/nvim-lspconfig',
     event = 'BufRead',
-    dependencies = {
-      'neovim/nvim-lspconfig',
+    specs = {
       {
         'williamboman/mason.nvim',
         opts = {
@@ -42,11 +41,41 @@ local plugin = {
           { 'justinsgithub/wezterm-types', enabled = vim.fn.executable('wezterm') == 1 },
         },
       },
+
+      {
+        'b0o/schemastore.nvim',
+      },
     },
     opts = {
-      capabilities = require('module.lsp').make_capabilities(),
       servers = {
         -- {{{
+        jsonls = function()
+          return {
+            settings = {
+              json = {
+                schemas = require('schemastore').json.schemas(),
+                validate = { enable = true },
+              },
+            },
+          }
+        end,
+        yamlls = function()
+          return {
+            settings = {
+              yaml = {
+                schemaStore = {
+                  -- You must disable built-in schemaStore support if you want to use
+                  -- this plugin and its advanced options like `ignore`.
+                  enable = false,
+                  -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+                  url = '',
+                },
+                schemas = require('schemastore').yaml.schemas(),
+              },
+            },
+          }
+        end,
+
         clangd = {
           cmd = {
             'clangd',
@@ -104,56 +133,53 @@ local plugin = {
         },
         ts_ls = {},
         emmet_ls = {},
+        volar = {},
         -- }}}
       },
     },
     config = function(_, opts)
+      local lspconfig = require('lspconfig')
+      lspconfig.util.default_config.capabilities = require('module.lsp').make_capabilities()
+
+      local mason = require('mason')
+      local mason_lspconfig = require('mason-lspconfig')
+      if mason.has_setup then
+        mason.setup {}
+        mason_lspconfig.setup {}
+      end
+
+      for server_name, config in pairs(opts.servers) do
+        if type(config) == 'function' then
+          config = config()
+        end
+
+        -- local is_installed = vim.fn.executable(
+        --         require("lspconfig.server_configurations." .. server_name).default_config.cmd[1]) == 1
+        -- TODO this is time costly to check if the file executable
+        -- for instance my 10 servers costs ~60ms
+        --
+        -- if not is_installed then
+        --     table.insert(ensure_install, server_name)
+        -- end
+
+        require('lspconfig')[server_name].setup(config)
+      end
+
+      -- mason_lspconfig.setup {
+      --     ensure_installed = ensure_install
+      -- }
+      mason_lspconfig.setup_handlers({
+        function(server_name)
+          local config = opts.servers[server_name] or nil
+          -- only setup the servers that we don't manually setup
+          if config == nil then
+            require('lspconfig')[server_name].setup(config)
+          end
+        end,
+      })
       local lsp = require 'module.lsp'
       lsp.setup_diagnostics()
-      require('lsp-setup').setup(opts)
     end,
-  },
-
-  {
-    {
-      'b0o/schemastore.nvim',
-    },
-
-    {
-      'chenrry666/lsp-setup.nvim',
-      opts = {
-        servers = {
-          -- {{{
-          jsonls = function()
-            return {
-              settings = {
-                json = {
-                  schemas = require('schemastore').json.schemas(),
-                  validate = { enable = true },
-                },
-              },
-            }
-          end,
-          yamlls = function()
-            return {
-              settings = {
-                yaml = {
-                  schemaStore = {
-                    -- You must disable built-in schemaStore support if you want to use
-                    -- this plugin and its advanced options like `ignore`.
-                    enable = false,
-                    -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-                    url = '',
-                  },
-                  schemas = require('schemastore').yaml.schemas(),
-                },
-              },
-            }
-          end,
-          -- }}}
-        },
-      },
-    },
   },
 
   {
