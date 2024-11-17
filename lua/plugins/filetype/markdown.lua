@@ -51,4 +51,10 @@ return {
     specs = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
   },
 
+  {
+    'Kicamon/markdown-table-mode.nvim',
+    ft = 'markdown',
+    config = true,
+  },
+
 }
