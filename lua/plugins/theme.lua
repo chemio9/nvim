@@ -3,7 +3,8 @@ return {
   {
     'EdenEast/nightfox.nvim',
     priority = 1000,
-    cond = vim.g.colorscheme == "nightfox",
+    -- cond = vim.g.colorscheme == "nightfox",
+    lazy=false,
     opts = {
       options = {
         styles = {             -- Style to be applied to different syntax groups
