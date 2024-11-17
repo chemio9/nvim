@@ -284,8 +284,15 @@ local plugin = {
 
   {
     'stevearc/conform.nvim',
+    ---@type conform.setupOpts
     opts = {
-      formatters_by_ft = {},
+      formatters_by_ft = {
+        ['vue'] = { 'prettier' },
+      },
+      format_on_save = {
+        ['vue'] = true,
+        ['lua'] = true,
+      },
     },
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
