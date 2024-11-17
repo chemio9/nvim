@@ -2,6 +2,22 @@ local hasGit = vim.fn.executable 'git' == 1
 
 ---@type LazySpec[]
 return {
+
+  {
+    'sindrets/diffview.nvim',
+    enabled = hasGit,
+    cmd = {
+      'DiffviewOpen',
+      'DiffviewLog',
+      'DiffviewClose',
+      'DiffviewRefresh',
+      'DiffviewFocusFiles',
+      'DiffviewToggleFiles',
+      'DiffviewFileHistory',
+    },
+    config = true,
+  },
+
   {
     'lewis6991/gitsigns.nvim',
     enabled = hasGit,
@@ -76,7 +92,7 @@ return {
     enabled = hasGit,
     opts = {
       width = 100,
-      height = "80%",
+      height = '80%',
       -- external_diffview = true, -- tell fugit2 to use diffview.nvim instead of builtin implementation.
     },
     dependencies = {
@@ -88,7 +104,7 @@ return {
         dependencies = { 'stevearc/dressing.nvim' },
       },
     },
-    cmd = { 'Fugit2', 'Fugit2Diff', 'Fugit2Graph', "Fugit2Blame" },
+    cmd = { 'Fugit2', 'Fugit2Diff', 'Fugit2Graph', 'Fugit2Blame' },
     keys = {
       { '<leader>F', mode = 'n', '<cmd>Fugit2<cr>' },
     },
