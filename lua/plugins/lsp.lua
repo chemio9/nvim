@@ -21,7 +21,19 @@ local plugin = {
         },
       },
       'williamboman/mason-lspconfig.nvim',
-
+      {
+        'Zeioth/mason-extra-cmds',
+        opts = {},
+        cmd = 'MasonUpdateAll',
+        init = function()
+          vim.api.nvim_create_autocmd('User', {
+            pattern = 'LazyInstall',
+            callback = function()
+              vim.cmd(':MasonUpdateAll')
+            end,
+          })
+        end,
+      },
       {
         'folke/lazydev.nvim',
         ft = 'lua', -- only load on lua files
@@ -75,7 +87,6 @@ local plugin = {
             },
           }
         end,
-
         clangd = {
           cmd = {
             'clangd',
@@ -113,17 +124,17 @@ local plugin = {
             arrayIndex = 'Disable',
           },
         },
-        zls = {
-          settings = {
-            zls = {
-              enable_inlay_hints = true,
-              inlay_hints_show_builtin = true,
-              inlay_hints_exclude_single_argument = true,
-              inlay_hints_hide_redundant_param_names = true,
-              inlay_hints_hide_redundant_param_names_last_token = false,
-            },
-          },
-        },
+        -- zls = {
+        --   settings = {
+        --     zls = {
+        --       enable_inlay_hints = true,
+        --       inlay_hints_show_builtin = true,
+        --       inlay_hints_exclude_single_argument = true,
+        --       inlay_hints_hide_redundant_param_names = true,
+        --       inlay_hints_hide_redundant_param_names_last_token = false,
+        --     },
+        --   },
+        -- },
         gopls = {
           analyses = {
             unusedparams = true,
@@ -131,14 +142,39 @@ local plugin = {
           staticcheck = true,
           gofumpt = true,
         },
-        ts_ls = {},
-        emmet_ls = {},
+        -- ts_ls = {},
+        vtsls = function()
+          return {
+            filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx', 'javascript', 'javascriptreact', 'javascript.jsx', 'vue' },
+            settings = {
+              vtsls = {
+                tsserver = {
+                  globalPlugins = {
+                    {
+                      name = '@vue/typescript-plugin',
+                      location = vim.fs.joinpath(
+                        require('mason-registry').get_package('vue-language-server'):get_install_path(),
+                        '/node_modules/@vue/language-server'
+                      ),
+                      languages = { 'vue' },
+                      configNamespace = 'typescript',
+                      enableForWorkspaceTypescriptVersions = true,
+                    },
+                  },
+                },
+              },
+            },
+          }
+        end,
         volar = {},
+        emmet_ls = {},
         -- }}}
       },
     },
     config = function(_, opts)
       local lspconfig = require('lspconfig')
+
+      require('vim.lsp.log').set_format_func(vim.inspect)
       lspconfig.util.default_config.capabilities = require('module.lsp').make_capabilities()
 
       local mason = require('mason')
@@ -162,7 +198,7 @@ local plugin = {
         --     table.insert(ensure_install, server_name)
         -- end
 
-        require('lspconfig')[server_name].setup(config)
+        lspconfig[server_name].setup(config)
       end
 
       -- mason_lspconfig.setup {
@@ -170,10 +206,10 @@ local plugin = {
       -- }
       mason_lspconfig.setup_handlers({
         function(server_name)
-          local config = opts.servers[server_name] or nil
+          local config = opts.servers[server_name] or {}
           -- only setup the servers that we don't manually setup
           if config == nil then
-            require('lspconfig')[server_name].setup(config)
+            lspconfig[server_name].setup(config)
           end
         end,
       })
