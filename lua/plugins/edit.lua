@@ -61,7 +61,18 @@ return {
   {
     'max397574/better-escape.nvim',
     event = 'InsertCharPre',
-    config = true,
+    opts = {
+      default_mappings = false,
+      mappings = {
+        i = {
+          j = {
+            -- These can all also be functions
+            k = '<Esc>',
+            j = '<Esc>',
+          },
+        },
+      },
+    },
   },
 
   {
