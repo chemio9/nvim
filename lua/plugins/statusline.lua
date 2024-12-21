@@ -109,6 +109,8 @@ return {
 
   {
     'luukvbaal/statuscol.nvim',
+    -- TODO: delete in favor of Snacks.nvim
+    enabled = false,
     event = 'VeryLazy',
     config = function()
       local builtin = require('statuscol.builtin')

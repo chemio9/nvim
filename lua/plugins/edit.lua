@@ -111,15 +111,6 @@ return {
   },
 
   {
-    'famiu/bufdelete.nvim',
-    cmd = { 'Bdelete', 'Bwipeout' },
-    keys = {
-      { '<leader>bw', '<cmd>Bwipeout<CR>', desc = 'Bwipeout' },
-      { '<leader>bd', '<cmd>Bdelete<CR>',  desc = 'Bdelete' },
-    },
-  },
-
-  {
     'cappyzawa/trim.nvim',
     event = 'BufWritePre',
     cmd = { 'Trim', 'TrimToggle' },
