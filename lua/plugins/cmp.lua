@@ -2,16 +2,17 @@
 local plugin = {
   {
     'hrsh7th/nvim-cmp',
-    -- autopairs will require it, so we don't need to specify events
-    -- event = {
-    --   'InsertEnter',
-    --   -- 'CmdlineEnter',
-    -- },
+    event = {
+      'InsertEnter',
+      -- 'CmdlineEnter',
+    },
     dependencies = {
       -- Completion sources
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
+
       { url = 'https://codeberg.org/FelipeLema/cmp-async-path' },
+
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-calc',
       'hrsh7th/cmp-omni',
@@ -20,8 +21,6 @@ local plugin = {
       'lukas-reineke/cmp-under-comparator',
 
       'onsails/lspkind.nvim',
-
-      'guilherme-puida/tesoura.nvim',
     },
     config = function()
       require 'module.cmp'
@@ -35,18 +34,9 @@ local plugin = {
       setup_autocmd = true,
       -- your snippets!
       snippets = {
-        ['*'] = {
-          {
-            prefix = 'copyright',
-            body = function()
-              return 'Copyright (c) ' .. tostring(os.date('%Y') .. ' Chemio9 <chengruichen3@gmail.com>')
-            end,
-          },
-          { prefix = 'date', body = function() return tostring(os.date '%Y-%m-%d') end },
-          { prefix = 'now',  body = function() return tostring(os.date '%Y-%m-%d %H:%M:%S') end },
-        },
+
       },
-      -- the nvim-cmp source name.
+      -- the nvim_cmp source name.
       source_name = 'tesoura',
     }, -- see the configuration section below.
     config = function(_, opts)
@@ -65,8 +55,41 @@ local plugin = {
   },
 
   {
+    'L3MON4D3/LuaSnip',
+    enabled = false,
+    build = vim.fn.has 'win32' == 0
+        and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build\n'; make install_jsregexp"
+        or nil,
+    dependencies = {
+      -- 'rafamadriz/friendly-snippets',
+    },
+    main = 'luasnip',
+    opts = {
+      history = true,
+      delete_check_events = 'TextChanged',
+      region_check_events = 'CursorMoved',
+    },
+    config = function(_, opts)
+      local luasnip = require 'luasnip'
+      luasnip.config.setup(opts)
+      -- require('module.luasnip')
+
+      luasnip.filetype_extend('cpp', { 'c' })
+      luasnip.filetype_extend('javascriptreact', { 'javascript' })
+      luasnip.filetype_extend('typescript', { 'javascript' })
+      luasnip.filetype_extend('typescriptreact', { 'javascript', 'javascriptreact' })
+
+      vim.schedule(function()
+        vim.tbl_map(function(type)
+          require('luasnip.loaders.from_' .. type).lazy_load()
+        end, { 'vscode', 'snipmate', 'lua' })
+      end)
+    end,
+  },
+
+  {
     'windwp/nvim-autopairs',
-    event = { 'InsertEnter', --[[ 'CmdlineEnter'  ]]},
+    event = 'InsertEnter',
     config = function()
       require 'module.cmp.pairs'
     end,
