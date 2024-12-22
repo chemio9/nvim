@@ -31,7 +31,11 @@ local plugin = {
 
   {
     'numToStr/Comment.nvim',
-    keys = { { 'gc', mode = { 'n', 'v' } }, { 'gb', mode = { 'n', 'v' } } },
+    keys = {
+      { 'gc',  mode = { 'n', 'v', 'x', 'o' } },
+      { 'gb',  mode = { 'n', 'v' } },
+      { 'gcc', mode = { 'n', 'v' } },
+    },
     config = function()
       require 'module.cmp.comment'
     end,
