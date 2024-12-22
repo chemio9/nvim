@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local cmp = require 'cmp'
 local icons = require 'nvim-web-devicons'
 local lspkind = require 'lspkind'
@@ -35,7 +36,7 @@ config.formatting = {
       },
     } (entry, vim_item)
     if vim.tbl_contains({ 'path' }, entry.source.name) then
-      local icon, hl_group = icons.get_icon(entry:get_completion_item().label)
+      local icon, hl_group = icons.get_icon(entry.completion_item.label)
       if icon then
         item.kind = icon .. ' File'
         item.kind_hl_group = hl_group
