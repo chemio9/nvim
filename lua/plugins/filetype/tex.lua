@@ -86,7 +86,6 @@ return {
 
   {
     'L3MON4D3/LuaSnip',
-    enabled = false,
     opts = {
       -- for luasnip-latex-snippets.nvim
       enable_autosnippets = true,
@@ -152,8 +151,6 @@ return {
     -- vimtex isn't required if using treesitter
     dependencies = { 'lervag/vimtex' },
     -- already lazy load by FileType
-    -- TODO temporarily disable, need to investigate how to implement postfix snippet using vim.snippet
-    enabled = false,
     lazy = false,
     config = function()
       require 'luasnip-latex-snippets'.setup({ use_treesitter = true })
