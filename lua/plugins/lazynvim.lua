@@ -116,9 +116,9 @@ return {
           vim.print = _G.dd -- Override print to use snacks for `:=` command
 
           -- Toggle the profiler
-          Snacks.toggle.profiler():map('<leader>pp')
+          Snacks.toggle.profiler():map('<leader>hp')
           -- Toggle the profiler highlights
-          Snacks.toggle.profiler_highlights():map('<leader>ph')
+          Snacks.toggle.profiler_highlights():map('<leader>hh')
           -- Create some toggle mappings
           Snacks.toggle.option('spell', { name = 'Spelling' }):map('<leader>us')
           Snacks.toggle.option('wrap', { name = 'Wrap' }):map('<leader>uw')
@@ -158,6 +158,7 @@ return {
         '<leader>N',
         desc = 'Neovim News',
         function()
+          ---@diagnostic disable-next-line: missing-fields
           Snacks.win({
             file = vim.api.nvim_get_runtime_file('doc/news.txt', false)[1],
             width = 0.6,
