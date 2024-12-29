@@ -136,11 +136,18 @@ local plugin = {
         --   },
         -- },
         gopls = {
-          analyses = {
-            unusedparams = true,
+          settings = {
+            gopls = {
+              buildFlags = {
+                '-tags=wireinject',
+              },
+              analyses = {
+                unusedparams = true,
+              },
+              staticcheck = true,
+              gofumpt = true,
+            },
           },
-          staticcheck = true,
-          gofumpt = true,
         },
         -- ts_ls = {},
         vtsls = function()
@@ -180,7 +187,9 @@ local plugin = {
       local mason = require('mason')
       local mason_lspconfig = require('mason-lspconfig')
       if mason.has_setup then
-        mason.setup {}
+        mason.setup {
+          PATH = 'prepend',
+        }
         mason_lspconfig.setup {}
       end
 
@@ -284,10 +293,12 @@ local plugin = {
 
   {
     'stevearc/conform.nvim',
+    --- require("conform")
     ---@type conform.setupOpts
     opts = {
       formatters_by_ft = {
-        ['vue'] = { 'prettier' },
+        vue = { 'prettier' },
+        go = {},
       },
       format_on_save = {
         ['vue'] = true,
@@ -296,6 +307,19 @@ local plugin = {
     },
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
+  },
+  {
+    'mfussenegger/nvim-lint',
+    event = 'User File',
+    config = function(_, opts)
+      require('lint').linters_by_ft = {
+        -- TODO: biomejs/oxlint
+        go = { 'golangcilint' },
+      }
+    end,
+    keys = {
+      { 'grl', function() require('lint').try_lint() end, desc = 'Lint' },
+    },
   },
 }
 return plugin

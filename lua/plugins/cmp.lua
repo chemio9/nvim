@@ -47,7 +47,7 @@ local plugin = {
         and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build\n'; make install_jsregexp"
         or nil,
     dependencies = {
-      -- 'rafamadriz/friendly-snippets',
+      'rafamadriz/friendly-snippets',
     },
     main = 'luasnip',
     opts = {
