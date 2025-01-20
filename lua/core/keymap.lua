@@ -44,13 +44,6 @@ map('i', ';', ';<c-g>u')
 map('v', '<', '<gv')
 map('v', '>', '>gv')
 
-local orig_conceallevel = vim.opt.conceallevel:get()
-map('n', '<leader>cc',
-  function()
-    vim.opt.conceallevel = vim.opt.conceallevel:get() == orig_conceallevel and 0 or orig_conceallevel
-  end,
-  { desc = 'toggle conceal' })
-
 map('n', 'H', '0^')
 map('n', 'L', '$')
 
