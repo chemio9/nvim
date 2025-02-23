@@ -8,7 +8,7 @@ local plugin = {
         'williamboman/mason.nvim',
         opts = {
           github = {
-            download_url_template = 'https://ghproxy.net/github.com/%s/releases/download/%s/%s',
+            -- download_url_template = 'https://ghproxy.net/github.com/%s/releases/download/%s/%s',
           },
         },
         cmd = {
@@ -29,7 +29,7 @@ local plugin = {
           vim.api.nvim_create_autocmd('User', {
             pattern = 'LazyInstall',
             callback = function()
-              vim.cmd(':MasonUpdateAll')
+              vim.cmd.MasonUpdateAll()
             end,
           })
         end,
@@ -48,7 +48,7 @@ local plugin = {
             { path = 'wezterm-types',      mods = { 'wezterm' } },
           },
         },
-        dependencies = {
+        specs = {
           { 'Bilal2453/luvit-meta',        lazy = true }, -- `vim.uv` typings,
           { 'justinsgithub/wezterm-types', enabled = vim.fn.executable('wezterm') == 1 },
         },
@@ -149,32 +149,6 @@ local plugin = {
             },
           },
         },
-        -- ts_ls = {},
-        vtsls = function()
-          return {
-            filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx', 'javascript', 'javascriptreact', 'javascript.jsx', 'vue' },
-            settings = {
-              vtsls = {
-                tsserver = {
-                  globalPlugins = {
-                    {
-                      name = '@vue/typescript-plugin',
-                      location = vim.fs.joinpath(
-                        require('mason-registry').get_package('vue-language-server'):get_install_path(),
-                        '/node_modules/@vue/language-server'
-                      ),
-                      languages = { 'vue' },
-                      configNamespace = 'typescript',
-                      enableForWorkspaceTypescriptVersions = true,
-                    },
-                  },
-                },
-              },
-            },
-          }
-        end,
-        volar = {},
-        emmet_ls = {},
         -- }}}
       },
     },
@@ -187,9 +161,11 @@ local plugin = {
       local mason = require('mason')
       local mason_lspconfig = require('mason-lspconfig')
       if mason.has_setup then
+        ---@diagnostic disable-next-line: missing-fields
         mason.setup {
           PATH = 'prepend',
         }
+        ---@diagnostic disable-next-line: missing-fields
         mason_lspconfig.setup {}
       end
 
@@ -293,29 +269,54 @@ local plugin = {
 
   {
     'stevearc/conform.nvim',
-    --- require("conform")
-    ---@type conform.setupOpts
-    opts = {
-      formatters_by_ft = {
-        vue = { 'prettier' },
-        go = {},
-      },
-      format_on_save = {
-        ['vue'] = true,
-        ['lua'] = true,
-      },
+    dependencies = {
+      'williamboman/mason.nvim',
     },
+    -- require("conform")
+    opts = function(_, opts)
+      ---@type conform.setupOpts
+      local prettier = { lsp_format = 'fallback', 'eslint_d' }
+      local opt = {
+        formatters_by_ft = {
+          vue = prettier,
+          ts = prettier,
+          tsx = prettier,
+          json = { lsp_format = 'fallback', 'prettier' },
+
+          go = { 'gofumpt' },
+          md = { 'injected' },
+        },
+        format_on_save = {
+          ['lua'] = true,
+        },
+      }
+      return vim.tbl_extend('force', opts, opt)
+    end,
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
   },
   {
     'mfussenegger/nvim-lint',
     event = 'User File',
-    config = function(_, opts)
+    dependencies = {
+      'williamboman/mason.nvim',
+    },
+    config = function()
       require('lint').linters_by_ft = {
         -- TODO: biomejs/oxlint
         go = { 'golangcilint' },
+        vue = { 'eslint_d' },
+        ts = { 'eslint_d' },
+        tsx = { 'eslint_d' },
       }
+
+      vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+        callback = function()
+          -- try_lint without arguments runs the linters defined in `linters_by_ft`
+          -- for the current filetype
+          require('lint').try_lint()
+        end,
+      })
     end,
     keys = {
       { 'grl', function() require('lint').try_lint() end, desc = 'Lint' },

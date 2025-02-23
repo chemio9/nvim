@@ -45,7 +45,7 @@ return {
   {
     'nanozuki/tabby.nvim',
     event = 'VeryLazy',
-    dependencies = 'nvim-tree/nvim-web-devicons',
+    specs = 'nvim-tree/nvim-web-devicons',
     keys = {
       { '<leader>ta',  ':$tabnew<CR>',  noremap = true, desc = 'New Tab' },
       { '<leader>tc',  ':tabclose<CR>', noremap = true, desc = 'Close Tab' },

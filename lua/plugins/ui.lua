@@ -191,14 +191,14 @@ return {
         }
       )
     end,
-    dependencies = 'romgrk/fzy-lua-native',
+    specs = 'romgrk/fzy-lua-native',
   },
 
   {
     'mikavilpas/yazi.nvim',
     lazy = false,
     event = { 'BufAdd', 'VimEnter' },
-    dependencies = {
+    specs = {
       'nvim-lua/plenary.nvim',
     },
     keys = {

@@ -19,7 +19,7 @@ return {
           end
           dapui.setup { floating = { border = 'rounded' } }
         end,
-        dependencies = {
+        specs = {
           'nvim-neotest/nvim-nio',
         },
       },
