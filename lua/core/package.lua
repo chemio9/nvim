@@ -1,5 +1,5 @@
 local LAZYPATH = vim.fn.getenv 'HOME' .. '/.cache/lazy_nvim'
-local LAZYREPO = 'https://ghproxy.com/github.com/folke/lazy.nvim.git'
+local LAZYREPO = 'https://github.com/folke/lazy.nvim.git'
 if not vim.uv.fs_stat(LAZYPATH) then
   vim.system({ 'mkdir', '-pv', LAZYPATH .. '/lazy.nvim' })
   vim.system({
@@ -31,7 +31,7 @@ require('lazy').setup({
   },
 
   root = LAZYPATH, -- directory where plugins will be installed
-  lockfile = LAZYPATH .. '/lazy-lock.json',
+  lockfile = vim.fn.stdpath('config') .. '/lazy-lock.json',
   defaults = { lazy = true },
 
   git = {
