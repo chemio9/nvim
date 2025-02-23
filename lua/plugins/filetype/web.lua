@@ -22,13 +22,28 @@ return {
     },
     opts = {
       servers = {
-
         -- ts_ls = {},
         vtsls = function()
           return {
-            filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx', 'javascript', 'javascriptreact', 'javascript.jsx', 'vue' },
+            filetypes = {
+              'typescript',
+              'typescriptreact',
+              'typescript.tsx',
+              'javascript',
+              'javascriptreact',
+              'javascript.jsx',
+              'vue',
+            },
+            -- on_new_config = function(new_config, new_root_dir)
+            --   local lib_path = vim.fs.find('node_modules/typescript/lib', { path = new_root_dir, upward = true })[1]
+            --   if lib_path then
+            --     new_config.init_options.typescript.tsdk = lib_path
+            --   end
+            -- end,
+
             settings = {
               vtsls = {
+                -- autoUseWorkspaceTsdk = true,
                 tsserver = {
                   globalPlugins = {
                     {

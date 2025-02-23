@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 ---@type LazySpec[]
 local plugin = {
   {
@@ -59,6 +60,7 @@ local plugin = {
       },
     },
     opts = {
+      ---@type {[string]: lspconfig.Config|fun(): lspconfig.Config}
       servers = {
         -- {{{
         jsonls = function()
@@ -103,25 +105,29 @@ local plugin = {
           },
         },
         lua_ls = {
-          workspace = {
-            checkThirdParty = false,
-          },
-          codeLens = {
-            enable = true,
-          },
-          completion = {
-            callSnippet = 'Replace',
-          },
-          doc = {
-            privateName = { '^_' },
-          },
-          hint = {
-            enable = true,
-            setType = false,
-            paramType = true,
-            paramName = 'Disable',
-            semicolon = 'Disable',
-            arrayIndex = 'Disable',
+          settings = {
+            Lua = {
+              workspace = {
+                checkThirdParty = false,
+              },
+              codeLens = {
+                enable = true,
+              },
+              completion = {
+                callSnippet = 'Replace',
+              },
+              doc = {
+                privateName = { '^_' },
+              },
+              hint = {
+                enable = true,
+                setType = false,
+                paramType = true,
+                paramName = 'Disable',
+                semicolon = 'Disable',
+                arrayIndex = 'Disable',
+              },
+            },
           },
         },
         -- zls = {
