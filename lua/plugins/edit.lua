@@ -25,36 +25,49 @@ return {
   },
 
   {
+    'gregorias/coerce.nvim',
+    specs = {
+      'gregorias/coop.nvim',
+    },
+    keys = {
+      -- { 'cr' },
+      { 'gcr', mode = { 'n', 'v' } },
+    },
+    tag = 'v4.1.0',
+    config = true,
+  },
+
+  {
     'gbprod/yanky.nvim',
-    dependencies = {
+    specs = {
       { 'kkharji/sqlite.lua' },
     },
     opts = {
       ring = { storage = 'sqlite' },
     },
     keys = {
-      {
-        '<leader>p',
-        '<cmd>YankyRingHistory<CR>',
-        desc = 'Open Yank History',
-      },
-      { 'y',     '<Plug>(YankyYank)',                      desc = 'Yank text',                                 mode = { 'n', 'x' } },
-      { 'p',     '<Plug>(YankyPutAfter)',                  desc = 'Put yanked text after cursor',              mode = { 'n', 'x' } },
-      { 'P',     '<Plug>(YankyPutBefore)',                 desc = 'Put yanked text before cursor',             mode = { 'n', 'x' } },
-      { 'gp',    '<Plug>(YankyGPutAfter)',                 desc = 'Put yanked text after selection',           mode = { 'n', 'x' } },
-      { 'gP',    '<Plug>(YankyGPutBefore)',                desc = 'Put yanked text before selection',          mode = { 'n', 'x' } },
-      { '<c-p>', '<Plug>(YankyPreviousEntry)',             desc = 'Select previous entry through yank history' },
-      { '<c-n>', '<Plug>(YankyNextEntry)',                 desc = 'Select next entry through yank history' },
-      { ']p',    '<Plug>(YankyPutIndentAfterLinewise)',    desc = 'Put indented after cursor (linewise)' },
-      { '[p',    '<Plug>(YankyPutIndentBeforeLinewise)',   desc = 'Put indented before cursor (linewise)' },
-      { ']P',    '<Plug>(YankyPutIndentAfterLinewise)',    desc = 'Put indented after cursor (linewise)' },
-      { '[P',    '<Plug>(YankyPutIndentBeforeLinewise)',   desc = 'Put indented before cursor (linewise)' },
-      { '>p',    '<Plug>(YankyPutIndentAfterShiftRight)',  desc = 'Put and indent right' },
-      { '<p',    '<Plug>(YankyPutIndentAfterShiftLeft)',   desc = 'Put and indent left' },
-      { '>P',    '<Plug>(YankyPutIndentBeforeShiftRight)', desc = 'Put before and indent right' },
-      { '<P',    '<Plug>(YankyPutIndentBeforeShiftLeft)',  desc = 'Put before and indent left' },
-      { '=p',    '<Plug>(YankyPutAfterFilter)',            desc = 'Put after applying a filter' },
-      { '=P',    '<Plug>(YankyPutBeforeFilter)',           desc = 'Put before applying a filter' },
+      -- {
+      --   'p',
+      --   '<cmd>YankyRingHistory<CR>',
+      --   desc = 'Open Yank History',
+      -- },
+      { 'y',     '<Plug>(YankyYank)',                    desc = 'Yank text',                                 mode = { 'n', 'x' } },
+      { 'p',     '<Plug>(YankyPutAfter)',                desc = 'Put yanked text after cursor',              mode = { 'n', 'x' } },
+      { 'P',     '<Plug>(YankyPutBefore)',               desc = 'Put yanked text before cursor',             mode = { 'n', 'x' } },
+      { 'gp',    '<Plug>(YankyGPutAfter)',               desc = 'Put yanked text after selection',           mode = { 'n', 'x' } },
+      { 'gP',    '<Plug>(YankyGPutBefore)',              desc = 'Put yanked text before selection',          mode = { 'n', 'x' } },
+      { '<c-p>', '<Plug>(YankyPreviousEntry)',           desc = 'Select previous entry through yank history' },
+      { '<c-n>', '<Plug>(YankyNextEntry)',               desc = 'Select next entry through yank history' },
+      { ']p',    '<Plug>(YankyPutIndentAfterLinewise)',  desc = 'Put indented after cursor (linewise)' },
+      { '[p',    '<Plug>(YankyPutIndentBeforeLinewise)', desc = 'Put indented before cursor (linewise)' },
+      { ']P',    '<Plug>(YankyPutIndentAfterLinewise)',  desc = 'Put indented after cursor (linewise)' },
+      { '[P',    '<Plug>(YankyPutIndentBeforeLinewise)', desc = 'Put indented before cursor (linewise)' },
+      -- { '>p',    '<Plug>(YankyPutIndentAfterShiftRight)',  desc = 'Put and indent right' },
+      -- { '<p',    '<Plug>(YankyPutIndentAfterShiftLeft)',   desc = 'Put and indent left' },
+      -- { '>P',    '<Plug>(YankyPutIndentBeforeShiftRight)', desc = 'Put before and indent right' },
+      -- { '<P',    '<Plug>(YankyPutIndentBeforeShiftLeft)',  desc = 'Put before and indent left' },
+      -- { '=p',    '<Plug>(YankyPutAfterFilter)',            desc = 'Put after applying a filter' },
+      -- { '=P',    '<Plug>(YankyPutBeforeFilter)',           desc = 'Put before applying a filter' },
     },
   },
 
@@ -117,7 +130,7 @@ return {
     opts = {
       ft_blocklist = {},
       patterns = {
-        [[%s/\(\n\n\)\n\+/\1/]], -- replace multiple blank lines with a single line
+        -- [[%s/\(\n\n\)\n\+/\1/]], -- replace multiple blank lines with a single line
       },
       trim_on_write = true,
       trim_trailing = true,
@@ -131,7 +144,7 @@ return {
     init = function()
       vim.g.netrw_nogx = 1 -- disable netrw gx
     end,
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    specs = { 'nvim-lua/plenary.nvim' },
     submodules = false,
     keys = {
       { 'gx', function() vim.cmd.Browse() end, mode = { 'n', 'x' } },
@@ -223,7 +236,7 @@ return {
   {
     'folke/todo-comments.nvim',
     event = 'User File',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    specs = { 'nvim-lua/plenary.nvim' },
     cmd = {
       'TodoLocList',
       'TodoTrouble',
@@ -268,10 +281,14 @@ return {
 
   {
     'kevinhwang91/nvim-ufo',
-    dependencies = 'kevinhwang91/promise-async',
+    specs = 'kevinhwang91/promise-async',
     event = 'BufReadPost',
     config = function()
+      ---@diagnostic disable-next-line: missing-fields
       require('ufo').setup({
+        close_fold_kinds_for_ft = {
+          default = { 'imports' },
+        },
         provider_selector = function(bufnr, filetype, buftype)
           return { 'treesitter', 'indent' }
         end,
@@ -328,6 +345,7 @@ return {
 
   {
     'chrisgrieser/nvim-spider',
+    enabled = false,
     main = 'spider',
     rocks = { 'luautf8' },
     keys = {
