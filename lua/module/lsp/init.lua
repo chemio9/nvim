@@ -1,4 +1,4 @@
----@diagnostic disable: inject-field
+---@diagnostic disable: inject-field, need-check-nil
 local utils = require 'core.utils'
 local map = utils.map
 
@@ -31,18 +31,17 @@ local function make_capabilities()
 end
 
 ---setup diagnostics for vim
-local setup_diagnostics = function()
+local function setup_diagnostics()
   local icons = require 'core.icons'
   ---@type vim.diagnostic.Opts
   local diagnostics = {
     virtual_text = true,
-    update_in_insert = false,
+    update_in_insert = true,
     underline = true,
     severity_sort = true,
     float = {
       focused = false,
-      style = 'minimal',
-      border = 'rounded',
+      border = 'none',
       source = true,
       header = '',
       prefix = '',
@@ -61,7 +60,7 @@ local setup_diagnostics = function()
 end
 
 ---attach function for lsp
----@param client lsp.Client
+---@param client vim.lsp.Client
 ---@param bufnr number
 local on_attach = function(client, bufnr)
   ---@diagnostic disable-next-line: redefined-local
@@ -116,8 +115,7 @@ local on_attach = function(client, bufnr)
         vim.ui.input({ prompt = 'Symbol Query: ' },
           function(query) if query then require('telescope.builtin').lsp_workspace_symbols { query = query } end end)
       end, {
-        desc =
-        'Search workspace symbols',
+        desc = 'Search workspace symbols',
       })
   end
 
@@ -159,12 +157,12 @@ local on_attach = function(client, bufnr)
   --end
 end
 
-utils.autocmd("LspAttach",{
-  group = utils.augroup("user_lsp"),
-  callback = function (event)
+utils.autocmd('LspAttach', {
+  group = utils.augroup('user_lsp'),
+  callback = function(event)
     ---@diagnostic disable-next-line: param-type-mismatch
     on_attach(vim.lsp.get_client_by_id(event.data.client_id), event.buf)
-  end
+  end,
 })
 
 return {

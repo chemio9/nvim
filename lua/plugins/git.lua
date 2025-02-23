@@ -40,8 +40,7 @@ return {
       word_diff = false,
     },
     keys = {
-      { '<leader>ga', function() require('gitsigns.actions').stage_hunk() end,      desc = 'stage hunk' },
-      { '<leader>gA', function() require('gitsigns.actions').undo_stage_hunk() end, desc = 'undo stage hunk' },
+      { '<leader>ga', function() require('gitsigns.actions').stage_hunk() end,      desc = 'toggle stage hunk' },
       { '<leader>gd', function() require('gitsigns.actions').preview_hunk() end,    desc = 'diff hunk' },
       { '<leader>gj', function() require('gitsigns.actions').nav_hunk('next') end,  desc = 'next hunk' },
       { '<leader>gk', function() require('gitsigns.actions').nav_hunk('last') end,  desc = 'prev hunk' },
@@ -64,7 +63,7 @@ return {
     enabled = hasGit,
     dependencies = 'stevearc/dressing.nvim',
     opts = {
-      commitMsg = {
+      commit = {
         spellcheck = true,
       },
     },
@@ -91,11 +90,11 @@ return {
     'SuperBo/fugit2.nvim',
     enabled = hasGit,
     opts = {
-      width = 100,
+      width = 70,
       height = '80%',
       -- external_diffview = true, -- tell fugit2 to use diffview.nvim instead of builtin implementation.
     },
-    dependencies = {
+    specs = {
       'MunifTanjim/nui.nvim',
       'nvim-tree/nvim-web-devicons',
       'nvim-lua/plenary.nvim',

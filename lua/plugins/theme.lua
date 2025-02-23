@@ -3,8 +3,6 @@ return {
   {
     'EdenEast/nightfox.nvim',
     priority = 1000,
-    -- cond = vim.g.colorscheme == "nightfox",
-    lazy=false,
     opts = {
       options = {
         styles = {             -- Style to be applied to different syntax groups
@@ -23,9 +21,11 @@ return {
         dim_inactive = true,
       },
     },
-    config = function (_, opts)
-      require("nightfox").setup(opts)
-      vim.cmd.colorscheme("nightfox")
-    end
+  },
+
+  {
+    'folke/tokyonight.nvim',
+    priority = 1000,
+    opts = {},
   },
 }

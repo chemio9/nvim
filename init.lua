@@ -5,3 +5,5 @@ require 'core.autocmds'
 require 'core.package'
 
 require 'core.keymap'
+
+vim.cmd.colorscheme[[tokyonight]]
