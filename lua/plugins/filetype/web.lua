@@ -24,6 +24,8 @@ return {
       servers = {
         -- ts_ls = {},
         vtsls = function()
+          local InstallLocation = require 'mason-core.installer.InstallLocation'
+          local install_path = InstallLocation.global():package('vue-language-server')
           return {
             filetypes = {
               'typescript',
@@ -49,7 +51,7 @@ return {
                     {
                       name = '@vue/typescript-plugin',
                       location = vim.fs.joinpath(
-                        require('mason-registry').get_package('vue-language-server'):get_install_path(),
+                        install_path,
                         '/node_modules/@vue/language-server'
                       ),
                       languages = { 'vue' },
@@ -62,7 +64,7 @@ return {
             },
           }
         end,
-        volar = {},
+        vue_ls = {},
         emmet_ls = {},
         unocss = {},
         eslint = {

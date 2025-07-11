@@ -67,6 +67,7 @@ vim.opt.foldcolumn = '1' -- '0' is not bad
 vim.opt.foldlevel = 99   -- disable fold for opened file
 vim.opt.foldlevelstart = 99
 vim.opt.foldminlines = 2 -- 0 means even the child is only one line fold always works
+
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = "v:lua.require'core.ui'.foldexpr()"
 vim.opt.foldtext = ''

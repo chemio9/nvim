@@ -180,30 +180,10 @@ local plugin = {
           config = config()
         end
 
-        -- local is_installed = vim.fn.executable(
-        --         require("lspconfig.server_configurations." .. server_name).default_config.cmd[1]) == 1
-        -- TODO this is time costly to check if the file executable
-        -- for instance my 10 servers costs ~60ms
-        --
-        -- if not is_installed then
-        --     table.insert(ensure_install, server_name)
-        -- end
-
-        lspconfig[server_name].setup(config)
+        vim.lsp.config(server_name, config)
+        vim.lsp.enable(server_name)
       end
 
-      -- mason_lspconfig.setup {
-      --     ensure_installed = ensure_install
-      -- }
-      mason_lspconfig.setup_handlers({
-        function(server_name)
-          local config = opts.servers[server_name] or {}
-          -- only setup the servers that we don't manually setup
-          if config == nil then
-            lspconfig[server_name].setup(config)
-          end
-        end,
-      })
       local lsp = require 'module.lsp'
       lsp.setup_diagnostics()
     end,
