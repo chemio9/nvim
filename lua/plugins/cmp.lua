@@ -4,7 +4,7 @@ local plugin = {
     'hrsh7th/nvim-cmp',
     event = {
       'InsertEnter',
-      -- 'CmdlineEnter',
+      'CmdlineEnter',
     },
     dependencies = {
       -- Completion sources
@@ -32,7 +32,7 @@ local plugin = {
   {
     'numToStr/Comment.nvim',
     keys = {
-      { 'gc',  mode = { 'n', 'v', 'x', 'o' } },
+      { 'gc',  mode = { 'n', 'v', 'o' } },
       { 'gb',  mode = { 'n', 'v' } },
       { 'gcc', mode = { 'n', 'v' } },
     },
