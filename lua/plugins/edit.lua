@@ -224,15 +224,6 @@ return {
   },
 
   {
-    'chrisgrieser/nvim-origami',
-    event = 'BufReadPost', -- later or on keypress would prevent saving folds
-    opts = {
-      keepFoldsAcrossSessions = false,
-      pauseFoldsOnSearch = true,
-    },
-  },
-
-  {
     'folke/todo-comments.nvim',
     event = 'User File',
     specs = { 'nvim-lua/plenary.nvim' },
