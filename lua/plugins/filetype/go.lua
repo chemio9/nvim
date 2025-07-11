@@ -29,7 +29,6 @@ return {
         --    vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>F", "<cmd>lua vim.lsp.buf.formatting()<CR>", {noremap=true, silent=true})
         -- end
         -- to setup a table of codelens
-        null_ls = false,
         diagnostic = false,
         -- if you need to setup your ui for input and select, you can do it here
         -- go_input = require('guihua.input').input -- set to vim.ui.input to disable guihua input
