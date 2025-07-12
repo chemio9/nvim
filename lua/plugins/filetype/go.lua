@@ -2,6 +2,7 @@
 return {
   {
     'ray-x/go.nvim',
+    enabled = false,
     specs = { -- optional packages
       'ray-x/guihua.lua',
       'neovim/nvim-lspconfig',

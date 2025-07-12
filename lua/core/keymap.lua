@@ -12,11 +12,10 @@ map('n', '<leader>ed',
   end, { desc = 'Diagnostics' })
 
 -- Diagnsotic jump can use `<c-o>` to jump back
-map('n', '[e', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
-map('n', ']e', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
+map('n', '[e', function() vim.diagnostic.jump({ count = -1 }) end, { desc = 'Previous diagnostic' })
+map('n', ']e', function() vim.diagnostic.jump({ count = 1 }) end, { desc = 'Next diagnostic' })
 map('n', '[b', '<cmd>bprevious<CR>', { desc = 'Prev buf' })
 map('n', ']b', '<cmd>bnext<CR>', { desc = 'Next buf' })
-
 -- Terminal
 -- write files with sudo permission
 -- this is useful when you forget to use `sudo nvim foo`
@@ -113,7 +112,7 @@ vim.on_key(function(char)
 	local searchConfirmed = (key == "<CR>" and isCmdlineSearch)
 	local searchCancelled = (key == "<Esc>" and isCmdlineSearch)
 	if not (searchStarted or searchConfirmed or searchCancelled or isNormalMode) then return end
-	local foldsArePaused = not (vim.opt.foldenable:get())
+	local foldsArePaused = not vim.opt.foldenable
 	-- works for RHS, therefore no need to consider remaps
 	local searchMovement = vim.tbl_contains({ "n", "N", "*", "#" }, key)
 
