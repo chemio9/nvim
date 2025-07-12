@@ -96,8 +96,6 @@ vim.api.nvim_create_autocmd('User', {
     vim.notify 'Please wait while plugins are installed...'
     vim.cmd.bw()
     vim.opt.cmdheight = oldcmdheight
-    vim.tbl_map(function(module)
-      pcall(require, module)
-    end, { 'nvim-treesitter' })
+    require("module.tree-sitter")
   end,
 })
