@@ -162,7 +162,7 @@ local plugin = {
       local lspconfig = require('lspconfig')
 
       require('vim.lsp.log').set_format_func(vim.inspect)
-      lspconfig.util.default_config.capabilities = require('module.lsp').make_capabilities()
+      vim.lsp.config('*', { capabilities = require('module.lsp').make_capabilities() })
 
       local mason = require('mason')
       local mason_lspconfig = require('mason-lspconfig')
