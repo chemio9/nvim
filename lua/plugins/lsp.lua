@@ -159,8 +159,6 @@ local plugin = {
       },
     },
     config = function(_, opts)
-      local lspconfig = require('lspconfig')
-
       require('vim.lsp.log').set_format_func(vim.inspect)
       vim.lsp.config('*', { capabilities = require('module.lsp').make_capabilities() })
 
