@@ -20,7 +20,7 @@ return {
           enabled = true,
           timeout = 3000,
         },
-        scroll = {},
+        --scroll = {},
         words = {},
         styles = {
           notification = {

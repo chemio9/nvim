@@ -6,4 +6,6 @@ require 'core.package'
 
 require 'core.keymap'
 
-vim.cmd.colorscheme[[tokyonight]]
+vim.schedule(function ()
+  vim.cmd.colorscheme[[nightfox]]
+end)

@@ -6,9 +6,11 @@ return {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       -- calling `setup` is optional for customization
-      require('fzf-lua').setup({
+      local fzf = require('fzf-lua')
+      fzf.setup({
         'telescope',
       })
+      fzf.register_ui_select()
     end,
     cmd = 'FzfLua',
     keys = {
