@@ -1,21 +1,7 @@
 ---@type LazySpec[]
 return {
-  {
-    'stevearc/dressing.nvim',
-    init = function()
-      require('core.utils').load_plugin_with_func('dressing.nvim', vim.ui, { 'input', 'select' })
-    end,
-    opts = {
-      input = {
-        default_prompt = '➤ ',
-        win_options = { winhighlight = 'normal:normal,normalnc:normal' },
-      },
-      select = {
-        backend = { 'fzf_lua', 'builtin' },
-        builtin = { win_options = { winhighlight = 'normal:normal,normalnc:normal' } },
-      },
-    },
-  },
+  -- default_prompt = '➤ ',
+  -- win_options = { winhighlight = 'normal:normal,normalnc:normal' },
 
   {
     'uga-rosa/ccc.nvim',
@@ -33,36 +19,6 @@ return {
         lsp = true,
       },
     },
-  },
-
-  {
-    'HiPhish/rainbow-delimiters.nvim',
-    enabled = false,
-    event = 'User File',
-    config = function()
-      -- This module contains a number of default definitions
-      local rainbow_delimiters = require 'rainbow-delimiters'
-
-      vim.g.rainbow_delimiters = {
-        strategy = {
-          [''] = rainbow_delimiters.strategy['global'],
-          vim = rainbow_delimiters.strategy['local'],
-        },
-        query = {
-          [''] = 'rainbow-delimiters',
-          lua = 'rainbow-blocks',
-        },
-        highlight = {
-          'RainbowDelimiterRed',
-          'RainbowDelimiterYellow',
-          'RainbowDelimiterBlue',
-          'RainbowDelimiterOrange',
-          'RainbowDelimiterGreen',
-          'RainbowDelimiterViolet',
-          'RainbowDelimiterCyan',
-        },
-      }
-    end,
   },
 
   {
@@ -142,57 +98,6 @@ return {
     config = true,
   },
 
-  {
-    'gelguy/wilder.nvim',
-    -- TODO: load it at a proper time TOO SLOW! Damn
-    enabled = false,
-    config = function()
-      local wilder = require 'wilder'
-      wilder.setup { modes = { ':', '/', '?' } }
-      -- Disable Python remote plugin
-      wilder.set_option('use_python_remote_plugin', 0)
-
-      wilder.set_option('pipeline', {
-        wilder.branch(
-          wilder.cmdline_pipeline {
-            use_python = 0,
-            fuzzy = 1,
-            fuzzy_filter = wilder.lua_fzy_filter(),
-          },
-          wilder.vim_search_pipeline()
-        ),
-      })
-
-      wilder.set_option(
-        'renderer',
-        wilder.renderer_mux {
-          [':'] = wilder.popupmenu_renderer {
-            empty_message = wilder.popupmenu_empty_message_with_spinner(),
-            highlighter = wilder.lua_fzy_highlighter(),
-            highlights = {
-              accent = wilder.make_hl('WilderAccent', 'CmpItemAbbrMatch'),
-            },
-            left = {
-              ' ',
-              wilder.popupmenu_devicons(),
-            },
-            right = {
-              ' ',
-              wilder.popupmenu_scrollbar(),
-            },
-          },
-          ['/'] = wilder.wildmenu_renderer {
-            highlighter = wilder.lua_fzy_highlighter(),
-            apply_incsearch_fix = true,
-            separator = ' | ',
-            left = { ' ', wilder.wildmenu_spinner(), ' ' },
-            right = { ' ', wilder.wildmenu_index() },
-          },
-        }
-      )
-    end,
-    specs = 'romgrk/fzy-lua-native',
-  },
 
   {
     'mikavilpas/yazi.nvim',

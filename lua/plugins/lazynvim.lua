@@ -28,6 +28,7 @@ return {
           },
         },
         lazygit = {},
+        input = {},
         dashboard = {
           width = 75,
           sections = {
