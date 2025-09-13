@@ -132,4 +132,10 @@ return {
 
   { 'kevinhwang91/nvim-bqf', ft = 'qf' },
 
+  {
+    'Aasim-A/scrollEOF.nvim',
+    event = { 'CursorMoved', 'WinScrolled' },
+    opts = {},
+  }
+
 }
