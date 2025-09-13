@@ -120,7 +120,7 @@ local on_attach = function(client, bufnr)
   end
 
   if capabilities.semanticTokensProvider then
-    vim.lsp.semantic_tokens.enable(true, { bufnr = bufnr, client_id = client.id })
+    vim.lsp.semantic_tokens.enable(true, { bufnr = bufnr })
   end
 
   if capabilities.codeLensProvider then
