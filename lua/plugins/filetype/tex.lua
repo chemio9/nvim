@@ -21,13 +21,8 @@ return {
       vim.g.vimtex_env_toggle_math_map = { ['\\('] = '\\[', ['\\['] = 'equation', ['equation'] = '\\(' }
       vim.g.vimtex_echo_verbose_input = 0
       vim.g.vimtex_env_change_autofill = 1
-      -- vim.g.vimtex_ui_method = {
-      --     confirm = 'legacy',
-      --     input = 'legacy',
-      --     select = 'nvim',
-      -- }
 
-      vim.g.vimtex_quickfix_mode = 0
+      vim.g.vimtex_quickfix_mode = 2
 
       vim.g.vimtex_toc_config = {
         layer_status = { ['content'] = 1, ['label'] = 0, ['todo'] = 1, ['include'] = 0 },
@@ -53,7 +48,7 @@ return {
       local Util = require('conform.util')
       local opts_tex = {
         formatters_by_ft = {
-          tex = { 'latexindent' },
+          tex = { 'latexindent', 'tex-fmt' },
           bib = { 'bibtex-tidy' },
         },
         -- stylua: ignore
@@ -96,22 +91,6 @@ return {
     'neovim/nvim-lspconfig',
     opts = {
       servers = {
-        ltex = {
-          enabled = true,
-          autostart = false, -- manually by ltex_extra keybinding
-          settings = {
-            ltex = {
-              checkFrequency = 'save',
-              latex = {
-                commands = {
-                  ['\\si{}'] = 'dummy',
-                  ['\\SI{}'] = 'dummy',
-                  ['\\SI{}{}'] = 'dummy',
-                },
-              },
-            },
-          },
-        },
         texlab = {
           keys = {
             { 'gK',      '<plug>(vimtex-doc-package)' },
@@ -147,10 +126,8 @@ return {
   },
 
   {
-    'iurimateus/luasnip-latex-snippets.nvim',
-    -- vimtex isn't required if using treesitter
-    dependencies = { 'lervag/vimtex' },
-    -- already lazy load by FileType
+    -- my own fork
+    'chemio9/luasnip-latex-snippets.nvim',
     lazy = false,
     config = function()
       require 'luasnip-latex-snippets'.setup({ use_treesitter = true })
