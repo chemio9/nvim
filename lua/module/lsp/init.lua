@@ -7,26 +7,14 @@ local map = utils.map
 local function make_capabilities()
   local cap = vim.lsp.protocol.make_client_capabilities()
 
+  cap = vim.tbl_deep_extend('force', cap, require('blink.cmp').get_lsp_capabilities({}, false))
+
   -- for nvim-ufo
   cap.textDocument.foldingRange = {
     dynamicRegistration = false,
     lineFoldingOnly = true,
   }
 
-  cap.textDocument.hover.contentFormat = { 'markdown', 'plaintext' }
-  cap.textDocument.completion.completionItem = {
-    documentationFormat = { 'markdown', 'plaintext' },
-    snippetSupport = true,
-    preselectSupport = true,
-    insertReplaceSupport = true,
-    labelDetailsSupport = true,
-    deprecatedSupport = true,
-    commitCharactersSupport = true,
-    tagSupport = { valueSet = { 1 } },
-    resolveSupport = {
-      properties = { 'documentation', 'detail', 'additionalTextEdits' },
-    },
-  }
   return cap
 end
 
