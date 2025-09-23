@@ -23,6 +23,7 @@ function M.map(mode, lhs, rhs, opts)
 end
 
 ---set opts for the rest operations
+---evil side effects
 ---@param opt vim.keymap.set.Opts
 function M.map_opt(opt)
   M.opts = opt

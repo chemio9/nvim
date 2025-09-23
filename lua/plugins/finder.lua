@@ -4,6 +4,9 @@ return {
     'ibhagwan/fzf-lua',
     -- optional for icon support
     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    init = function()
+      require('core.utils').load_plugin_with_func('fzf-lua', require 'vim.ui', 'select')
+    end,
     config = function()
       -- calling `setup` is optional for customization
       local fzf = require('fzf-lua')

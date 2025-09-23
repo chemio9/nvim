@@ -1,35 +1,6 @@
 ---@type LazySpec[]
 local plugin = {
   {
-    'hrsh7th/nvim-cmp',
-    enabled = false,
-    event = {
-      'InsertEnter',
-      'CmdlineEnter',
-    },
-    dependencies = {
-      -- Completion sources
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-
-      { url = 'https://codeberg.org/FelipeLema/cmp-async-path' },
-
-      'hrsh7th/cmp-cmdline',
-      'hrsh7th/cmp-calc',
-      'hrsh7th/cmp-omni',
-      'f3fora/cmp-spell',
-      'saadparwaiz1/cmp_luasnip',
-      'doxnit/cmp-luasnip-choice',
-
-      'lukas-reineke/cmp-under-comparator',
-
-    },
-    config = function()
-      require 'module.cmp'
-    end,
-  },
-
-  {
     'nvim-tree/nvim-web-devicons',
     opts = {
       default = true,
@@ -64,7 +35,7 @@ local plugin = {
       -- C-k: Toggle signature help (if signature.enabled = true)
       --
       -- See :h blink-cmp-config-keymap for defining your own keymap
-      keymap = { preset = 'enter' },
+      keymap = { preset = 'super-tab' },
 
       appearance = {
         nerd_font_variant = 'normal',
@@ -145,9 +116,8 @@ local plugin = {
       cmdline = {
         enabled = true,
         keymap = {
-          -- recommended, as the default keymap will only show and select the next item
-          ['<Tab>'] = { 'show', 'accept' },
-          ['<CR>'] = { 'accept_and_enter', 'fallback' },
+          ['<Tab>'] = { 'show_and_insert', 'select_next' },
+          ['<CR>'] = { 'fallback' },
         },
         completion = { menu = { auto_show = true } },
       },
@@ -159,7 +129,7 @@ local plugin = {
     'numToStr/Comment.nvim',
     keys = {
       { 'gc',  mode = { 'v', 'o' } },
-      { 'gb',  mode = { 'n', 'v' } },
+      { 'gb',  mode = { 'v', 'o' } },
       { 'gcc', mode = { 'n' } },
     },
     config = function()
@@ -199,4 +169,5 @@ local plugin = {
     end,
   },
 }
+
 return plugin

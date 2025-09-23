@@ -21,11 +21,13 @@ return {
       },
     },
     opts = {
+      ---@module "lspconfig"
+      ---@type {[string]: lspconfig.Config|{}|fun(): lspconfig.Config}
       servers = {
         -- ts_ls = {},
         vtsls = function()
           local InstallLocation = require 'mason-core.installer.InstallLocation'
-          local install_path = InstallLocation.global():package('vue-language-server')
+          local vue_install_path = InstallLocation.global():package('vue-language-server')
           return {
             filetypes = {
               'typescript',
@@ -45,13 +47,13 @@ return {
 
             settings = {
               vtsls = {
-                -- autoUseWorkspaceTsdk = true,
+                autoUseWorkspaceTsdk = true,
                 tsserver = {
                   globalPlugins = {
                     {
                       name = '@vue/typescript-plugin',
                       location = vim.fs.joinpath(
-                        install_path,
+                        vue_install_path,
                         '/node_modules/@vue/language-server'
                       ),
                       languages = { 'vue' },
@@ -64,6 +66,7 @@ return {
             },
           }
         end,
+        mdx_analyzer = {},
         vue_ls = {},
         emmet_ls = {},
         unocss = {},
@@ -92,6 +95,7 @@ return {
             'scss',
             'pcss',
             'postcss',
+            'mdx',
           },
           settings = {
             -- Silent the stylistic rules in you IDE, but still auto fix them
