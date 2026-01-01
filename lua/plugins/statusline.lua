@@ -1,45 +1,12 @@
 ---@type LazySpec[]
 return {
   {
-    'sontungexpt/sttusline',
-    branch = 'table_version',
+    'sontungexpt/witch-line',
     dependencies = {
       'nvim-tree/nvim-web-devicons',
     },
-    event = 'VeryLazy',
-    opts = {
-      -- on_attach = function(create_update_group) end
-
-      -- the colors of statusline will be set follow the colors of the active buffer
-      -- statusline_color = "#fdff00",
-      statusline_color = 'StatusLine',
-      disabled = {
-        filetypes = {
-          'neo-tree',
-          'lazy',
-        },
-        buftypes = {
-          'terminal',
-        },
-      },
-      components = {
-        'mode',
-        'os-uname',
-        'filename',
-        'git-branch',
-        'git-diff',
-        '%=',
-        'diagnostics',
-        -- 'lsps-formatters',
-        'indent',
-        'encoding',
-        'pos-cursor',
-        'pos-cursor-progress',
-      },
-    },
-    config = function(_, opts)
-      require('sttusline').setup(opts)
-    end,
+    lazy = false,     -- Almost component is lazy load by default. So you can set lazy to false
+    opts = {},
   },
 
   {
